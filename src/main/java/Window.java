@@ -1,6 +1,7 @@
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.Callbacks;
@@ -13,7 +14,7 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryUtil;
 
-import javafx.scene.input.KeyCode;
+import renderer.Shader;
 import util.Time;
 
 public class Window {
@@ -25,37 +26,13 @@ public class Window {
 
     private static Window window = null;
 
-    private String vertexShaderSource = "#version 330 core\n" +
-                                        "layout (location=0) in vec3 aPos;\n" +
-                                        "layout (location=1) in vec4 aColor;\n" +
-                                        "\n" +
-                                        "out vec4 fColor;\n" +
-                                        "\n" +
-                                        "void main()\n" +
-                                        "{\n" +
-                                        "    fColor = aColor;\n" +
-                                        "    gl_Position = vec4(aPos, 1.0);\n" +
-                                        "}\n";
-
-    private String fragmentShaderSource = "#version 330 core\n"+
-                                          "\n"+
-                                          "in vec4 fColor;\n"+
-                                          "\n"+
-                                          "out vec4 color;\n"+
-                                          "\n"+
-                                          "void main()\n"+
-                                          "{\n"+
-                                          "    color = fColor;\n"+
-                                          "}\n";
-
-
-    private int vertexID, fragmentID, shaderProgram;
+    public Camera camera;
 
     private float[] vertexArray = {
         // position               // color
-         0.5f, -0.5f, 0.0f,       1.0f, 0.0f, 0.0f, 1.0f, // Bottom right 0
-        -0.5f,  0.5f, 0.0f,       0.0f, 1.0f, 0.0f, 1.0f, // Top left     1
-         0.5f,  0.5f, 0.0f ,      0.0f, 0.0f, 1.0f, 1.0f, // Top right    2
+         50.5f, 0f, 0.0f,       1.0f, 0.0f, 0.0f, 1.0f, // Bottom right 0
+        0f,  50f, 0.0f,       0.0f, 1.0f, 0.0f, 1.0f, // Top left     1
+         50.5f,  50f, 0.0f ,      0.0f, 0.0f, 1.0f, 1.0f, // Top right    2
         -0.5f, -0.5f, 0.0f,       1.0f, 1.0f, 0.0f, 1.0f, // Bottom left  3
     };
 
@@ -71,6 +48,8 @@ public class Window {
         this.width = 1920;
         this.height = 1080;
         this.title = "Pocket Planets";
+
+        camera = new Camera(new Vector2f());
     }
 
     public static Window get(){
@@ -138,57 +117,13 @@ public class Window {
     }
 
     public void loop(){
+        Shader s = new Shader("assets/shaders/default.glsl");
+        s.compile();
+        
         double beginTime = Time.getTime();
         double endTime = Time.getTime();
         double deltaTime = -1;
 
-        // temp
-    
-        // load and compile vertex shader
-        vertexID = GL20.glCreateShader(GL20.GL_VERTEX_SHADER);
-
-        // pass shader to gpu
-        GL20.glShaderSource(vertexID, vertexShaderSource);
-        GL20.glCompileShader(vertexID);
-
-        // check for errors
-        int success = GL20.glGetShaderi(vertexID, GL20.GL_COMPILE_STATUS);
-        if(success == GL20.GL_FALSE){
-            int len = GL20.glGetShaderi(vertexID, GL20.GL_INFO_LOG_LENGTH);
-            System.out.println("ERROR WITH VERTEX SHADER COMPILATION");
-            System.out.println(GL20.glGetShaderInfoLog(vertexID, len));
-            assert false : "";
-        }
-
-        // load and compile fragment shader
-        fragmentID = GL20.glCreateShader(GL20.GL_FRAGMENT_SHADER);
-
-        // pass shader to gpu
-        GL20.glShaderSource(fragmentID, fragmentShaderSource);
-        GL20.glCompileShader(fragmentID);
-
-        // check for errors
-        success = GL20.glGetShaderi(fragmentID, GL20.GL_COMPILE_STATUS);
-        if(success == GL20.GL_FALSE){
-            int len = GL20.glGetShaderi(fragmentID, GL20.GL_INFO_LOG_LENGTH);
-            System.out.println("ERROR WITH FRAGMENT SHADER COMPILATION");
-            System.out.println(GL20.glGetShaderInfoLog(fragmentID, len));
-            assert false : "";
-        }
-        
-        shaderProgram = GL20.glCreateProgram();
-        GL20.glAttachShader(shaderProgram, vertexID);
-        GL20.glAttachShader(shaderProgram, fragmentID);
-
-        GL20.glLinkProgram(shaderProgram);
-
-        success = GL20.glGetProgrami(shaderProgram, GL20.GL_LINK_STATUS);
-        if(success == GL20.GL_FALSE){
-            int len = GL20.glGetProgrami(shaderProgram, GL20.GL_INFO_LOG_LENGTH);
-            System.out.println("ERROR IN SHADER LINKING");
-            System.out.println(GL20.glGetProgramInfoLog(shaderProgram, len));
-            assert false : "";
-        }
 
         vaoID = ARBVertexArrayObject.glGenVertexArrays();
         ARBVertexArrayObject.glBindVertexArray(vaoID);
@@ -230,11 +165,16 @@ public class Window {
             GLFW.glfwPollEvents();
 
             // background
-            GL11.glClearColor(0, 0, 0, 0);
+            GL11.glClearColor(1, 1, 1, 0);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
+            s.use();
+            s.uploadMat4f("uProjection", camera.getProjectionMatrix());
+            s.uploadMat4f("uView",       camera.getViewMatrix());
+            s.uploadFloat("uTime",       (float)Time.getTime());
 
-            GL20.glUseProgram(shaderProgram);
+            camera.position.x -= 50 *deltaTime;
+
             GL30.glBindVertexArray(vaoID);
 
             GL20.glEnableVertexAttribArray(0);
@@ -246,8 +186,7 @@ public class Window {
             GL20.glDisableVertexAttribArray(1);
 
             GL30.glBindVertexArray(0);
-            GL20.glUseProgram(0);
-
+            s.detach();
             
             GLFW.glfwSwapBuffers(glfwWindow);
 
