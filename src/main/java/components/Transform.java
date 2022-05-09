@@ -5,7 +5,7 @@ import org.joml.Vector3f;
 
 import geometry.Quad;
 
-public class Transfom {
+public class Transform {
 
     public enum PositionMode{
         TOP_LEFT     (0f,   0f),
@@ -34,12 +34,23 @@ public class Transfom {
     public Vector2f scale;
     public float roation;
 
-    public PositionMode origin;
+    public PositionMode positionOrigin;
+    public PositionMode rotationOrigin;
+
+    public Transform(){
+        this(new Vector3f(), new Vector2f(), 0f);
+    }
+
+    public Transform(Vector3f position, Vector2f scale, float roation){
+        this.position = new Vector3f(position.x, position.y, position.z);
+        this.scale    = new Vector2f(scale.x,    scale.y);
+        this.roation  = roation;
+    }
 
     public Quad getQuad(){
         Vector3f topLeft = new Vector3f(position.x, position.y, position.z);
-            topLeft.x = topLeft.x - scale.x * origin.getXShift();
-            topLeft.y = topLeft.y - scale.y * origin.getYShift();
+            topLeft.x = topLeft.x - scale.x * positionOrigin.getXShift();
+            topLeft.y = topLeft.y - scale.y * positionOrigin.getYShift();
 
         return Quad.Rect(topLeft, scale.x, scale.y);
     }
