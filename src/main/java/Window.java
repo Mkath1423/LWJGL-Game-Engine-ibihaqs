@@ -15,6 +15,7 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryUtil;
 
 import renderer.Shader;
+import renderer.Texture;
 import util.Time;
 
 public class Window {
@@ -30,10 +31,10 @@ public class Window {
 
     private float[] vertexArray = {
         // position               // color
-         50.5f, 0f, 0.0f,       1.0f, 0.0f, 0.0f, 1.0f, // Bottom right 0
-        0f,  50f, 0.0f,       0.0f, 1.0f, 0.0f, 1.0f, // Top left     1
-         50.5f,  50f, 0.0f ,      0.0f, 0.0f, 1.0f, 1.0f, // Top right    2
-        -0.5f, -0.5f, 0.0f,       1.0f, 1.0f, 0.0f, 1.0f, // Bottom left  3
+         50.5f, 0f, 0.0f,         1.0f, 0.0f, 0.0f, 1.0f, 1, 0,// Bottom right 0
+        0f,  50f, 0.0f,           0.0f, 1.0f, 0.0f, 1.0f, 1, 1,// Top left     1
+         50.5f,  50f, 0.0f ,      0.0f, 0.0f, 1.0f, 1.0f, 0, 1,// Top right    2
+        -0.5f, -0.5f, 0.0f,       1.0f, 1.0f, 0.0f, 1.0f, 0, 0 // Bottom left  3
     };
 
     // IMPORTANT: Must be in counter-clockwise order
@@ -118,6 +119,8 @@ public class Window {
 
     public void loop(){
         Shader s = new Shader("assets/shaders/default.glsl");
+        Texture t = new Texture("assets/textures/testImage.png");
+
         s.compile();
         
         double beginTime = Time.getTime();
@@ -150,15 +153,18 @@ public class Window {
         // taiohkjqthjr3wqioupfhnbersadhjklfbvdahjklfhwenfbewlsfnbdsalfh2   rfhdjnsdk;azvbsdjiapfhw
         int positionSize = 3;
         int colorSize = 4;
+        int uvSize = 2;
 
-        int floatByteSize = 4;
-        int vertexSizeBytes = (positionSize + colorSize) * floatByteSize;
+        int vertexSizeBytes = (positionSize + colorSize + uvSize) * Float.BYTES;
 
         GL20.glVertexAttribPointer(0, positionSize, GL20.GL_FLOAT, false, vertexSizeBytes, 0);
         GL20.glEnableVertexAttribArray(0);
 
-        GL20.glVertexAttribPointer(1, colorSize, GL20.GL_FLOAT, false, vertexSizeBytes, positionSize*floatByteSize);
+        GL20.glVertexAttribPointer(1, colorSize, GL20.GL_FLOAT, false, vertexSizeBytes, positionSize*Float.BYTES);
         GL20.glEnableVertexAttribArray(1);
+
+        GL20.glVertexAttribPointer(2, uvSize, GL20.GL_FLOAT, false, vertexSizeBytes, (positionSize + colorSize)*Float.BYTES);
+        GL20.glEnableVertexAttribArray(2);
 
         while(!GLFW.glfwWindowShouldClose(glfwWindow)){
             // events
@@ -169,6 +175,11 @@ public class Window {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
             s.use();
+
+            s.uploadTexture("texSampler", 0);
+            GL20.glActiveTexture(GL20.GL_TEXTURE0);
+            t.bind();
+
             s.uploadMat4f("uProjection", camera.getProjectionMatrix());
             s.uploadMat4f("uView",       camera.getViewMatrix());
             s.uploadFloat("uTime",       (float)Time.getTime());

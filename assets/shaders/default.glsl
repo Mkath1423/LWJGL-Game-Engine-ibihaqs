@@ -18,6 +18,7 @@ void main()
 #version 330 core
 
 uniform float uTime;
+uniform sampler2D texSampler
 
 in vec4 fColor;
 

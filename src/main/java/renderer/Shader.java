@@ -183,4 +183,10 @@ public class Shader {
         use();
         GL20.glUniform1f(varLocation, val);
     }
+
+    public void uploadTexture(String varName, int slot){
+        int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
+        use();
+        GL20.glUniform1f(varLocation, slot);
+    }
 }
