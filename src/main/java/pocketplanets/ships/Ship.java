@@ -1,4 +1,10 @@
-public class Ship extends GameObject{
+package pocketplanets.ships;
+
+import org.joml.Vector2f;
+
+import gameobjects.GameObject;
+
+public abstract class Ship extends GameObject{
 
     // Information regarding ships fuel sotrage 
     private double fuelCapacity;
@@ -11,7 +17,7 @@ public class Ship extends GameObject{
     // private Stats shipStats;
 
     // Current desired location of ship path
-    private Vector3f destination;
+    private Vector2f destination;
 
     // Health Property of ship
     private double health;
@@ -22,14 +28,19 @@ public class Ship extends GameObject{
     //private Planet currentPlanet;
 
     @Override
-    public void Update(float deltaTime){
-        goToPosition(location);
+    public void Update(double deltaTime){
+        goToPosition(destination);
         if(!isLanded){
-            if(transform.postion < destination){
-                
+            if(transform.position.x < destination.x){
+                // Constantly move ship towards destination by adding speed property to current position 
+                transform.position.x += speed;
+            }
+            else if(transform.position.x > destination.x){
+                transform.position.x -= speed;
             }
             
-            // Constantly move ship towards destination by adding speed property to current position
+            
+
         } 
     }
 
@@ -46,6 +57,7 @@ public class Ship extends GameObject{
     /**
      * Set destination to coordinate position via transform class
      * 
+     * @param location coordinates where we want the ship to move towards
      */
     public void goToPosition(Vector2f location){
         // destination = location;

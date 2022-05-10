@@ -6,7 +6,7 @@ import org.joml.Vector3f;
 import components.Transform;
 
 public abstract class GameObject {
-    Transform transform;
+    protected Transform transform;
     // renderer (?)
 
     private boolean isEnabled = true;
