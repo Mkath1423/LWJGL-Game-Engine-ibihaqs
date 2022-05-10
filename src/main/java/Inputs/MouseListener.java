@@ -1,3 +1,5 @@
+package Inputs;
+
 import org.lwjgl.glfw.GLFW;
 
 public class MouseListener {
