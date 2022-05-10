@@ -1,5 +1,8 @@
 package Inputs;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.lwjgl.opengl.GL11;
 
 public class Input {
@@ -136,5 +139,23 @@ public class Input {
         public int getValue(){
             return value;
         }
+    }
+
+    private static Input input;
+    private static Input get(){ return input; }
+
+
+    private Map<String, InputAxis> axes;
+    public  static void addAxis(String name, InputAxis axis){
+        get().axes.put(name, axis);
+    }
+    public static float getAxis(String name){
+        if(!get().axes.containsKey(name)) return 0f;
+
+        return get().axes.get(name).getValue();
+    }
+
+    private Input(){
+        axes = new HashMap<>();
     }
 }
