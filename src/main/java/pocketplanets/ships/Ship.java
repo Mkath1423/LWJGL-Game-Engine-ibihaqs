@@ -3,6 +3,7 @@ package pocketplanets.ships;
 import org.joml.Vector2f;
 
 import gameobjects.GameObject;
+import pocketplanets.Planet;
 
 public abstract class Ship extends GameObject{
 
@@ -62,6 +63,15 @@ public abstract class Ship extends GameObject{
     public void goToPosition(Vector2f location){
         // destination = location;
     }
+
+    // /**
+    //  * Returns the closest planet to ship
+    //  * 
+    //  * @return  closest planet to ship
+    //  */
+    // private Planet getNearestPlanet(){
+        
+    // }
 
     /**
      * Land the ship on a planet
