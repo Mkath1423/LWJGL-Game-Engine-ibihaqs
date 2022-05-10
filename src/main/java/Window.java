@@ -31,10 +31,10 @@ public class Window {
 
     private float[] vertexArray = {
         // position               // color
-         50.5f, 0f, 0.0f,         1.0f, 0.0f, 0.0f, 1.0f, 1, 0,// Bottom right 0
-        0f,  50f, 0.0f,           0.0f, 1.0f, 0.0f, 1.0f, 1, 1,// Top left     1
-         50.5f,  50f, 0.0f ,      0.0f, 0.0f, 1.0f, 1.0f, 0, 1,// Top right    2
-        -0.5f, -0.5f, 0.0f,       1.0f, 1.0f, 0.0f, 1.0f, 0, 0 // Bottom left  3
+         50.5f, 0f, 0.0f,         1.0f, 0.0f, 0.0f, 1.0f, 1, 1,// Bottom right 0
+        0f,  50f, 0.0f,           0.0f, 1.0f, 0.0f, 1.0f, 0, 0,// Top left     1
+         50.5f,  50f, 0.0f ,      0.0f, 0.0f, 1.0f, 1.0f, 1, 0,// Top right    2
+        -0.5f, -0.5f, 0.0f,       1.0f, 1.0f, 0.0f, 1.0f, 0, 1 // Bottom left  3
     };
 
     // IMPORTANT: Must be in counter-clockwise order
@@ -197,6 +197,7 @@ public class Window {
             GL20.glDisableVertexAttribArray(1);
 
             GL30.glBindVertexArray(0);
+            t.unbind();
             s.detach();
             
             GLFW.glfwSwapBuffers(glfwWindow);
