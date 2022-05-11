@@ -141,8 +141,14 @@ public class Input {
         }
     }
 
-    private static Input input;
-    private static Input get(){ return input; }
+    private static Input instance;
+    public static Input get(){
+        if(Input.instance == null){
+            Input.instance = new Input();
+        }
+
+        return Input.instance;
+    }
 
 
     private Map<String, InputAxis> axes;
@@ -157,5 +163,11 @@ public class Input {
 
     private Input(){
         axes = new HashMap<>();
+    }
+
+    public static void Update(float dt){
+        for (InputAxis axis : get().axes.values()) {
+            axis.Update(dt);
+        }
     }
 }

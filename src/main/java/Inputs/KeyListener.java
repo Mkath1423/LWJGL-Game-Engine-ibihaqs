@@ -21,7 +21,7 @@ public class KeyListener {
 
     private KeyListener(){
         for (int i = 0; i < keyPressed.length; i++) {
-            keyStates[i] = new BoolState(getKeyPressed(i));
+            keyStates[i] = new BoolState(false);
         }
     }
 

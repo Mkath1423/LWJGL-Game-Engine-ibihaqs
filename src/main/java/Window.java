@@ -16,6 +16,11 @@ import org.lwjgl.system.MemoryUtil;
 
 import Inputs.KeyListener;
 import Inputs.MouseListener;
+import Inputs.Input;
+import Inputs.InputAxis;
+import Inputs.KeyListener;
+import Inputs.MouseListener;
+import Inputs.Input.KeyCode;
 import renderer.Shader;
 import renderer.Texture;
 import util.Time;
@@ -124,6 +129,8 @@ public class Window {
         Texture t = new Texture("assets/textures/testImage.png");
 
         s.compile();
+
+        Input.addAxis("test", new InputAxis(-1, 1, 2, 2, KeyCode.W, KeyCode.S));
         
         double beginTime = Time.getTime();
         double endTime = Time.getTime();
@@ -171,6 +178,10 @@ public class Window {
         while(!GLFW.glfwWindowShouldClose(glfwWindow)){
             // events
             GLFW.glfwPollEvents();
+            Input.Update((float)deltaTime);
+            System.out.println(Input.getAxis("test"));
+            // System.out.print(KeyListener.getKeyPressed(KeyCode.W.getValue()));
+            // System.out.println(KeyListener.getKeyPressed(KeyCode.S.getValue()));
 
             // background
             GL11.glClearColor(1, 1, 1, 0);
@@ -203,7 +214,7 @@ public class Window {
             s.detach();
             
             GLFW.glfwSwapBuffers(glfwWindow);
-
+            
             endTime = Time.getTime();
             deltaTime = endTime - beginTime;
             beginTime = endTime;

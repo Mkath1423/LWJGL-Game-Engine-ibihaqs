@@ -28,9 +28,9 @@ public class InputAxis {
             decRate, incRate,
             true, (min + max )/ 2,
             pos,
-            KeyCode.UNKNOWN,
+            pos,
             neg,
-            KeyCode.UNKNOWN
+            neg
         );
     }
 
@@ -46,7 +46,7 @@ public class InputAxis {
         this.settlePoint = settlePoint;
         this.doSettling = doSettling;
         this.pos = pos;
-        this.pos = pos;
+        this.neg = neg;
         this.altPos = altPos;
         this.altNeg = altNeg;
 
@@ -55,8 +55,8 @@ public class InputAxis {
 
     public void Update(double dt){
         int inputDir = (KeyListener.getKeyPressed(pos.getValue()) || KeyListener.getKeyPressed(altPos.getValue()) ?  1 : 0) +
-                        (KeyListener.getKeyPressed(neg.getValue()) || KeyListener.getKeyPressed(altNeg.getValue()) ? -1 : 0);
-
+                       (KeyListener.getKeyPressed(neg.getValue()) || KeyListener.getKeyPressed(altNeg.getValue()) ? -1 : 0);
+       
         // Decay the value
         if(inputDir == 0){
             if(Math.abs(value) < 0.0001){
@@ -64,7 +64,7 @@ public class InputAxis {
                 return;
             }
 
-            float decay = decRate * value/Math.abs(value);
+            float decay = (float)dt * decRate * value/Math.abs(value);
             if(Math.abs(decay) > Math.abs(value)){
                 value = 0;
             }
@@ -75,7 +75,7 @@ public class InputAxis {
         // Incrment the value
         else{
             value += incRate * (float)dt * inputDir;
-            value = Math.min(max, Math.max(min, value));
+            value = Math.max(min, Math.min(max, value));
         }
 
 
