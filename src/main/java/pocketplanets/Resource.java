@@ -6,16 +6,18 @@ public class Resource {
     private String resourceName;
     private int resourceId;
     private int amount;
-    private double resourceValue;
 
 
-    public void generateResource(String name, int id, double value, int maxmimumAmount){
+    public Resource(String name, int id, int maxmimumAmount, int minimumAmount){
+        generateResource(name, id, maxmimumAmount, minimumAmount);
+    }
+
+    private void generateResource(String name, int id, int max, int min){
         resourceName = name;
         resourceId = id;
-        resourceValue = value;
 
         Random rand = new Random();
-        setAmount(rand.nextInt(maxmimumAmount));
+        setAmount((max - min + 1) + min);
     }
 
     private void setAmount(int count){

@@ -20,6 +20,9 @@ public abstract class Ship extends GameObject{
     // Current desired location of ship path
     private Vector2f destination;
 
+    // Current velocity of the ship
+    private Vector2f velocity;
+
     // Health Property of ship
     private double health;
 
@@ -28,6 +31,10 @@ public abstract class Ship extends GameObject{
 
     //private Planet currentPlanet;
 
+    public Ship(double fuelCapacity, double fuelHeld, double fuelEfficiency, double speed, double health, boolean isLanded){
+        
+    }
+    
     @Override
     public void Update(double deltaTime){
         goToPosition(destination);
