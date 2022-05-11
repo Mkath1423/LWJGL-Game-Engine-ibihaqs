@@ -50,5 +50,14 @@ public class Texture {
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
     }
 
+    @Override
+    public boolean equals(Object o){
+        if(this.getClass() != o.getClass()) return false;
+
+        Texture that = (Texture)o;
+
+        return this.filepath.equals(that.filepath);
+    }
+
 
 }

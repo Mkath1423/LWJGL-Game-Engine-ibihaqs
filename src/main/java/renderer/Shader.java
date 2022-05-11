@@ -5,13 +5,13 @@ import java.nio.FloatBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.function.Supplier;
 
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
 
 public class Shader {
     private int shaderProgramID;
@@ -142,6 +142,15 @@ public class Shader {
         beingUsed = false;
     }
 
+    // UNIFORM UPLOADS
+
+    private class UniformSupplier<T>{
+        String varName;
+        Supplier<T> var;
+    }
+
+
+    private UniformSupplier<Matrix4f>[] mat4Uniforms;
     public void uploadMat4f(String varName, Matrix4f mat4){
         int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
         use();
@@ -151,7 +160,7 @@ public class Shader {
         GL20.glUniformMatrix4fv(varLocation, false, matBuffer);
     }
 
-    public void uploadMat4f(String varName, Matrix3f mat3){
+    public void uploadMat3f(String varName, Matrix3f mat3){
         int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
         use();
         FloatBuffer matBuffer = BufferUtils.createFloatBuffer(9);

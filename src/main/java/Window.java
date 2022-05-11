@@ -14,6 +14,8 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryUtil;
 
+import Inputs.KeyListener;
+import Inputs.MouseListener;
 import renderer.Shader;
 import renderer.Texture;
 import util.Time;
