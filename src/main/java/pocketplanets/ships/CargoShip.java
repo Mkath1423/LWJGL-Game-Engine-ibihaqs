@@ -4,6 +4,11 @@ import pocketplanets.Resource;
 
 public class CargoShip extends Ship{
 
+    public CargoShip(double fuelCapacity, double fuelHeld, double fuelEfficiency, double speed, double health,boolean isLanded) {
+        super(fuelCapacity, fuelHeld, fuelEfficiency, speed, health, isLanded);
+        //TODO Auto-generated constructor stub
+    }
+
     // List of currently held cargo
     private Resource[] cargo;
 

@@ -5,24 +5,28 @@ import java.util.Random;
 public class Resource {
     private String resourceName;
     private int resourceId;
-    private int amount;
-    private double resourceValue;
+    private int resourceAmount;
 
 
-    public void generateResource(String name, int id, double value, int maxmimumAmount){
+    public Resource(String name, int id, int amount){
         resourceName = name;
         resourceId = id;
-        resourceValue = value;
-
-        Random rand = new Random();
-        setAmount(rand.nextInt(maxmimumAmount));
+        setAmount(amount);
     }
 
-    private void setAmount(int count){
-        amount = count;
+    public void setAmount(int amount){
+        resourceAmount = amount;
     }
 
     public int getAmount(){
-        return amount;
+        return resourceAmount;
+    }
+
+    public String getName(){
+        return resourceName;
+    }
+
+    public int getId(){
+        return resourceId;
     }
 }
