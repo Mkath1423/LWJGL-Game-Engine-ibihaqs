@@ -5,10 +5,12 @@ import java.nio.FloatBuffer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.Supplier;
 
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
 import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
@@ -137,6 +139,12 @@ public class Shader {
         }
     }
 
+    public void upload(){
+        for (UniformSupplier<Matrix4f> uniformSupplier : mat4Uniforms) {
+            uploadMat4f(uniformSupplier.varName, uniformSupplier.var.get());
+        }
+    }
+
     public void detach(){
         GL20.glUseProgram(0);
         beingUsed = false;
@@ -147,10 +155,18 @@ public class Shader {
     private class UniformSupplier<T>{
         String varName;
         Supplier<T> var;
+
+        UniformSupplier(String varName, Supplier<T> var){
+            this.varName = varName;
+            this.var = var;
+        }
     }
 
+    private List<UniformSupplier<Matrix4f>> mat4Uniforms;
+    public void addUniformMat4(String varName, Supplier<Matrix4f> var){ 
+        mat4Uniforms.add(new UniformSupplier<Matrix4f>(varName, var));
+    }
 
-    private UniformSupplier<Matrix4f>[] mat4Uniforms;
     public void uploadMat4f(String varName, Matrix4f mat4){
         int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
         use();
@@ -158,6 +174,12 @@ public class Shader {
         mat4.get(matBuffer);
 
         GL20.glUniformMatrix4fv(varLocation, false, matBuffer);
+    }
+
+
+    private List<UniformSupplier<Matrix3f>> mat3Uniforms;
+    public void addUniformMat3(String varName, Supplier<Matrix3f> var){ 
+        mat3Uniforms.add(new UniformSupplier<Matrix3f>(varName, var));
     }
 
     public void uploadMat3f(String varName, Matrix3f mat3){
@@ -169,16 +191,31 @@ public class Shader {
         GL20.glUniformMatrix3fv(varLocation, false, matBuffer);
     }
 
+    private List<UniformSupplier<Vector4f>> vec4fUniforms;
+    public void addUniformVec4f(String varName, Supplier<Vector4f> var){ 
+        vec4fUniforms.add(new UniformSupplier<Vector4f>(varName, var));
+    }
+
     public void uploadVec4f(String varName, Vector4f vec4f){
         int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
         use();
         GL20.glUniform4f(varLocation, vec4f.x, vec4f.y, vec4f.z, vec4f.w);
     }
 
-    public void uploadVec2f(String varName, Vector4f vec2f){
+    private List<UniformSupplier<Vector2f>> vec2fUniforms;
+    public void addUniformVec2f(String varName, Supplier<Vector2f> var){ 
+        vec2fUniforms.add(new UniformSupplier<Vector2f>(varName, var));
+    }
+
+    public void uploadVec2f(String varName, Vector2f vec2f){
         int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
         use();
         GL20.glUniform2f(varLocation, vec2f.x, vec2f.y);
+    }
+
+    private List<UniformSupplier<Float>> floatUniforms;
+    public void addUniformFloat(String varName, Supplier<Float> var){ 
+        floatUniforms.add(new UniformSupplier<Float>(varName, var));
     }
 
     public void uploadFloat(String varName, Float val){
@@ -187,15 +224,14 @@ public class Shader {
         GL20.glUniform1f(varLocation, val);
     }
 
+    private List<UniformSupplier<Integer>> intUniforms;
+    public void addUniformIntegar(String varName, Supplier<Integer> var){ 
+        intUniforms.add(new UniformSupplier<Integer>(varName, var));
+    }
+
     public void uploadInt(String varName, int val){
         int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
         use();
         GL20.glUniform1f(varLocation, val);
-    }
-
-    public void uploadTexture(String varName, int slot){
-        int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
-        use();
-        GL20.glUniform1f(varLocation, slot);
     }
 }

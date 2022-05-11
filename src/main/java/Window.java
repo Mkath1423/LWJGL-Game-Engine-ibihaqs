@@ -189,7 +189,7 @@ public class Window {
 
             s.use();
 
-            s.uploadTexture("texSampler", 0);
+            s.uploadInt("texSampler", 0);
             GL20.glActiveTexture(GL20.GL_TEXTURE0);
             t.bind();
 

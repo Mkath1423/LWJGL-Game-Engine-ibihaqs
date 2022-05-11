@@ -1,24 +1,64 @@
 package gameobjects;
 
+import java.util.ArrayList;
+import java.util.List;
 
-import org.joml.Vector3f;
-
+import components.Component;
 import components.Transform;
 
 public abstract class GameObject {
-    protected Transform transform;
-    // renderer (?)
+
 
     private boolean isEnabled = true;
     public boolean  getEnabled(               ) { return isEnabled;    }
     public void     setEnabled(boolean enabled) { isEnabled = enabled; }
     
+    // from tutorial
+    private List<Component> components;
+    public <T extends Component> T getComponent(Class<T> componentClass){
+        for (Component component : components) {
+            if(componentClass.isAssignableFrom(component.getClass())){
+                try {
+                    return componentClass.cast(component);
+                } catch (ClassCastException e) {
+                    assert false : String.format("Error: Component casting failed");
+                }
+            }
+        }
+
+        return null;
+    }
+    
+    public void addComponent(Component instance){
+        for (Component component : components) {
+            if(instance.getClass() == component.getClass()){
+                assert false : String.format("GameObject: GO %s already contains component of type %s", "", instance.getClass().getName());
+            }
+        }
+
+        instance.gameObject = this;
+        components.add(instance);
+    }
+
+    public <T extends Component> void removeComponent(Class<T> componentClass){
+        for (Component component : components) {
+            if(componentClass.isAssignableFrom(component.getClass())){
+                components.remove(component);
+            }
+        }
+    }
+
+
+
     /**
      * Constructor for GameObject class
      * 
      */
     public GameObject(){
-        transform = new Transform();
+        components = new ArrayList<>();
+        
+        addComponent(new Transform());
+        // addComponent(new SpriteRenderer());
     }
 
     /**
@@ -26,6 +66,9 @@ public abstract class GameObject {
      * 
      */
     public void Awake(){
+        for (Component component : components) {
+            component.Awake();
+        }
         
     }
 
@@ -34,7 +77,9 @@ public abstract class GameObject {
      * 
      */
     public void Start(){
-
+        for (Component component : components) {
+            component.Start();
+        }
     }
 
     /**
@@ -43,7 +88,9 @@ public abstract class GameObject {
      * @param deltaTime     Time elapsed between frames
      */
     public void Update(double deltaTime){
-
+        for (Component component : components) {
+            component.Update(deltaTime);
+        }
     }
 
     /**
@@ -51,6 +98,8 @@ public abstract class GameObject {
      * 
      */
     public void End(){
-
+        for (Component component : components) {
+            component.End();
+        }
     }
 }
