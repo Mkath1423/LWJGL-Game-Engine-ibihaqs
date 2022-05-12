@@ -12,6 +12,14 @@ public class Texture {
     private String filepath;
     private int texId;
 
+    public int getTexId(){ return texId; }
+
+    private int texWidth;
+    private int texHeight;
+
+    public int getWidth(){return texWidth;}
+    public int getHeight(){return texHeight;}
+
     public Texture(String filepath){
         this.filepath = filepath;
 
@@ -40,6 +48,9 @@ public class Texture {
         }
 
         STBImage.stbi_image_free(image);
+
+        texWidth = GL20.glGetTexLevelParameteri(texId, 0, GL20.GL_TEXTURE_WIDTH);
+        texHeight = GL20.glGetTexLevelParameteri(texId, 0, GL20.GL_TEXTURE_HEIGHT);
     }
 
     public void bind(){

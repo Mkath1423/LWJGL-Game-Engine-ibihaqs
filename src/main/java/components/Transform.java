@@ -5,7 +5,7 @@ import org.joml.Vector3f;
 
 import geometry.Quad;
 
-public class Transform {
+public class Transform extends Component{
 
     public enum PositionMode{
         TOP_LEFT     (0f,   0f),

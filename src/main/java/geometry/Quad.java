@@ -8,6 +8,8 @@ public class Quad {
     public Vector3f bottomLeft;
     public Vector3f bottomRight;
 
+    public Vector3f[] getVertices(){return new Vector3f[] {topLeft, topRight, bottomLeft, bottomRight};}
+
     public Quad(Vector3f topLeft, Vector3f topRight, Vector3f bottomLeft, Vector3f bottomRight){
         this.topLeft = topLeft;
         this.topRight = topRight;

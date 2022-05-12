@@ -27,6 +27,7 @@ public class RenderBatch {
     private float[] vertices;
 
     private int vaoID, vboID;
+    
     private Shader shader;
 
     public RenderBatch(int maxBatchSize){
@@ -104,7 +105,7 @@ public class RenderBatch {
         GL20.glBufferSubData(GL20.GL_ARRAY_BUFFER, 0, vertices);
 
         shader.use();
-        shader.uploadMat4f("uProjection", camera matrix);
+        shader.uploadMat4f("uProjection", Camera);
         shader.uploadMat4f(varName, "uView", camrea view);
 
         ARBVertexArrayObject.glBindVertexArray(vaoID);

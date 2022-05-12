@@ -1,17 +1,26 @@
 package renderer;
 
+import java.util.Arrays;
+
 import org.lwjgl.opengl.ARBVertexArrayObject;
 import org.lwjgl.opengl.GL20;
 
+/**
+ * Defines the structure of a vertex
+ */
 public class VAO {
-    private class Attribute{
+    public class Attribute{
         String name;
         int size;
         int offset;
+
+        public float[] values;
+
+
     }
 
     private Attribute[] attributes;
-    public Attribute[] getAttributes(){ return attributes; }
+    public Attribute[] getEmptyAttributes(){ return Arrays.copyOf(attributes, attributes.length); }
 
     public int vaoSize = 0;
 
@@ -30,6 +39,8 @@ public class VAO {
             attributes[i].name   = propertyNames[i];
             attributes[i].size   = propertySizes[i];
             attributes[i].offset = vaoSize;
+
+            attributes[i].values = new float[attributes[i].size];
 
             vaoSize += propertySizes[i];
         }

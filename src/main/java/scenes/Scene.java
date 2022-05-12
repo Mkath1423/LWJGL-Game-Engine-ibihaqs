@@ -2,6 +2,7 @@ package scenes;
 
 import java.util.List;
 
+import components.Renderable;
 import gameobjects.GameObject;
 
 public abstract class Scene {
@@ -24,7 +25,13 @@ public abstract class Scene {
     public void Update(double deltaTime){
         for (GameObject gameObject : gameObjects) {
             gameObject.Update(deltaTime);
+            Renderable r = gameObject.getComponent(Renderable.class);
+            if(r != null){
+                r.draw();
+            }
         }
+
+
     }
 
     public void draw(){

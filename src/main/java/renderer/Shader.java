@@ -16,6 +16,13 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 
 public class Shader {
+    /**
+     * 
+     * 
+     * 
+     * 
+     */
+    
     private int shaderProgramID;
     
     private boolean beingUsed;
@@ -25,7 +32,7 @@ public class Shader {
 
     private String filepath;
 
-    public Shader(String path){
+    public Shader(String path /* add VAO definition and uniform suppliers */){
         this.filepath = path;
 
         try{
