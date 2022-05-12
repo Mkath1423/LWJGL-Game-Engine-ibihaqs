@@ -53,7 +53,7 @@ public abstract class Ship extends Component{
 
         goToPosition(destination);
         if(!isLanded && transform.position.distance(destination) > 30){
-            transform.position.fma(speed, velocity);
+            transform.position.fma((float)(speed*deltaTime), velocity);
         } 
     }
 
