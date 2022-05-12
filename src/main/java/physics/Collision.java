@@ -1,6 +1,7 @@
 package physics;
 
-import javafx.scene.shape.Rectangle;
+import geometry.Quad;
+import geometry.Circle;
 
 public class Collision {
 
@@ -11,18 +12,18 @@ public class Collision {
      * boundaries of the circle
      * 
      * @param circle    (Circle) The circle in question
-     * @param x         (int) The x coordinate of the point
-     * @param y         (int) The y coordinate of the point
+     * @param x         (float) The x coordinate of the point
+     * @param y         (float) The y coordinate of the point
      * @return          (boolean) Is the point within the circle?
      */
-    public static boolean circlePoint(Circle circle, int x, int y) {
+    public static boolean circlePoint(Circle circle, float x, float y) {
 
         // The coordinates of the center of the circle
-        int cX = circle.getX();
-        int cY = circle.getY();
+        float cX = circle.getX();
+        float cY = circle.getY();
 
         // The radius of the circle
-        int radius = circle.getRadius();
+        float radius = circle.getRadius();
     
         // Return true if all of the following conditions are met
         return (
@@ -39,26 +40,26 @@ public class Collision {
      * 
      * @param rect      (Rectangle) The rectangle in question
      * @param circle    (Circle) The circle in question
-     * @param offset    (int) An optional distance to offset by
+     * @param offset    (float) An optional distance to offset by
      * 
      * @return          (boolean) Do the shapes collide within the given offset range
      */
-    public static boolean rectCircle(Rectangle rect, Circle circle, int offset) {
+    public static boolean rectCircle(Quad rect, Circle circle, float offset) {
 
         // The coordinates of the upper-left corner of the rectangle
-        int rX = rect.getX();
-        int rY = rect.getY();
+        float rX = rect.getX();
+        float rY = rect.getY();
 
         // The height and width of the rectangle
-        int rWidth  = rect.getWidth();
-        int rHeight = rect.getHeight();
+        float rWidth  = rect.getWidth();
+        float rHeight = rect.getHeight();
 
         // The coordinates of the center of the circle
-        int cX = circle.getX();
-        int cY = circle.getY();
+        float cX = circle.getX();
+        float cY = circle.getY();
 
         // The radius of the circle
-        int radius = circle.getRadius();
+        float radius = circle.getRadius();
 
         // Return true if all of the following conditions are met
         return(
@@ -76,20 +77,20 @@ public class Collision {
      * boundaries of the rectangle
      * 
      * @param rect  (Rectangle) The rectangle in question
-     * @param x     (int) The x coordinate of the point
-     * @param y     (int) The y coordinate of the point
+     * @param x     (float) The x coordinate of the point
+     * @param y     (float) The y coordinate of the point
      * 
      * @return      (boolean) Is the point within the rectangle?
      */
-    public static boolean rectPoint(Rectangle rect, int x, int y) {
+    public static boolean rectPoint(Quad rect, float x, float y) {
 
         // The coordinates of the upper-left corner of the rectangle
-        int rX = rect.getX();
-        int rY = rect.getY();
+        float rX = rect.getX();
+        float rY = rect.getY();
 
         // The height and width of the rectangle
-        int rWidth  = rect.getWidth();
-        int rHeight = rect.getHeight();
+        float rWidth  = rect.getWidth();
+        float rHeight = rect.getHeight();
         
         // Return true if all of the following conditions are met
         return (
@@ -110,21 +111,21 @@ public class Collision {
      * 
      * @return          (boolean) Do the rectangles collide within the given offset range?
      */
-    public static boolean rectRect(Rectangle rect1, Rectangle rect2, int offset) {
+    public static boolean rectRect(Quad rect1, Quad rect2, float offset) {
 
         // The coordinates of the upper-left corner of rectangle 1 & 2
-        int rX1 = rect1.getX();
-        int rY1 = rect1.getY();
+        float rX1 = rect1.getX();
+        float rY1 = rect1.getY();
 
-        int rX2 = rect2.getX();
-        int rY2 = rect2.getY();
+        float rX2 = rect2.getX();
+        float rY2 = rect2.getY();
 
         // The height and width of rectangle 1 & 2
-        int rWidth1  = rect1.getWidth();
-        int rHeight1 = rect1.getHeight();
+        float rWidth1  = rect1.getWidth();
+        float rHeight1 = rect1.getHeight();
 
-        int rWidth2  = rect2.getWidth();
-        int rHeight2 = rect2.getHeight();
+        float rWidth2  = rect2.getWidth();
+        float rHeight2 = rect2.getHeight();
 
         // Return true if all of the following conditions are met
         return(
