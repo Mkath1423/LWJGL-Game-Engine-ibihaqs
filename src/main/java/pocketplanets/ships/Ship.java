@@ -1,11 +1,16 @@
 package pocketplanets.ships;
 
-import org.joml.Vector2f;
+import java.text.Normalizer;
 
+import org.joml.Vector2f;
+import org.joml.Vector3f;
+
+import components.Component;
+import components.Transform;
 import gameobjects.GameObject;
 import pocketplanets.Planet;
 
-public abstract class Ship extends GameObject{
+public abstract class Ship extends Component{
 
     // Information regarding ships fuel sotrage 
     private double fuelCapacity;
@@ -13,15 +18,17 @@ public abstract class Ship extends GameObject{
     private double fuelEfficiency;
 
     // Speed property of ship
-    private double speed;
+    private float speed;
 
     // private Stats shipStats;
 
     // Current desired location of ship path
-    private Vector2f destination;
+    private Vector3f destination;
+
+    private Transform transform;
 
     // Current velocity of the ship
-    private Vector2f velocity;
+    private Vector3f velocity;
 
     // Health Property of ship
     private double health;
@@ -34,21 +41,19 @@ public abstract class Ship extends GameObject{
     public Ship(double fuelCapacity, double fuelHeld, double fuelEfficiency, double speed, double health, boolean isLanded){
         
     }
+
+    @Override
+    public void Awake(){
+        transform = gameObject.getComponent(Transform.class);
+        
+    }
     
     @Override
     public void Update(double deltaTime){
-        goToPosition(destination);
-        if(!isLanded){
-            if(transform.position.x < destination.x){
-                // Constantly move ship towards destination by adding speed property to current position 
-                transform.position.x += speed;
-            }
-            else if(transform.position.x > destination.x){
-                transform.position.x -= speed;
-            }
-            
-            
 
+        goToPosition(destination);
+        if(!isLanded && transform.position.distance(destination) > 30){
+            transform.position.fma(speed, velocity);
         } 
     }
 
@@ -67,11 +72,12 @@ public abstract class Ship extends GameObject{
      * 
      * @param location coordinates where we want the ship to move towards
      */
-    public void goToPosition(Vector2f location){
-        // destination = location;
+    public void goToPosition(Vector3f destination){
+        this.destination = destination;
+        velocity = new Vector3f(destination.x - transform.position.x, destination.y - transform.position.y, destination.z - transform.position.z);
     }
 
-    // /**
+    // /*
     //  * Returns the closest planet to ship
     //  * 
     //  * @return  closest planet to ship
