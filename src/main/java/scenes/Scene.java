@@ -34,10 +34,6 @@ public abstract class Scene {
 
     }
 
-    public void draw(){
-        
-    }
-
     public void End(){
         for (GameObject gameObject : gameObjects) {
             gameObject.End();

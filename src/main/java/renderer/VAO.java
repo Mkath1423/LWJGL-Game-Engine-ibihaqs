@@ -15,8 +15,6 @@ public class VAO {
         int offset;
 
         public float[] values;
-
-
     }
 
     private Attribute[] attributes;
@@ -25,6 +23,7 @@ public class VAO {
     public int vaoSize = 0;
 
     private int ID = -1;
+    public int getID(){ return ID; }
 
     public VAO(String[] propertyNames, int[] propertySizes){
         assert propertyNames.length == propertySizes.length : "VAO: property names and sizes do not match up";
@@ -39,8 +38,6 @@ public class VAO {
             attributes[i].name   = propertyNames[i];
             attributes[i].size   = propertySizes[i];
             attributes[i].offset = vaoSize;
-
-            attributes[i].values = new float[attributes[i].size];
 
             vaoSize += propertySizes[i];
         }
@@ -65,10 +62,27 @@ public class VAO {
         }
     }
 
-    public void disable(int vaoID){
+    public void disable(){
         for (int i = 0; i < attributes.length; i++) {
             GL20.glDisableVertexAttribArray(i);
         }
         ARBVertexArrayObject.glBindVertexArray(0);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass() != this.getClass()) return false;
+        VAO that = (VAO)obj;
+
+        if(that.attributes.length != this.attributes.length) return false;
+
+        for (int i = 0; i < this.attributes.length; i++) {
+            if(!that.attributes[i].name.equals(this.attributes[i].name)) return false;
+
+            if(that.attributes[i].size   != this.attributes[i].size)   return false;
+            if(that.attributes[i].offset != this.attributes[i].offset) return false; 
+        } 
+
+        return true;
     }
 }

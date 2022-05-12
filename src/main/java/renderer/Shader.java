@@ -18,12 +18,10 @@ import org.lwjgl.opengl.GL20;
 public class Shader {
     /**
      * 
-     * 
-     * 
-     * 
      */
     
     private int shaderProgramID;
+    public int getShaderId(){return shaderProgramID;}
     
     private boolean beingUsed;
 

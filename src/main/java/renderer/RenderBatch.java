@@ -3,6 +3,8 @@ package renderer;
 import org.lwjgl.opengl.ARBVertexArrayObject;
 import org.lwjgl.opengl.GL20;
 
+import components.Renderable;
+
 public class RenderBatch {
     // Vertex
     // =======
@@ -20,21 +22,22 @@ public class RenderBatch {
     private final int VERTEX_SIZE = POS_SIZE + COLOR_SIZE + UV_SIZE;
     private final int VERTEX_SIZE_BYTES = VERTEX_SIZE * Float.BYTES;
 
-    private SpriteRenderer[] sprites;
+    private Renderable[] renderables;
     private int numSprites;
-    private int maxBatchSize
+    private int maxBatchSize;
     private boolean hasRoom;
     private float[] vertices;
 
     private int vaoID, vboID;
     
     private Shader shader;
+    private VAO vao;
 
-    public RenderBatch(int maxBatchSize){
-        shader = new Shader("assets/shaders/default.glsl");
-        shader.compile();
+    public RenderBatch(int maxBatchSize, Shader shader, VAO vao){
+        this.shader = shader;
+        this.vao = vao;
 
-        this.sprites = new SpriteRenderer[maxBatchSize];
+        this.renderables = new Renderable[maxBatchSize];
         this.maxBatchSize = maxBatchSize;
         
         vertices = new float[maxBatchSize * 4 * VERTEX_SIZE];
@@ -44,8 +47,18 @@ public class RenderBatch {
     }
 
     public void start(){
-        vaoID = ARBVertexArrayObject.glGenVertexArrays();
-        ARBVertexArrayObject.glBindVertexArray(vaoID);
+        // pre done
+        // vaoID = ARBVertexArrayObject.glGenVertexArrays();
+        // ARBVertexArrayObject.glBindVertexArray(vaoID);
+
+        // GL20.glVertexAttribPointer(0, POS_SIZE, GL20.GL_FLOAT, false, VERTEX_SIZE_BYTES, POS_OFFSET);
+        // GL20.glEnableVertexAttribArray(0);
+
+        // GL20.glVertexAttribPointer(1, COLOR_SIZE, GL20.GL_FLOAT, false, VERTEX_SIZE_BYTES, COLOR_OFFSET);
+        // GL20.glEnableVertexAttribArray(1);
+
+        // GL20.glVertexAttribPointer(2, UV_SIZE, GL20.GL_FLOAT, false, VERTEX_SIZE_BYTES, UV_OFFSET);
+        // GL20.glEnableVertexAttribArray(2);
 
         vboID = GL20.glGenBuffers();
         GL20.glBindBuffer(GL20.GL_ARRAY_BUFFER, vboID);
@@ -56,14 +69,7 @@ public class RenderBatch {
         GL20.glBindBuffer(GL20.GL_ARRAY_BUFFER, eboID);
         GL20.glBufferData(GL20.GL_ARRAY_BUFFER, indices, GL20.GL_STATIC_DRAW);
 
-        GL20.glVertexAttribPointer(0, POS_SIZE, GL20.GL_FLOAT, false, VERTEX_SIZE_BYTES, POS_OFFSET);
-        GL20.glEnableVertexAttribArray(0);
 
-        GL20.glVertexAttribPointer(1, COLOR_SIZE, GL20.GL_FLOAT, false, VERTEX_SIZE_BYTES, COLOR_OFFSET);
-        GL20.glEnableVertexAttribArray(1);
-
-        GL20.glVertexAttribPointer(2, UV_SIZE, GL20.GL_FLOAT, false, VERTEX_SIZE_BYTES, UV_OFFSET);
-        GL20.glEnableVertexAttribArray(2);
     }
 
 
@@ -90,37 +96,40 @@ public class RenderBatch {
         elements[offsetArrayIndex + 5] = offset + 1;
     }
 
-    public void addSprite(SpriteRenderer spr){
+    public void addRenderable(Renderable renderable){
         int index = numSprites;
-        this.sprites[index] = spr;
+        this.renderables[index] = renderable;
         this.numSprites ++;
 
-        loadVertexProperties(index);
+        renderable.loadVertexData(vertices, index);
 
         if(numSprites)
     }
 
     public void renderer(){
-        GL20.glBindBuffer(GL20.GL_ARRAY_BUFFER, vaoID);
+        GL20.glBindBuffer(GL20.GL_ARRAY_BUFFER, vboID);
         GL20.glBufferSubData(GL20.GL_ARRAY_BUFFER, 0, vertices);
 
         shader.use();
         shader.uploadMat4f("uProjection", Camera);
         shader.uploadMat4f(varName, "uView", camrea view);
 
-        ARBVertexArrayObject.glBindVertexArray(vaoID);
 
-        GL20.glEnableVertexAttribArray(0);
-        GL20.glEnableVertexAttribArray(1);
-        GL20.glEnableVertexAttribArray(2);
+        vao.enable();
+        // ARBVertexArrayObject.glBindVertexArray(vaoID);
+
+        // GL20.glEnableVertexAttribArray(0);
+        // GL20.glEnableVertexAttribArray(1);
+        // GL20.glEnableVertexAttribArray(2);
 
         GL20.glDrawElements(GL20.GL_TRIANGLES, numSprites * 6, GL20.GL_UNSIGNED_INT, 0);
 
-        GL20.glDisableVertexAttribArray(0);
-        GL20.glDisableVertexAttribArray(1);
-        GL20.glDisableVertexAttribArray(2);
+        // GL20.glDisableVertexAttribArray(0);
+        // GL20.glDisableVertexAttribArray(1);
+        // GL20.glDisableVertexAttribArray(2);
 
-        ARBVertexArrayObject.glBindVertexArray(0);
+        // ARBVertexArrayObject.glBindVertexArray(0);
+        vao.disable();
 
         shader.detach();
     }

@@ -1,5 +1,7 @@
 package components;
 
+import java.lang.Thread.UncaughtExceptionHandler;
+
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
@@ -21,20 +23,20 @@ public class SpriteRenderer extends Renderable{
     private int currentSprite;
 
     private Transform transform;
-
     private VAO vao;
 
-    public SpriteRenderer(SpriteMap spriteMap, int shaderProgram, VAO vao){
-        super(shaderProgram);
+    
 
-        transform = gameObject.getComponent(Transform.class);
-
-        this.vao = vao;
+    public SpriteRenderer(SpriteMap spriteMap){
+        this.spriteMap = spriteMap;
     }
 
+    public void Awake(){
+        transform = gameObject.getComponent(Transform.class);
+    }
 
     @Override
-    public void loadData(float[] buffer) {
+    public void loadVertexData(float[] buffer) {
         /**
          * pos       uv    texId
          * 0, 0, 0   0, 0, 0
