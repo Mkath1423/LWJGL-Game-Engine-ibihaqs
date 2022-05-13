@@ -55,7 +55,8 @@ public class InputAxis {
     public void Update(double dt){
         int inputDir = (KeyListener.getKeyPressed(pos.getValue()) || KeyListener.getKeyPressed(altPos.getValue()) ?  1 : 0) +
                        (KeyListener.getKeyPressed(neg.getValue()) || KeyListener.getKeyPressed(altNeg.getValue()) ? -1 : 0);
-       
+        
+        System.out.println("updateing " + inputDir);
         // Decay the value
         if(inputDir == 0){
             if(Math.abs(value) < 0.0001){

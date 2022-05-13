@@ -49,29 +49,14 @@ public enum VAO {
     public void init(){
         ID = ARBVertexArrayObject.glGenVertexArrays();
         ARBVertexArrayObject.glBindVertexArray(ID);
-        
-
-        // int positionSize = 3;
-        // int uvSize = 2;
-
-        // int vertexSizeBytes = (positionSize + uvSize) * Float.BYTES;
-
-        
-        // int[] sizes = new int[]{3, 2};
-        // int[] offsets = new int[]{0, 3};
-
-        // GL20.glVertexAttribPointer(0, sizes[0], GL20.GL_FLOAT, false, vertexSizeBytes, offsets[0]*Float.BYTES);
-        // GL20.glEnableVertexAttribArray(0);
-
-        // GL20.glVertexAttribPointer(1, sizes[1], GL20.GL_FLOAT, false, vertexSizeBytes, offsets[1]*Float.BYTES);
-        // GL20.glEnableVertexAttribArray(1);
+    
         
     }
 
     public void bindPointers(){
         ARBVertexArrayObject.glBindVertexArray(ID);
         for (int i = 0; i < attributes.length; i++) {
-            System.out.println(attributes[i].name + " " + attributes[i].size + " " + attributes[i].offset);
+            // System.out.println(attributes[i].name + " " + attributes[i].size + " " + attributes[i].offset);
             GL20.glVertexAttribPointer(i, attributes[i].size, GL20.GL_FLOAT, false, vaoSize*Float.BYTES, attributes[i].offset*Float.BYTES);
             GL20.glEnableVertexAttribArray(i);
         }

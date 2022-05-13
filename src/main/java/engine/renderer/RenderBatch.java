@@ -60,7 +60,9 @@ public class RenderBatch {
 
         for(int i = 0; i < maxBatchSize; i++){
             int offsetArrayIndex = ebo.getLength() * i;
-            int offset = vao.vaoSize * i;
+            int offset = ebo.getNumberOfVertices() * i;
+            System.out.println(offsetArrayIndex);
+            System.out.println(offset);
 
             int[] eboIndices = ebo.getIndices();
             for (int j = 0; j < eboIndices.length; j++) {
@@ -68,6 +70,7 @@ public class RenderBatch {
             }
         }
 
+        System.out.println(Arrays.toString(indices));
         IntBuffer elementBuffer = BufferUtils.createIntBuffer(indices.length);
         elementBuffer.put(indices).flip();
 
@@ -75,8 +78,9 @@ public class RenderBatch {
         GL20.glBindBuffer(GL20.GL_ELEMENT_ARRAY_BUFFER, eboID);
         GL20.glBufferData(GL20.GL_ELEMENT_ARRAY_BUFFER, elementBuffer, GL20.GL_STATIC_DRAW);
 
-        System.out.printf("%s | %s", indices.length, vertices.length);
         vao.bindPointers();
+
+
     }
 
 
@@ -100,6 +104,7 @@ public class RenderBatch {
     public void render(){
 
         for (int i = 0; i < renderables.length; i++) {
+            if(renderables[i] == null) continue;
             renderables[i].loadVertexData(vertices, i * 5*4);
         }
         // System.out.println(Arrays.toString(vertices));
@@ -114,7 +119,7 @@ public class RenderBatch {
 
         vao.enable();
 
-        GL20.glDrawElements(GL20.GL_TRIANGLES, 12, GL20.GL_UNSIGNED_INT, 0);
+        GL20.glDrawElements(GL20.GL_TRIANGLES, 18, GL20.GL_UNSIGNED_INT, 0);
 
         vao.disable();
 
