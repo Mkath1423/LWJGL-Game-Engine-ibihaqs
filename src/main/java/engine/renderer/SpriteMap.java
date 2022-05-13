@@ -12,13 +12,14 @@ public class SpriteMap {
     private Texture texture;
 
     public SpriteMap(Texture texture, int numCol, int numRow){
-        this.numCol = numCol;
-        this.numRow = numRow;
+        this.numCol = Math.max(1, numCol);
+        this.numRow = Math.max(1, numRow);
 
         this.texture = texture;
     }
 
     public Sprite getSprite(int index){
+
         if(index >= numCol * numRow) return null;
         
         int x = index % numCol;

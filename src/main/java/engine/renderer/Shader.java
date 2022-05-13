@@ -14,7 +14,7 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 
 public enum Shader {
-    SPRITE_RGB("default.glsl");
+    SPRITE_RGB("assets/shaders/default.glsl");
     // SPRITE_RGBA("xxx.glsl"),
     // COLOR("xxx.glsl"),
     // SPRITE_TINT("xxx.glsl");

@@ -3,8 +3,8 @@ package engine.renderer;
 import java.util.Arrays;
 
 public enum EBO {
-    QUAD(new int[] {1, 0, 2,      // Top right triangle tr-tl-br
-                    3, 1, 2 }),   // bottom left triangle br-tl-bl
+    QUAD(new int[] {0, 3, 1,      // Top right triangle tr-tl-br
+                    1, 3, 2 }),   // bottom left triangle br-tl-bl
     TRIANGLE(new int[] {0, 1, 2}) 
     ;
 

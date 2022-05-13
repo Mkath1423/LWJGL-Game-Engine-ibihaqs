@@ -14,7 +14,7 @@ public class Transform extends Component{
         CENTER_LEFT  (0f,   0.5f),
         CENTER_MIDDLE(0.5f, 0.5f),
         CENTER_RIGHT (1f,   0.5f),
-        BOTTON_LEFT  (0f,   1f),
+        BOTTOM_LEFT  (0f,   1f),
         BOTTOM_MIDDLE(0.5f, 1f),
         BOTTOM_RIGHT (1f,   1f);
 
@@ -32,7 +32,7 @@ public class Transform extends Component{
 
     public Vector3f position;
     public Vector2f scale;
-    public float roation;
+    public float rotation;
 
     public PositionMode positionOrigin;
     public PositionMode rotationOrigin;
@@ -41,10 +41,13 @@ public class Transform extends Component{
         this(new Vector3f(), new Vector2f(), 0f);
     }
 
-    public Transform(Vector3f position, Vector2f scale, float roation){
+    public Transform(Vector3f position, Vector2f scale, float rotation){
         this.position = new Vector3f(position.x, position.y, position.z);
         this.scale    = new Vector2f(scale.x,    scale.y);
-        this.roation  = roation;
+        this.rotation  = rotation;
+
+        this.positionOrigin = PositionMode.TOP_LEFT;
+        this.rotationOrigin = PositionMode.TOP_LEFT;
     }
 
     public Quad getQuad(){

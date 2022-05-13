@@ -6,7 +6,7 @@ import java.util.List;
 import engine.components.Component;
 import engine.components.Transform;
 
-public abstract class GameObject {
+public class GameObject {
 
 
     private boolean isEnabled = true;
@@ -33,9 +33,9 @@ public abstract class GameObject {
         for (Component component : components) {
             if(instance.getClass() == component.getClass()){
                 assert false : String.format("GameObject: GO %s already contains component of type %s", "", instance.getClass().getName());
+                return;
             }
         }
-
         instance.gameObject = this;
         components.add(instance);
     }
@@ -56,8 +56,6 @@ public abstract class GameObject {
      */
     public GameObject(){
         components = new ArrayList<>();
-        
-        addComponent(new Transform());
         // addComponent(new SpriteRenderer());
     }
 
