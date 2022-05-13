@@ -4,7 +4,7 @@ import java.util.Arrays;
 
 public enum EBO {
     QUAD(new int[] {0, 3, 1,      // Top right triangle tr-tl-br
-                    1, 3, 2 }),   // bottom left triangle br-tl-bl
+                    0, 3, 2 }),   // bottom left triangle br-tl-bl
     TRIANGLE(new int[] {0, 1, 2}) 
     ;
 

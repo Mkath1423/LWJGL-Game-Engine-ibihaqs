@@ -16,7 +16,12 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryUtil;
+import org.lwjgl.system.windows.INPUT;
 
+import engine.Inputs.Input;
+import engine.Inputs.InputAxis;
+import engine.Inputs.KeyListener;
+import engine.Inputs.MouseListener;
 import engine.components.SpriteRenderer;
 import engine.components.Transform;
 import engine.gameobjects.GameObject;
@@ -110,11 +115,11 @@ public class Window {
             throw new IllegalStateException("Failed to create window");
         }
 
-        // // set up callbacks
-        // GLFW.glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
-        // GLFW.glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
-        // GLFW.glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
-        // GLFW.glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
+        // set up callbacks
+        GLFW.glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
+        GLFW.glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
+        GLFW.glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
+        GLFW.glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
 
 
         // make the openGL context
@@ -142,11 +147,14 @@ public class Window {
     public void loop(){
         Texture t = new Texture("assets/textures/testImage.png");
 
+        Input.addAxis("horizontal", new InputAxis(-1, 1, 20, 20, Input.KeyCode.D, Input.KeyCode.A));
+        Input.addAxis("vertical", new InputAxis(-1, 1, 20, 20, Input.KeyCode.W, Input.KeyCode.S));
+
         SpriteMap sp = new SpriteMap(t, 1, 1);
     
         GameObject go = new GameObject();
             go.addComponent(new Transform(
-                new Vector3f(0, 0, 0),
+                new Vector3f(0, 100, 0),
                 new Vector2f(100, 100),
                 0
             ));
@@ -156,7 +164,7 @@ public class Window {
 
         GameObject go2 = new GameObject();
             go2.addComponent(new Transform(
-                new Vector3f(0, 300, 0),
+                new Vector3f(0, 250, 0),
                 new Vector2f(100, 100),
                 0
             ));
@@ -164,69 +172,41 @@ public class Window {
 
         go2.Awake();
 
-        // RenderBatch batch = new RenderBatch(1, Shader.SPRITE_RGB, VAO.SPRITE, EBO.QUAD);
-        //     batch.addRenderable(go.getComponent(SpriteRenderer.class));
-            
+        GameObject go3 = new GameObject();
+            go3.addComponent(new Transform(
+                new Vector3f(0, 400, 0),
+                new Vector2f(100, 100),
+                0
+            ));
+            go3.addComponent(new SpriteRenderer(sp));
 
-        // // creat float buffer verticies
+        go3.Awake();
 
-        // FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertexArray.length);
-        // vertexBuffer.put(vertexArray).flip();
-
-        // VBO and upload vertex butffer
-
-        // vboID = GL20.glGenBuffers();
-        // System.out.println("testing vboID " + vboID);
-        // GL20.glBindBuffer(GL20.GL_ARRAY_BUFFER, vboID);
-        // GL20.glBufferData(GL20.GL_ARRAY_BUFFER, 48, GL20.GL_DYNAMIC_DRAW);
-
-        // creat indicies and upload
-        // IntBuffer elementBuffer = BufferUtils.createIntBuffer(elementArray.length);
-        // elementBuffer.put(elementArray).flip();
-
-        // eboID = GL20.glGenBuffers();
-        // GL20.glBindBuffer(GL20.GL_ELEMENT_ARRAY_BUFFER, eboID);
-        // GL20.glBufferData(GL20.GL_ELEMENT_ARRAY_BUFFER, elementBuffer, GL20.GL_STATIC_DRAW);
-    
-        // batch.start();
         
 
         while(!GLFW.glfwWindowShouldClose(glfwWindow)){
             // events
             GLFW.glfwPollEvents();
+            Input.Update(0.2f);
 
             // background
             GL11.glClearColor(1, 1, 1, 0);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
-
-            // float[] nextVertexArray = new float[20];
-            // go.getComponent(SpriteRenderer.class).loadVertexData(nextVertexArray, 0);
-
-            // FloatBuffer nextvertexBuffer = BufferUtils.createFloatBuffer(nextVertexArray.length);
-            // nextvertexBuffer.put(nextVertexArray).flip();
-
-            // GL20.glBufferData(GL20.GL_ARRAY_BUFFER, nextvertexBuffer, GL20.GL_DYNAMIC_DRAW);
-
-            // Shader.SPRITE_RGB.use();
-
-            // Renderer.UploadUniforms(Shader.SPRITE_RGB);
-            
-
-
-            // VAO.SPRITE.enable();
-
-            // GL20.glDrawElements(GL30.GL_TRIANGLES, elementArray.length, GL30.GL_UNSIGNED_INT, 0);
-
-            // VAO.SPRITE.disable(); 
 
             GL20.glActiveTexture(GL20.GL_TEXTURE0);
             t.bind();
             Renderer.draw();
             t.unbind();
 
-
-            go.getComponent(Transform.class).position.x += 0.5;
             
+            go3.getComponent(Transform.class).position.x += 1 * Input.getAxis("horizontal");
+            go3.getComponent(Transform.class).position.y += 1 * Input.getAxis("vertical");
+            
+            // System.out.printf("(%s, %s)\n", Input.getAxis("horizontal"), Input.getAxis("vertical"));
+            if(KeyListener.isKeyPressed(Input.KeyCode.W.getValue())){
+                
+                // go3.getComponent(Transform.class).position.x += 1 * 1;
+            }
             GLFW.glfwSwapBuffers(glfwWindow);
 
         }
