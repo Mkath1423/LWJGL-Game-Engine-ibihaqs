@@ -1,8 +1,9 @@
 package pocketplanets.buildings;
 
-import gameobjects.GameObject;
+import engine.components.Component;
+import engine.gameobjects.GameObject;
 
-public abstract class Building extends GameObject{
+public abstract class Building extends Component{
 
 
 

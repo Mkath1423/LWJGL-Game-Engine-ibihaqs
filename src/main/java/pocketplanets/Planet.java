@@ -1,8 +1,9 @@
 package pocketplanets;
 
-import gameobjects.GameObject;
+import engine.components.Component;
+import engine.gameobjects.GameObject;
 
-public class Planet extends GameObject{
+public class Planet extends Component{
 
 
     private boolean isDiscovered;
