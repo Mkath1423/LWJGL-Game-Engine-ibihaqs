@@ -1,7 +1,7 @@
 package physics;
 
-import geometry.Quad;
-import geometry.Circle;
+import engine.geometry.Quad;
+import engine.geometry.Circle;
 
 public class Collision {
 
