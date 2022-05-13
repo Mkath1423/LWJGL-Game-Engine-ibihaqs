@@ -5,9 +5,9 @@ import java.text.Normalizer;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-import components.Component;
-import components.Transform;
-import gameobjects.GameObject;
+import engine.components.Component;
+import engine.components.Transform;
+import engine.gameobjects.GameObject;
 import pocketplanets.Planet;
 
 public abstract class Ship extends Component{

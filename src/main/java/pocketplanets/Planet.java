@@ -1,7 +1,7 @@
 package pocketplanets;
 
-import components.Component;
-import gameobjects.GameObject;
+import engine.components.Component;
+import engine.gameobjects.GameObject;
 
 public class Planet extends Component{
 
