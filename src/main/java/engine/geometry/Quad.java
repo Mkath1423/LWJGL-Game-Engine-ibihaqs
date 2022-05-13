@@ -15,10 +15,7 @@ public class Quad {
     public Vector3f bottomLeft;
     public Vector3f bottomRight;
 
-<<<<<<< Updated upstream:src/main/java/engine/geometry/Quad.java
     public Vector3f[] getVertices(){return new Vector3f[] {topLeft, topRight, bottomLeft, bottomRight};}
-=======
->>>>>>> Stashed changes:src/main/java/geometry/Quad.java
 
     public Quad(Vector3f topLeft, Vector3f topRight, Vector3f bottomLeft, Vector3f bottomRight){
 

@@ -1,4 +1,4 @@
-package geometry;
+package engine.geometry;
 
 import org.joml.Vector3f;
 
