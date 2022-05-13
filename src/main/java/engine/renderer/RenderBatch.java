@@ -75,6 +75,7 @@ public class RenderBatch {
         GL20.glBindBuffer(GL20.GL_ELEMENT_ARRAY_BUFFER, eboID);
         GL20.glBufferData(GL20.GL_ELEMENT_ARRAY_BUFFER, elementBuffer, GL20.GL_STATIC_DRAW);
 
+        System.out.printf("%s | %s", indices.length, vertices.length);
         vao.bindPointers();
     }
 
@@ -99,7 +100,7 @@ public class RenderBatch {
     public void render(){
 
         for (int i = 0; i < renderables.length; i++) {
-            renderables[i].loadVertexData(vertices, i * 5*4+1);
+            renderables[i].loadVertexData(vertices, i * 5*4);
         }
         // System.out.println(Arrays.toString(vertices));
 
