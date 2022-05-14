@@ -3,7 +3,17 @@ package engine.Inputs;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Manages user inputs in a more useful way
+ * 
+ * Lets devs interact with input data without needing to use raw data
+ *
+ * @author Lex Stapleton  
+ */
 public class Input {
+    /**
+     * Represents the key codes for GL's key listener
+     */
     public enum KeyCode{
         UNKNOWN(-1),
         SPACE(32),
@@ -134,13 +144,35 @@ public class Input {
             this.value = value;
         }
 
+        /**
+         * Returns the value of the keycode
+         * 
+         * use this for indexing boolean array
+         * 
+         * @return
+         */
         public int getValue(){
             return value;
         }
     }
 
+    /**
+     * Singleton construction
+     */
     private static Input instance;
-    public static Input get(){
+
+    private Input(){
+        axes = new HashMap<>();
+    }
+
+    /**
+     * Returns the static singleton
+     * 
+     * Instantiates the singleton is it hasn't already
+     * 
+     * @return the static singleton
+     */
+    private static Input get(){
         if(Input.instance == null){
             Input.instance = new Input();
         }
@@ -148,21 +180,40 @@ public class Input {
         return Input.instance;
     }
 
-
+    /**
+     * Named axes that interpolate between the state of two keys 
+     */
     private Map<String, InputAxis> axes;
+
+    /**
+     * Adds a new input axis to axes
+     * 
+     * @param name the name of the new axis
+     * @param axis the new axis
+     */
     public  static void addAxis(String name, InputAxis axis){
         get().axes.put(name, axis);
     }
+
+    /**
+     * Gets the input values of a given axis
+     * 
+     * @param name the name of the axis
+     * @return its current value
+     * 
+     * @see InputAxis
+     */
     public static float getAxis(String name){
         if(!get().axes.containsKey(name)) return 0f;
 
         return get().axes.get(name).getValue();
     }
 
-    private Input(){
-        axes = new HashMap<>();
-    }
-
+    /**
+     * Updates all the axes
+     * 
+     * @param dt the time that has passed between frames
+     */
     public static void Update(float dt){
         for (InputAxis axis : get().axes.values()) {
             axis.Update(dt);
