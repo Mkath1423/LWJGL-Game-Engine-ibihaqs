@@ -32,6 +32,8 @@ public abstract class Ship extends Component{
     // Current velocity of the ship
     private Vector3f velocity;
 
+    private Vector3f acceleration;
+
     // Health Property of ship
     private double health;
 
@@ -53,11 +55,12 @@ public abstract class Ship extends Component{
     
     @Override
     public void Update(double deltaTime){
-
-        goToPosition(destination);
-        if(!isLanded && transform.position.distance(destination) > 30){
-            //transform.position.fma((float)(speed*deltaTime), velocity);
-            Move.glide(velocity);
+        if(!isLanded && transform.position.distance(destination) < 30){
+            acceleration.set(0, 0, 0);
+            velocity.set(0, 0, 0);
+            move.initialize(acceleration, velocity);
+            
+            
         } 
     }
 
@@ -76,10 +79,12 @@ public abstract class Ship extends Component{
      * 
      * @param location coordinates where we want the ship to move towards
      */
-    public void goToPosition(Vector3f destination){
+    public void goToPosition(Vector3f destination, float accelMagnitude){
         this.destination = destination;
         velocity = new Vector3f((destination.x - transform.position.x), (destination.y - transform.position.y), (destination.z - transform.position.z));
+        acceleration = new Vector3f(accelMagnitude, accelMagnitude, accelMagnitude);
         velocity = velocity.normalize().add(speed, speed, speed);
+        move.initialize(acceleration, velocity);
     }
 
     // /*
