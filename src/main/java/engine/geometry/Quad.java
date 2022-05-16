@@ -4,12 +4,8 @@ import org.joml.Vector3f;
 
 public class Quad {
 
-
-
     // INITIALIZATION
-
-
-
+    
     public Vector3f topLeft;
     public Vector3f topRight;
     public Vector3f bottomLeft;
@@ -26,7 +22,6 @@ public class Quad {
     }
 
     public static Quad Rect(Vector3f topLeft, float width, float height){
-        
         return new Quad(
             new Vector3f(topLeft), 
             new Vector3f(topLeft.x + width, topLeft.y,          topLeft.z), 
@@ -39,12 +34,17 @@ public class Quad {
         return Rect(topLeft, length, length);
     }
 
-
+    @Override
+    public String toString(){
+        return String.format("(%s, %s) (%s, %s) (%s, %s) (%s, %s)\n", 
+            topLeft.x, topLeft.y,
+            topRight.x, topRight.y,
+            bottomLeft.x, bottomLeft.y,
+            bottomRight.x, bottomRight.y
+        );
+    }
 
     // METHODS
-
-
-
     /**
      * Assuming a Rectangular shape, return the y distance between the two left corners
      * 

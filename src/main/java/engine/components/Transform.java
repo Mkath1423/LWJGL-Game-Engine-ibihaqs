@@ -1,6 +1,9 @@
 package engine.components;
 
+import org.joml.Matrix2f;
+import org.joml.Matrix3f;
 import org.joml.Vector2f;
+import org.joml.Vector2fc;
 import org.joml.Vector3f;
 
 import engine.geometry.Quad;
@@ -26,7 +29,7 @@ public class Transform extends Component{
 
         private PositionMode(float x, float y){
             this.xShift = x;
-            this.xShift = y;
+            this.yShift = y;
         }
     }
 
@@ -44,17 +47,52 @@ public class Transform extends Component{
     public Transform(Vector3f position, Vector2f scale, float rotation){
         this.position = new Vector3f(position.x, position.y, position.z);
         this.scale    = new Vector2f(scale.x,    scale.y);
-        this.rotation  = rotation;
+        this.rotation = rotation;
 
         this.positionOrigin = PositionMode.TOP_LEFT;
         this.rotationOrigin = PositionMode.TOP_LEFT;
     }
 
     public Quad getQuad(){
+        // get top left vector in world space
         Vector3f topLeft = new Vector3f(position.x, position.y, position.z);
             topLeft.x = topLeft.x - scale.x * positionOrigin.getXShift();
             topLeft.y = topLeft.y - scale.y * positionOrigin.getYShift();
 
-        return Quad.Rect(topLeft, scale.x, scale.y);
+        // get bounding box vectors in world space
+        Quad boundingBox = Quad.Rect(topLeft, scale.x, scale.y);
+
+
+        // TODO: FIX Y ORIGIN BEING INVERTED
+        // get center of rotation in world space
+        Vector3f centerOfRotation = new Vector3f();
+            centerOfRotation.add(topLeft);
+            centerOfRotation.add(new Vector3f(scale.x * rotationOrigin.getXShift(), scale.y * rotationOrigin.getYShift(), 0));
+        
+        // make bounding box in CoR space
+        boundingBox.topLeft.sub(centerOfRotation);
+        boundingBox.topRight.sub(centerOfRotation);
+        boundingBox.bottomLeft.sub(centerOfRotation);
+        boundingBox.bottomRight.sub(centerOfRotation);
+        
+        // create the rotation matrix
+        Matrix3f rotationMatrix = new Matrix3f(
+            new Vector3f((float)Math.cos(rotation), (float)Math.sin(rotation), 0), 
+            new Vector3f(-(float)Math.sin(rotation),  (float)Math.cos(rotation), 0),
+            new Vector3f( 0,                         0,                         1));
+
+        // rotate the bb vectors about the center of rotation
+        boundingBox.topLeft.mul(rotationMatrix);
+        boundingBox.topRight.mul(rotationMatrix);
+        boundingBox.bottomLeft.mul(rotationMatrix);
+        boundingBox.bottomRight.mul(rotationMatrix);
+        
+        // make the bb vectors in world space
+        boundingBox.topLeft.add(centerOfRotation);
+        boundingBox.topRight.add(centerOfRotation);
+        boundingBox.bottomLeft.add(centerOfRotation);
+        boundingBox.bottomRight.add(centerOfRotation);
+        
+        return boundingBox;
     }
 }

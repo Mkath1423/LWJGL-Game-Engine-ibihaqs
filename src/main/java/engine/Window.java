@@ -162,26 +162,6 @@ public class Window {
 
         go.Awake();
 
-        GameObject go2 = new GameObject();
-            go2.addComponent(new Transform(
-                new Vector3f(0, 250, 0),
-                new Vector2f(100, 100),
-                0
-            ));
-            go2.addComponent(new SpriteRenderer(sp));
-
-        go2.Awake();
-
-        GameObject go3 = new GameObject();
-            go3.addComponent(new Transform(
-                new Vector3f(0, 400, 0),
-                new Vector2f(100, 100),
-                0
-            ));
-            go3.addComponent(new SpriteRenderer(sp));
-
-        go3.Awake();
-
         
 
         while(!GLFW.glfwWindowShouldClose(glfwWindow)){
@@ -199,8 +179,8 @@ public class Window {
             t.unbind();
 
             
-            go3.getComponent(Transform.class).position.x += 1 * Input.getAxis("horizontal");
-            go3.getComponent(Transform.class).position.y += 1 * Input.getAxis("vertical");
+            go.getComponent(Transform.class).rotation -= 0.01 * Input.getAxis("horizontal");
+
             
             
             GLFW.glfwSwapBuffers(glfwWindow);
