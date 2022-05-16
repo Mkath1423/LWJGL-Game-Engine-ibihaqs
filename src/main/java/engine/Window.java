@@ -202,11 +202,7 @@ public class Window {
             go3.getComponent(Transform.class).position.x += 1 * Input.getAxis("horizontal");
             go3.getComponent(Transform.class).position.y += 1 * Input.getAxis("vertical");
             
-            // System.out.printf("(%s, %s)\n", Input.getAxis("horizontal"), Input.getAxis("vertical"));
-            if(KeyListener.isKeyPressed(Input.KeyCode.W.getValue())){
-                
-                // go3.getComponent(Transform.class).position.x += 1 * 1;
-            }
+            
             GLFW.glfwSwapBuffers(glfwWindow);
 
         }

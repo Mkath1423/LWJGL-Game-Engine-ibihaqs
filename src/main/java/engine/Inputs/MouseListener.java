@@ -5,7 +5,7 @@ import org.lwjgl.glfw.GLFW;
 /**
  * Listens for an handles mouse events
  */
-public class MouseListener {
+public final class MouseListener {
     /**
      * Singleton construction
      */
@@ -30,7 +30,7 @@ public class MouseListener {
      * 
      * @return the static singleton
      */
-    public static MouseListener get(){
+    private static MouseListener get(){
         if(MouseListener.instance == null){
             MouseListener.instance = new MouseListener();
         }
@@ -62,21 +62,21 @@ public class MouseListener {
     /**
      * getters for the previous values
      */
-    public static double getMouseX() { return get().xPos; }
-    public static double getMouseY() { return get().yPos; }
+    protected static double getMouseX() { return get().xPos; }
+    protected static double getMouseY() { return get().yPos; }
 
-    public static double getLastX() { return get().lastX; }
-    public static double getLastY() { return get().lastY; }
+    protected static double getLastX() { return get().lastX; }
+    protected static double getLastY() { return get().lastY; }
     
-    public static double getDeltaX() { return get().xPos - get().lastX; }
-    public static double getDeltaY() { return get().yPos - get().lastY; }
+    protected static double getDeltaX() { return get().xPos - get().lastX; }
+    protected static double getDeltaY() { return get().yPos - get().lastY; }
 
-    public static double getScrollX() { return get().scrollX; }
-    public static double getScrollY() { return get().scrollY; }
+    protected static double getScrollX() { return get().scrollX; }
+    protected static double getScrollY() { return get().scrollY; }
     
-    public static boolean getDragging() {return get().isDragging; }
+    protected static boolean getDragging() {return get().isDragging; }
 
-    public static boolean getMouseButtonDown(int button){
+    protected static boolean getMouseButtonDown(int button){
         if(button >= get().mouseButtonPressed.length) return false;
         return get().mouseButtonPressed[button];
     }
@@ -96,6 +96,7 @@ public class MouseListener {
         get().yPos = y;
 
         get().isDragging = get().mouseButtonPressed[0] || get().mouseButtonPressed[1]; 
+        
     }
 
     /**
@@ -107,7 +108,10 @@ public class MouseListener {
      * @param mods modifier keys
      */
     public static void mouseButtonCallback(long window, int button, int action, int mods){
+        System.out.println(button + " " + action);
         if(button >= get().mouseButtonPressed.length) return;
+
+        System.out.println(button + " " + action);
 
         if(action == GLFW.GLFW_PRESS){
             get().mouseButtonPressed[button] = true;
@@ -129,15 +133,4 @@ public class MouseListener {
         get().scrollX = x;
         get().scrollY = y;
     }
-
-    // i don't remember why this exists
-    // and if you think it was probably a good reason...
-    // you are wrong
-    // public static void endFrame(){
-    //     get().scrollX = 0;
-    //     get().scrollY = 0;
-
-    //     get().lastX = get().xPos;
-    //     get().lastY = get().yPos;
-    // }
 }

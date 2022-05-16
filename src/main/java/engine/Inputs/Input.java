@@ -3,6 +3,8 @@ package engine.Inputs;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.joml.Vector2f;
+
 /**
  * Manages user inputs in a more useful way
  * 
@@ -10,12 +12,20 @@ import java.util.Map;
  *
  * @author Lex Stapleton  
  */
-public class Input {
+public final class Input {
     /**
      * Represents the key codes for GL's key listener
      */
     public enum KeyCode{
         UNKNOWN(-1),
+        MOUSE_BUTTON_0(0),
+        MOUSE_BUTTON_1(1),
+        MOUSE_BUTTON_2(2),
+        MOUSE_BUTTON_3(3),
+        MOUSE_BUTTON_4(4),
+        MOUSE_BUTTON_5(5),
+        MOUSE_BUTTON_6(6),
+        MOUSE_BUTTON_7(7),
         SPACE(32),
         APOSTROPHE(39),
         COMMA(44),
@@ -163,6 +173,13 @@ public class Input {
 
     private Input(){
         axes = new HashMap<>();
+        for (int i = 0; i < keyboardButtonyStates.length; i++) {
+            keyboardButtonyStates[i] = new ButtonState(false);
+        }
+
+        for (int i = 0; i < mouseButtonStates.length; i++) {
+            mouseButtonStates[i] = new ButtonState(false);
+        }
     }
 
     /**
@@ -179,6 +196,8 @@ public class Input {
 
         return Input.instance;
     }
+
+    // SECTION: Axes
 
     /**
      * Named axes that interpolate between the state of two keys 
@@ -209,14 +228,105 @@ public class Input {
         return get().axes.get(name).getValue();
     }
 
+
+    // SECTION: KEYBOARD
     /**
-     * Updates all the axes
+     * Gets state of key on the keyboard
+     * 
+     * @param i the key code
+     * @return the state of the button
+     * 
+     * @see Input.KeyCode
+     */
+    private ButtonState keyboardButtonyStates[] = new ButtonState[350];
+    public static boolean getKeyboardButtonPressed(KeyCode i){
+        if(i.getValue() < 0 || i.getValue() >= get().keyboardButtonyStates.length) return false;
+        return get().keyboardButtonyStates[i.getValue()].getPressed();
+    } 
+    
+    public static boolean getKeyboardButtonReleased(KeyCode i){
+        if(i.getValue() < 0 || i.getValue() >= get().keyboardButtonyStates.length) return false;
+        return get().keyboardButtonyStates[i.getValue()].getReleased();
+    }
+
+    public static boolean getKeyboardButtonChanged(KeyCode i){
+        if(i.getValue() < 0 || i.getValue() >= get().keyboardButtonyStates.length) return false;
+        return get().keyboardButtonyStates[i.getValue()].getChanged();
+    }
+
+    public static boolean getKeyboardButtonHeld(KeyCode i){
+        if(i.getValue() < 0 || i.getValue() >= get().keyboardButtonyStates.length) return false;
+        return !get().keyboardButtonyStates[i.getValue()].getChanged();
+    }  
+
+    // SECTION: MOUSE
+    /**
+     * Gets state of key on the keyboard
+     * 
+     * @param i the key code
+     * @return the state of the button
+     * 
+     * @see Input.KeyCode
+     */
+    private ButtonState mouseButtonStates[] = new ButtonState[8];
+    public static boolean getMouseButtonPressed(KeyCode i){
+        if(i.getValue() < 0 || i.getValue() >= get().mouseButtonStates.length) return false;
+        return get().mouseButtonStates[i.getValue()].getPressed();
+    } 
+    
+    public static boolean getMouseButtonReleased(KeyCode i){
+        if(i.getValue() < 0 || i.getValue() >= get().mouseButtonStates.length) return false;
+        return get().mouseButtonStates[i.getValue()].getReleased();
+    }
+
+    public static boolean getMouseButtonChanged(KeyCode i){
+        if(i.getValue() < 0 || i.getValue() >= get().mouseButtonStates.length) return false;
+        return get().mouseButtonStates[i.getValue()].getChanged();
+    }
+
+    public static boolean getMouseButtonHeld(KeyCode i){
+        if(i.getValue() < 0 || i.getValue() >= get().mouseButtonStates.length) return false;
+        return !get().mouseButtonStates[i.getValue()].getChanged();
+    }
+
+    public static boolean getMouseDragging(){
+        return MouseListener.getDragging();
+    }
+
+    public static Vector2f getMousePosition(){
+        return new Vector2f(
+            (float)MouseListener.getMouseX(),
+            (float)MouseListener.getMouseY()
+        );
+    }
+
+    public static float getScrollPosition(){
+        return (float)MouseListener.getScrollY();
+    }
+
+    
+    /**
+     * Updates the axis and button states
      * 
      * @param dt the time that has passed between frames
      */
     public static void Update(float dt){
         for (InputAxis axis : get().axes.values()) {
             axis.Update(dt);
+        }
+
+        /**
+         * Update the key
+         */
+        for (int i = 0; i < get().keyboardButtonyStates.length; i++) {
+            get().keyboardButtonyStates[i].Refresh(KeyListener.getKeyPressed(i));
+        }
+
+        /**
+         * Update the mouse
+         */
+        for (int i = 0; i < get().mouseButtonStates.length; i++) {
+            get().mouseButtonStates[i].Refresh(MouseListener.getMouseButtonDown(i));
         }
     }
 }
