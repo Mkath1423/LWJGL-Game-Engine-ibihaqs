@@ -4,6 +4,9 @@ import java.lang.reflect.Array;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
@@ -61,16 +64,16 @@ public class RenderBatch {
         for(int i = 0; i < maxBatchSize; i++){
             int offsetArrayIndex = ebo.getLength() * i;
             int offset = ebo.getNumberOfVertices() * i;
-            System.out.println(offsetArrayIndex);
-            System.out.println(offset);
+            // System.out.println(offsetArrayIndex);
+            // System.out.println(offset);
 
             int[] eboIndices = ebo.getIndices();
             for (int j = 0; j < eboIndices.length; j++) {
                 indices[offsetArrayIndex + j] = offset + eboIndices[j];
             }
+
         }
 
-        System.out.println(Arrays.toString(indices));
         IntBuffer elementBuffer = BufferUtils.createIntBuffer(indices.length);
         elementBuffer.put(indices).flip();
 
@@ -101,13 +104,26 @@ public class RenderBatch {
         }
     }
 
+
     public void render(){
+        Map<Texture, Renderable> sortedRenderables = new LinkedHashMap<>();
 
         for (int i = 0; i < renderables.length; i++) {
             if(renderables[i] == null) continue;
-            renderables[i].loadVertexData(vertices, i * 5*4);
+            if(renderables[i].getTexture() == null) continue;
+            sortedRenderables.put(renderables[i].getTexture(), renderables[i]);
         }
-        // System.out.println(Arrays.toString(vertices));
+
+        for (int i = 0; i < renderables.length; i++) {
+            if(renderables[i] == null) continue;
+            renderables[i].loadVertexData(vertices, i * vao.vaoSize * ebo.getNumberOfVertices());
+        }
+
+        for (int i = 0; i < Math.ceil(sortedRenderables.size()/16); i++) {
+            for(int j = 0; j < 16 && i*16 + j < sortedRenderables.size(); j ++){
+                
+            }
+        }
 
         FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length);
         verticesBuffer.put(vertices).flip();
@@ -119,7 +135,7 @@ public class RenderBatch {
 
         vao.enable();
 
-        GL20.glDrawElements(GL20.GL_TRIANGLES, 18, GL20.GL_UNSIGNED_INT, 0);
+        GL20.glDrawElements(GL20.GL_TRIANGLES, maxBatchSize * ebo.getLength(), GL20.GL_UNSIGNED_INT, 0);
 
         vao.disable();
 

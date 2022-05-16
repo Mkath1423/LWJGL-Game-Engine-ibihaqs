@@ -2,6 +2,8 @@ package engine;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -45,22 +47,6 @@ public class Window {
     private static Window window = null;
 
     public Camera camera;
-
-    private float[] vertexArray = {
-        // position               // color
-         50.5f, 0f, 0.0f,          1, 1,// Bottom right 0
-         0f,  50f, 0.0f,           0, 0,// Top left     1
-         50.5f,  50f, 0.0f ,       1, 0,// Top right    2
-        -0.5f, -0.5f, 0.0f,        0, 1 // Bottom left  3
-    };
-
-    // IMPORTANT: Must be in counter-clockwise order
-    private int[] elementArray = {
-            2, 1, 0, // Top right triangle
-            0, 1, 3 // bottom left triangle
-    };
-
-    private int vaoID, vboID, eboID;
 
     private Window(){
         this.width = 1920;
@@ -115,6 +101,9 @@ public class Window {
             throw new IllegalStateException("Failed to create window");
         }
 
+        // set up alpha blending
+
+
         // set up callbacks
         GLFW.glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
         GLFW.glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
@@ -133,6 +122,10 @@ public class Window {
         // init caps
         GL.createCapabilities();
 
+        GL20.glEnable(GL20.GL_BLEND);
+        GL20.glBlendFunc(GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA);
+
+
         for (Shader s : Shader.values()) {
             s.compile();
         }
@@ -147,44 +140,44 @@ public class Window {
     public void loop(){
         Texture t = new Texture("assets/textures/testImage.png");
 
-        Input.addAxis("horizontal", new InputAxis(-1, 1, 20, 20, Input.KeyCode.D, Input.KeyCode.A));
-        Input.addAxis("vertical", new InputAxis(-1, 1, 20, 20, Input.KeyCode.W, Input.KeyCode.S));
+        Input.addAxis("horizontal", new InputAxis(-1, 1, 0.1f, 0.1f, false, 0f, Input.KeyCode.D, Input.KeyCode.LEFT, Input.KeyCode.A, Input.KeyCode.RIGHT));
+        Input.addAxis("vertical", new InputAxis(-1, 1, 0.2f, 0.2f, true, 0, Input.KeyCode.W, Input.KeyCode.UP, Input.KeyCode.DOWN, Input.KeyCode.S));
 
         SpriteMap sp = new SpriteMap(t, 1, 1);
     
+        List<GameObject> gos = new ArrayList<>();
+
+        for (int i = 0; i < 100; i++) {
+            for (int j = 0; j < 100; j++) {
+                GameObject go = new GameObject();
+
+                go.addComponent(new Transform(
+                    new Vector3f(5*(i+1), 5*(j+1), 0),
+                    new Vector2f(5, 5),
+                    0
+                ));
+                go.addComponent(new SpriteRenderer(sp));
+
+                go.Awake();
+                gos.add(go);
+            }
+        }
         GameObject go = new GameObject();
-            go.addComponent(new Transform(
-                new Vector3f(0, 100, 0),
-                new Vector2f(100, 100),
-                0
-            ));
-            go.addComponent(new SpriteRenderer(sp));
 
-        go.Awake();
+                go.addComponent(new Transform(
+                    new Vector3f(9, 9, 0),
+                    new Vector2f(50, 50),
+                    0
+                ));
+                go.addComponent(new SpriteRenderer(sp));
 
-        GameObject go2 = new GameObject();
-            go2.addComponent(new Transform(
-                new Vector3f(0, 250, 0),
-                new Vector2f(100, 100),
-                0
-            ));
-            go2.addComponent(new SpriteRenderer(sp));
-
-        go2.Awake();
-
-        GameObject go3 = new GameObject();
-            go3.addComponent(new Transform(
-                new Vector3f(0, 400, 0),
-                new Vector2f(100, 100),
-                0
-            ));
-            go3.addComponent(new SpriteRenderer(sp));
-
-        go3.Awake();
-
-        
+                go.Awake();
 
         while(!GLFW.glfwWindowShouldClose(glfwWindow)){
+            double beginTime = Time.getTime();
+            double endTime = Time.getTime();
+            double deltaTime = -1;
+
             // events
             GLFW.glfwPollEvents();
             Input.Update(0.2f);
@@ -198,17 +191,13 @@ public class Window {
             Renderer.draw();
             t.unbind();
 
-            
-            go3.getComponent(Transform.class).position.x += 1 * Input.getAxis("horizontal");
-            go3.getComponent(Transform.class).position.y += 1 * Input.getAxis("vertical");
-            
-            // System.out.printf("(%s, %s)\n", Input.getAxis("horizontal"), Input.getAxis("vertical"));
-            if(KeyListener.isKeyPressed(Input.KeyCode.W.getValue())){
-                
-                // go3.getComponent(Transform.class).position.x += 1 * 1;
-            }
-            GLFW.glfwSwapBuffers(glfwWindow);
+            GLFW.glfwSwapBuffers(glfwWindow)
+            ;
+            endTime = Time.getTime();
+            deltaTime = endTime - beginTime;
+            beginTime = endTime;
 
+            System.out.println(1/deltaTime + " fps");
         }
     }
 }
