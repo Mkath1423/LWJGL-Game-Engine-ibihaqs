@@ -13,15 +13,14 @@ public class Move extends Component {
 
 
 
-    Transform n;
-
-    public static float drag = 1;           // What magnitude of decceleration is applied?
+    Transform n;                            // The transform component of the gameObject we work with
     
-    private static float dX;                // X displacement
-    private static float dY;                // Y displacement
+    private float dX;                       // X displacement
+    private float dY;                       // Y displacement
+
     private static float max = 100;         // The highest allowed magnitude of velocity
 
-    private static Vector3f change;         // The new position to be returned
+    private Vector3f change;                // The new position to be returned
     private Vector3f acceleration;          // The acceleration as a Vector3f
     private Vector3f velocity;              // The velocity as a Vector3f
     
@@ -44,6 +43,9 @@ public class Move extends Component {
 
 
 
+    /**
+     * Called once, to get the transform component of the gameObject that calls Move
+     */
     public void Awake() {
 
         n = gameObject.getComponent(Transform.class);
