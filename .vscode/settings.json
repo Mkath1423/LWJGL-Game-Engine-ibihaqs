@@ -2,6 +2,7 @@
     "java.configuration.updateBuildConfiguration": "automatic",
     "cSpell.words": [
         "Batchable",
-        "GLFW"
+        "GLFW",
+        "renderables"
     ]
 }

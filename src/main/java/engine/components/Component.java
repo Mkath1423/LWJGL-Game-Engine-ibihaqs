@@ -4,6 +4,9 @@ import engine.gameobjects.GameObject;
 
 public abstract class Component {
     
+    /**
+     * the gameobject that stores this component
+     */
     public GameObject gameObject;
 
     public void Awake() {};
