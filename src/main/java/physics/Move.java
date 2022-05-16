@@ -11,17 +11,32 @@ public class Move extends Component {
 
     // INITIALIZATION
 
+
+
     Transform n;
 
-
-
-    public static float drag = 1;       // What magnitude of decceleration is applied?
+    public static float drag = 1;           // What magnitude of decceleration is applied?
     
-    private static float dX;            // X displacement
-    private static float dY;            // Y displacement
-    private static float max = 100;     // The highest allowed magnitude of velocity
+    private static float dX;                // X displacement
+    private static float dY;                // Y displacement
+    private static float max = 100;         // The highest allowed magnitude of velocity
 
-    private static Vector3f change;     // The new position to be returned
+    private static Vector3f change;         // The new position to be returned
+    private Vector3f acceleration;          // The acceleration as a Vector3f
+    private Vector3f velocity;              // The velocity as a Vector3f
+    
+
+    /**
+     * Sets the velocity and acceleration. Call to set the object on its course
+     * 
+     * @param acc   (Vector3f) Acceleration with an x and y component
+     * @param vel   (Vector3f) Velocity with an x and y component
+     */
+    public void initialize(Vector3f acc, Vector3f vel) {
+
+        acceleration = acc;
+        velocity = vel; 
+    }
 
 
 
@@ -32,7 +47,6 @@ public class Move extends Component {
     public void Awake() {
 
         n = gameObject.getComponent(Transform.class);
-
     }
 
 
@@ -41,8 +55,8 @@ public class Move extends Component {
      */
     public void Update(double time) {
 
+        locomotion();
         n.position = change;
-
     }
 
 
@@ -51,6 +65,16 @@ public class Move extends Component {
 
 
 
+    /**
+     * Changes the velocity according to acceleration
+     */
+    private void accelerate() {
+
+        if(acceleration.x != 0) velocity.x += acceleration.x;
+        if(acceleration.y != 0) velocity.y += acceleration.x;
+    }
+    
+    
     /**
      * Check to see if the given displacement is out of bounds
      * @param n
@@ -78,33 +102,34 @@ public class Move extends Component {
      * 
      * @param velocity  (Vector3f) The velocity to apply displacement accordingly to
      */
-    private static void displacement(Vector3f velocity) {
+    private void displacement() {
 
         // There is an x velocity
         if(velocity.x != 0) {
 
             dX = velocity.x;
-            dX = boundCheck(dX);
+            // dX = boundCheck(dX);
         }
 
         // There is a y velocity
         if(velocity.y != 0) {
 
             dY = velocity.y;
-            dY = boundCheck(dY);
+            // dY = boundCheck(dY);
         }
     }
     
     
     /**
-     * Move the gameObject at a constant velocity
+     * Move the gameObject according to a velocity, factoring acceleraiton
      * 
      * @param velocity  (Vector3f) The x and y components of the velocity
      */
-    public static void glide(Vector3f velocity) {
+    public void locomotion() {
 
-        // Update dX and dY according to the given velocity
-        displacement(velocity);
+        // Change velocity according to acceleration and set displacement
+        accelerate();
+        displacement();
 
         // Change the coordinates according to displacement
         change.x += dX;
