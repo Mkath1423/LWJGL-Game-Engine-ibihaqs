@@ -4,6 +4,7 @@ import org.joml.Vector3f;
 import engine.renderer.EBO;
 import engine.renderer.Shader;
 import engine.renderer.SpriteMap;
+import engine.renderer.Texture;
 import engine.renderer.VAO;
 
 public class SpriteRenderer extends Renderable{
@@ -30,7 +31,7 @@ public class SpriteRenderer extends Renderable{
     @Override
     public void Awake(){
         transform = gameObject.getComponent(Transform.class);
-        System.out.println("Sprite Renderer: Transform is... " + transform);
+        // System.out.println("Sprite Renderer: Transform is... " + transform);
         super.Awake();
     }
 
@@ -62,6 +63,11 @@ public class SpriteRenderer extends Renderable{
         }
         // System.out.println("-----------------");
         // System.out.println();
+    }
+
+    @Override
+    public Texture getTexture(){
+        return spriteMap.texture;
     }
     
 }

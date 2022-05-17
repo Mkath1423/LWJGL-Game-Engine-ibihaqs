@@ -3,11 +3,8 @@ package engine.renderer;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.lwjgl.opengl.GL20;
-
 import engine.Window;
 import engine.components.Renderable;
-import engine.scenes.SceneManager;
 import engine.util.Time;
 
 public class Renderer {
@@ -26,14 +23,14 @@ public class Renderer {
 
     private Map<Integer, Layer> layers;
 
-    public static int maxBatchSize = 2;
+    public static int maxBatchSize = 1000;
 
     public static void addRenderable(int layerID, Renderable renderable){
         if(renderable == null) return;
 
         if(!get().layers.containsKey(layerID)){
             get().layers.put(layerID, new Layer());
-            System.out.println("Renderer: making new layer " + layerID);
+            // System.out.println("Renderer: making new layer " + layerID);
         }
 
         get().layers.get(layerID).addRenderable(renderable);

@@ -14,7 +14,6 @@ public class Layer {
     }
 
     protected void addRenderable(Renderable r){
-        System.out.println("Layer: Adding renderable");
         for (RenderBatch batch : batches) {
             // if the batch is using the same shader and vao
             // if the batch is not full
@@ -22,7 +21,6 @@ public class Layer {
                 
                 // add this to the batch
                 batch.addRenderable(r);
-                System.out.println("Layer: Adding renderable to existing batch");
                 return;
             }
         }
