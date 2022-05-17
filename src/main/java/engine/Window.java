@@ -35,6 +35,7 @@ import engine.renderer.Shader;
 import engine.renderer.SpriteMap;
 import engine.renderer.Texture;
 import engine.renderer.VAO;
+import engine.scenes.SceneManager;
 import engine.util.Time;
 
 public class Window {
@@ -67,7 +68,6 @@ public class Window {
     public void run(){
         System.out.println(Version.getVersion());
 
-        init();
         loop();
 
         // free the memory
@@ -140,6 +140,7 @@ public class Window {
     public void loop(){
         Texture t = new Texture("assets/textures/testImage.png");
 
+
         Input.addAxis("horizontal", new InputAxis(-1, 1, 0.1f, 0.1f, false, 0f, Input.KeyCode.D, Input.KeyCode.LEFT, Input.KeyCode.A, Input.KeyCode.RIGHT));
         Input.addAxis("vertical", new InputAxis(-1, 1, 0.2f, 0.2f, true, 0, Input.KeyCode.W, Input.KeyCode.UP, Input.KeyCode.DOWN, Input.KeyCode.S));
 
@@ -182,6 +183,8 @@ public class Window {
             GLFW.glfwPollEvents();
             Input.Update(0.2f);
 
+            SceneManager.Update(0.01);
+
             // background
             GL11.glClearColor(1, 1, 1, 0);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
@@ -191,6 +194,7 @@ public class Window {
             Renderer.draw();
             t.unbind();
 
+
             GLFW.glfwSwapBuffers(glfwWindow)
             ;
             endTime = Time.getTime();
@@ -198,6 +202,7 @@ public class Window {
             beginTime = endTime;
 
             System.out.println(1/deltaTime + " fps");
+
         }
     }
 }

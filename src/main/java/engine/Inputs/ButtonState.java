@@ -5,7 +5,7 @@ package engine.Inputs;
  * 
  * @author Lex Stapleton 
  */
-public class BoolState {
+public final class ButtonState {
     /**
      * The current value of the boolean being tracked
      */
@@ -38,11 +38,11 @@ public class BoolState {
 
 
     /**
-     * Constructs a new BoolState
+     * Constructs a new ButtonState
      * 
      * @param startValue initial value of the button
      */
-    public BoolState(boolean startValue){
+    protected ButtonState(boolean startValue){
 
         this.value = startValue;
 
@@ -55,7 +55,7 @@ public class BoolState {
      * 
      * Uses initial value of false
      */
-    public BoolState(){
+    protected ButtonState(){
         this(false);
     }
 
@@ -64,7 +64,7 @@ public class BoolState {
      * 
      * @param newValue
      */
-    public void Refresh(boolean newValue){
+    protected void Refresh(boolean newValue){
         changed = value != newValue;
         rising = !value && newValue;
         falling = value && !newValue;

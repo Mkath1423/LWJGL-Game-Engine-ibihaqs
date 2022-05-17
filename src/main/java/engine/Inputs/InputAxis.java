@@ -1,6 +1,5 @@
 package engine.Inputs;
 
-
 import engine.Inputs.Input.KeyCode;
 
 
@@ -20,7 +19,7 @@ public class InputAxis {
      * The current value of the input axis
      */
     private float value;
-    public float getValue(){
+    protected float getValue(){
         return value;
     }
 
@@ -115,7 +114,7 @@ public class InputAxis {
      * 
      * @param dt time that has elapsed between frames
      */
-    public void Update(double dt){
+    protected void Update(double dt){
         /**
          * the direction of the input
          * 

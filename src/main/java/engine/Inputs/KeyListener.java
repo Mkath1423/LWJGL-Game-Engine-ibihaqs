@@ -5,7 +5,7 @@ import org.lwjgl.glfw.GLFW;
 /**
  * Listens for and handles key events
  */
-public class KeyListener {
+public final class KeyListener {
     /**
      * Singleton construction
      */
@@ -15,9 +15,6 @@ public class KeyListener {
      * Constructs the key listener  
      */
     private KeyListener(){
-        for (int i = 0; i < keyPressed.length; i++) {
-            keyStates[i] = new BoolState(false);
-        }
     }
 
     /**
@@ -27,7 +24,7 @@ public class KeyListener {
      * 
      * @return the static singleton
      */
-    public static KeyListener get(){
+    private static KeyListener get(){
         if(KeyListener.instance == null){
             KeyListener.instance = new KeyListener();
         }
@@ -53,24 +50,10 @@ public class KeyListener {
      * 
      * @see Input.KeyCode
      */
-    public  static boolean getKeyPressed(int i){
+    protected static boolean getKeyPressed(int i){
         if(i < 0 || i >= get().keyPressed.length) return false;
         return get().keyPressed[i];
-    }
-
-    /**
-     * Gets state of key on the keyboard
-     * 
-     * @param i the key code
-     * @return the state of the button
-     * 
-     * @see Input.KeyCode
-     */
-    private BoolState keyStates[] = new BoolState[350];
-    public  static BoolState getKeyStates(int i){
-        if(i < 0 || i >= get().keyStates.length) return null;
-        return get().keyStates[i];
-    }   
+    } 
 
     /**
      * The callback for the keyListener
@@ -82,8 +65,9 @@ public class KeyListener {
      * @param mods modifier keys
      */
     public static void keyCallback(long window, int key, int scancode, int action, int mods){
-        if(key >= get().keyPressed.length) return;
+        if(key >= get().keyPressed.length || key < 0) return;
 
+        System.out.println(key);
         /**
          * Update the key value
          */
@@ -92,13 +76,6 @@ public class KeyListener {
         }
         else if(action == GLFW.GLFW_RELEASE){
             get().keyPressed[key] = false;
-        }
-
-        /**
-         * Update the key
-         */
-        for (int i = 0; i < get().keyStates.length; i++) {
-            get().keyStates[i].Refresh(getKeyPressed(i));
         }
     }
 }
