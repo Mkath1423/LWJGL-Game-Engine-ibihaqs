@@ -33,6 +33,7 @@ import engine.renderer.Shader;
 import engine.renderer.SpriteMap;
 import engine.renderer.Texture;
 import engine.renderer.VAO;
+import engine.scenes.SceneManager;
 import engine.util.Time;
 
 public class Window {
@@ -81,7 +82,6 @@ public class Window {
     public void run(){
         System.out.println(Version.getVersion());
 
-        init();
         loop();
 
         // free the memory
@@ -147,27 +147,12 @@ public class Window {
     public void loop(){
         Texture t = new Texture("assets/textures/testImage.png");
 
-        Input.addAxis("horizontal", new InputAxis(-1, 1, 20, 20, Input.KeyCode.D, Input.KeyCode.A));
-        Input.addAxis("vertical", new InputAxis(-1, 1, 20, 20, Input.KeyCode.W, Input.KeyCode.S));
-
-        SpriteMap sp = new SpriteMap(t, 1, 1);
-    
-        GameObject go = new GameObject();
-            go.addComponent(new Transform(
-                new Vector3f(0, 100, 0),
-                new Vector2f(100, 100),
-                0
-            ));
-            go.addComponent(new SpriteRenderer(sp));
-
-        go.Awake();
-
-        
-
         while(!GLFW.glfwWindowShouldClose(glfwWindow)){
             // events
             GLFW.glfwPollEvents();
             Input.Update(0.2f);
+
+            SceneManager.Update(0.01);
 
             // background
             GL11.glClearColor(1, 1, 1, 0);
@@ -178,13 +163,7 @@ public class Window {
             Renderer.draw();
             t.unbind();
 
-            
-            go.getComponent(Transform.class).rotation -= 0.01 * Input.getAxis("horizontal");
-
-            
-            
             GLFW.glfwSwapBuffers(glfwWindow);
-
         }
     }
 }

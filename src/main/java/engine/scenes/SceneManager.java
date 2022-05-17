@@ -19,11 +19,11 @@ public class SceneManager {
 
     private SceneManager(){
         scenes = new HashMap<String,Scene>();
-        activeScene = "";
+        activeScene = null;
     }
     private Map<String, Scene> scenes;
 
-    private String activeScene;
+    private Scene activeScene = null;
 
     public static Camera getActiveMainCamera(){
         return get().scenes.get(get().activeScene).mainCamera;
@@ -40,20 +40,21 @@ public class SceneManager {
 
     public static void swapScene(String nextScene){
         if(get().scenes.containsKey(nextScene)){
-            get().scenes.get(get().activeScene).End();
+            if(get().activeScene != null)
+                get().activeScene.End();
 
             Renderer.Refresh();
 
-            get().activeScene = nextScene;
-            get().scenes.get(get().activeScene).Start();
+            get().activeScene = get().scenes.get(nextScene);
+            get().activeScene.Start();
         }
 
         assert false : "Scene Manager: no scene with id " + nextScene;
     }
 
     public static void Update(double deltaTime){
-        if(get().scenes.containsKey(get().activeScene)){
-            get().scenes.get(get().activeScene).Update(deltaTime);
+        if(get().activeScene != null){
+            get().activeScene.Update(deltaTime);
         }
     }
 }
