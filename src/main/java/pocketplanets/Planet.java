@@ -7,19 +7,21 @@ public class Planet extends Component{
 
 
     private boolean isDiscovered;
-    private int radius;
-    private String name;
+    private String planetName;
     private int planetId;
+    private int buildingCapacity;
 
-    public Planet(int radius, String name, int planetId){
+    public Planet(String name, int id, int capacity){
         isDiscovered = false;
-        this.radius = radius;
-        this.name = name;
-        this.planetId = planetId;
+        planetName = name;
+        planetId = id;
+        buildingCapacity = capacity;
 
     }
 
-
+    public void planetDiscovered(){
+        isDiscovered = true;
+    }
     
 
 }

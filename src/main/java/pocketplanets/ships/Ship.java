@@ -69,7 +69,7 @@ public abstract class Ship extends Component{
      * 
      * @return the current fuel held of the ship post fueling
      */
-    private double refuelShip(){
+    public double refuelShip(){
         fuelHeld = fuelCapacity;
         return fuelHeld;
     }

@@ -20,7 +20,8 @@ public class CargoShip extends Ship{
 
     @Override
     public void Awake(){
-        cargo = new Resource[cargoCapacity];
+        // 10 is currently a placeholder value, represents the type of resources that exist in the game
+        cargo = new Resource[10];
     }
 
     /**
