@@ -28,7 +28,4 @@ public class SampleComponent extends Component{
         t.position.x -= 0.01 * Input.getAxis("horizontal");
         t.position.y -= 0.01 * Input.getAxis("vertical");
     }
-
-
-
 }

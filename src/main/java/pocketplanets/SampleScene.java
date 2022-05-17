@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+import engine.AssetManager;
 import engine.Inputs.Input;
 import engine.Inputs.InputAxis;
 import engine.components.SpriteRenderer;
@@ -29,7 +30,8 @@ public class SampleScene extends Scene{
         Input.addAxis("vertical", new InputAxis(-1, 1, 20, 20, Input.KeyCode.W, Input.KeyCode.S));
 
         // get textures (and other assets later)
-        Texture t = new Texture("assets/textures/testImage.png");
+        Texture t = AssetManager.getTexture("assets/textures/testImage.png");
+
 
         // create gameobject 
         SpriteMap sp = new SpriteMap(t, 1, 1);
