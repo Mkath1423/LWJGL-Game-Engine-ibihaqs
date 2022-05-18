@@ -1,5 +1,6 @@
 package engine.renderer;
 
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Map;
@@ -113,6 +114,15 @@ public class Renderer {
 
         r.shader.use();
         r.vao.enable();
+    }
+
+    public static void drawVerticies(Renderable r, float[] vertices){
+        FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length);
+        verticesBuffer.put(vertices).flip();
+
+        GL20.glBufferData(GL20.GL_ARRAY_BUFFER, verticesBuffer, GL20.GL_DYNAMIC_DRAW);
+
+        
     }
 
     public static void disable(Renderable r){

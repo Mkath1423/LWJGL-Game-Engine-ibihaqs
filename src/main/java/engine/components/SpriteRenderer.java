@@ -1,5 +1,8 @@
 package engine.components;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.joml.Vector3f;
 
@@ -65,6 +68,8 @@ public class SpriteRenderer extends Renderable{
             // System.out.printf("(%s, %s) -> (%s, %s)\n", buffer[start + vao.vaoSize * i + 0], buffer[start + vao.vaoSize * i + 1], 
             // buffer[start + vao.vaoSize * i + 3], buffer[start + vao.vaoSize * i + 4]);
         }
+
+        // System.out.println(Arrays.toString(Arrays.copyOfRange(buffer, start, start +6*4)));
         // System.out.println("-----------------");
         // System.out.println();
     }
@@ -84,7 +89,27 @@ public class SpriteRenderer extends Renderable{
 
     @Override
     public void render(List<Renderable> renderables) {
-        // TODO Auto-generated method stub
+        // sort the renderables by texture
+        Map<Texture, Renderable> sortedRenderables = new HashMap<>();
+
+        for (int i = 0; i < renderables.size(); i++) {
+            if(renderables.get(i) == null) continue;
+            if(renderables.get(i).getTexture() == null) continue;
+            sortedRenderables.put(renderables.get(i).getTexture(), renderables.get(i));
+        }
+
+        // batching loop
+        for(int i = 0; i < sortedRenderables.entrySet().size(); i += 16){
+            
+
+
+
+        }
+
+
+        // for(int i = 0; i < Math.ceil((float)l.size()/5); i ++){
+        //     System.out.println(l.subList(i*5, Math.min(l.size(), i*5 + 5)));
+        // }
         
     }
     

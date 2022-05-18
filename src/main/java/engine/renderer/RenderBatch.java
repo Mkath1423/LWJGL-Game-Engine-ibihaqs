@@ -3,9 +3,11 @@ package engine.renderer;
 import java.lang.reflect.Array;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.lwjgl.BufferUtils;
@@ -24,6 +26,8 @@ public class RenderBatch {
     private int maxBatchSize;
     private boolean hasRoom;
     private float[] vertices;
+
+    private List<Integer> p = new ArrayList<>();
 
     private int vboID;
     
@@ -106,24 +110,25 @@ public class RenderBatch {
 
 
     public void render(){
-        Map<Texture, Renderable> sortedRenderables = new LinkedHashMap<>();
+        System.out.println(numSprites);
+        // Map<Texture, Renderable> sortedRenderables = new LinkedHashMap<>();
 
-        for (int i = 0; i < renderables.length; i++) {
-            if(renderables[i] == null) continue;
-            if(renderables[i].getTexture() == null) continue;
-            sortedRenderables.put(renderables[i].getTexture(), renderables[i]);
-        }
+        // for (int i = 0; i < renderables.length; i++) {
+        //     if(renderables[i] == null) continue;
+        //     if(renderables[i].getTexture() == null) continue;
+        //     sortedRenderables.put(renderables[i].getTexture(), renderables[i]);
+        // }
 
         for (int i = 0; i < renderables.length; i++) {
             if(renderables[i] == null) continue;
             renderables[i].loadVertexData(vertices, i * vao.vaoSize * ebo.getNumberOfVertices());
         }
 
-        for (int i = 0; i < Math.ceil(sortedRenderables.size()/16); i++) {
-            for(int j = 0; j < 16 && i*16 + j < sortedRenderables.size(); j ++){
+        // for (int i = 0; i < Math.ceil(sortedRenderables.size()/16); i++) {
+        //     for(int j = 0; j < 16 && i*16 + j < sortedRenderables.size(); j ++){
                 
-            }
-        }
+        //     }
+        // }
 
         FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length);
         verticesBuffer.put(vertices).flip();

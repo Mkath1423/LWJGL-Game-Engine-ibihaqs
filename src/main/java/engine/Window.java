@@ -201,7 +201,7 @@ public class Window {
             deltaTime = endTime - beginTime;
             beginTime = endTime;
 
-            System.out.println(1/deltaTime + " fps");
+            // System.out.println(1/deltaTime + " fps");
 
         }
     }
