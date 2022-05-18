@@ -18,10 +18,15 @@ public abstract class Renderable extends Component{
     
     protected int layerId;
 
+    public String renderableType;
+
     // store the shader vao and ebo
-    protected Shader shader;
-    protected VAO    vao;
-    protected EBO    ebo;
+    public Shader shader;
+    public VAO    vao;
+    public EBO    ebo;
+
+    private static int vboID;
+    private static int vaoID;
 
     protected boolean dirty;
     public boolean getDirty(){
@@ -71,64 +76,8 @@ public abstract class Renderable extends Component{
     public boolean isBatchable(Shader s, VAO a, EBO e){
         return this.shader == s && this.vao  == a && this.ebo == e;
     }
+    
     // SECTION how to render this renderable
-
-
-    public static final VBO initializeBuffers(VAO vao, EBO ebo){
-        VBO vbo = new VBO();
-        
-        float[] vertices = new float[Renderer.maxBatchSize * ebo.getNumberOfVertices() * vao.vaoSize];
-
-        int vboID = GL20.glGenBuffers();
-        GL20.glBindBuffer(GL20.GL_ARRAY_BUFFER, vboID);
-        GL20.glBufferData(GL20.GL_ARRAY_BUFFER, vertices.length * Float.BYTES, GL20.GL_DYNAMIC_DRAW);
-
-        int[] indices = new int[ebo.getLength() * Renderer.maxBatchSize];
-
-        for(int i = 0; i < Renderer.maxBatchSize; i++){
-            int offsetArrayIndex = ebo.getLength() * i;
-            int offset = ebo.getNumberOfVertices() * i;
-            // System.out.println(offsetArrayIndex);
-            // System.out.println(offset);
-
-            int[] eboIndices = ebo.getIndices();
-            for (int j = 0; j < eboIndices.length; j++) {
-                indices[offsetArrayIndex + j] = offset + eboIndices[j];
-            }
-
-        }
-
-        IntBuffer elementBuffer = BufferUtils.createIntBuffer(indices.length);
-        elementBuffer.put(indices).flip();
-
-        int eboID = GL20.glGenBuffers();
-        GL20.glBindBuffer(GL20.GL_ELEMENT_ARRAY_BUFFER, eboID);
-        GL20.glBufferData(GL20.GL_ELEMENT_ARRAY_BUFFER, elementBuffer, GL20.GL_STATIC_DRAW);
-
-        vao.bindPointers();// TODO: find a better place for this 
-    }
-
-    public final void enable(Shader shader, VAO vao, int vboID, int eboID){
-        GL20.glBindBuffer(GL20.GL_ARRAY_BUFFER, vboID);
-        GL20.glBindBuffer(GL20.GL_ELEMENT_ARRAY_BUFFER, eboID);
-
-        shader.use();
-        vao.enable();
-    }
-
-    public final void disable(Shader shader, VAO vao, int vboID, int eboID){
-        GL20.glBindBuffer(GL20.GL_ARRAY_BUFFER, vboID);
-        GL20.glBindBuffer(GL20.GL_ELEMENT_ARRAY_BUFFER, eboID);
-
-        shader.detach();
-        vao.disable();
-    }
-
-    public void uploadUniforms(){
-
-    }
-
-    protected void render(List<Renderable> renderables){
-        List<>
-    }
+    public abstract void uploadUniforms();
+    public abstract void render(List<Renderable> renderables);
 }

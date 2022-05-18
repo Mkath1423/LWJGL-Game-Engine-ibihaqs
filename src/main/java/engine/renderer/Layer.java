@@ -32,6 +32,7 @@ public class Layer {
             toAdd.add(r);
 
         renderables.put(r.getClass().toString(), toAdd);
+        Renderer.initializeBuffers(r);
 
         for (RenderBatch batch : batches) {
             // if the batch is using the same shader and vao
@@ -75,6 +76,17 @@ public class Layer {
     }
 
     public void draw() {
+        for(Entry<String, List<Renderable>> e : renderables.entrySet()){
+            if(e.getValue().size() <= 0) continue;
+
+            Renderer.enable( e.getValue().get(0));
+            
+            e.getValue().get(0).uploadUniforms();
+            e.getValue().get(0).render(e.getValue());
+
+            Renderer.disable( e.getValue().get(0));
+        }
+
         for (RenderBatch renderBatch : batches) {
             renderBatch.render();
         }

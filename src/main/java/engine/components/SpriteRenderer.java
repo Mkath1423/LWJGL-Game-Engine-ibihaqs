@@ -1,11 +1,15 @@
 package engine.components;
+import java.util.List;
+
 import org.joml.Vector3f;
 
+import engine.Window;
 import engine.renderer.EBO;
 import engine.renderer.Shader;
 import engine.renderer.SpriteMap;
 import engine.renderer.Texture;
 import engine.renderer.VAO;
+import engine.util.Time;
 
 public class SpriteRenderer extends Renderable{
     /** NOTE
@@ -68,6 +72,20 @@ public class SpriteRenderer extends Renderable{
     @Override
     public Texture getTexture(){
         return spriteMap.texture;
+    }
+
+    @Override
+    public void uploadUniforms() {
+        Shader.SPRITE_RGB.uploadMat4f("uProjection", Window.get().camera.getProjectionMatrix());
+        Shader.SPRITE_RGB.uploadMat4f("uView",       Window.get().camera.getViewMatrix());
+        Shader.SPRITE_RGB.uploadFloat("uTime",       (float)Time.getTime());  
+        Shader.SPRITE_RGB.uploadInt("texSampler", 0);
+    }
+
+    @Override
+    public void render(List<Renderable> renderables) {
+        // TODO Auto-generated method stub
+        
     }
     
 }
