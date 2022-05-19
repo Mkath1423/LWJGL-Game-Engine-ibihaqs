@@ -3,6 +3,7 @@ package engine.renderer;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
+import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
@@ -32,6 +33,18 @@ public class Texture {
 
     public int getWidth(){return texWidth;}
     public int getHeight(){return texHeight;}
+
+    public Vector2f toNDC(Vector2f pos){
+        return new Vector2f(pos.x / getWidth(), pos.y/getWidth());
+    }
+
+    public float toNDCHeight(float pos){
+        return pos / getHeight();
+    }
+
+    public float toNDCWidth(float pos){
+        return pos / getWidth();
+    }
 
     public Texture(String filepath){
         this.filepath = filepath;
