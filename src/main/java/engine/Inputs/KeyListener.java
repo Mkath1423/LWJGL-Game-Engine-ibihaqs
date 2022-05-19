@@ -67,7 +67,7 @@ public final class KeyListener {
     public static void keyCallback(long window, int key, int scancode, int action, int mods){
         if(key >= get().keyPressed.length || key < 0) return;
 
-        System.out.println(key);
+        // System.out.println(key);
         /**
          * Update the key value
          */

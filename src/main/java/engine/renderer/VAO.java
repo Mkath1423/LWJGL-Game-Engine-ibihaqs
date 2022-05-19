@@ -46,14 +46,14 @@ public enum VAO {
 
     }
 
-    public void init(){
+    public int init(){
         ID = ARBVertexArrayObject.glGenVertexArrays();
         ARBVertexArrayObject.glBindVertexArray(ID);
     
-        
+        return ID;
     }
 
-    public void bindPointers(){
+    public void bindPointers(int ID){
         ARBVertexArrayObject.glBindVertexArray(ID);
         for (int i = 0; i < attributes.length; i++) {
             // System.out.println(attributes[i].name + " " + attributes[i].size + " " + attributes[i].offset);
@@ -62,7 +62,7 @@ public enum VAO {
         }
     }
 
-    public void enable(){
+    public void enable(int ID){
         ARBVertexArrayObject.glBindVertexArray(ID);
         for (int i = 0; i < attributes.length; i++) {
             GL20.glEnableVertexAttribArray(i);

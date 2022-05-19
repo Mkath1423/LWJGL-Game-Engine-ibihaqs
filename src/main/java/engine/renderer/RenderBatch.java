@@ -51,34 +51,34 @@ public class RenderBatch {
     }
 
     public void start(){
-        vboID = GL20.glGenBuffers();
-        GL20.glBindBuffer(GL20.GL_ARRAY_BUFFER, vboID);
-        GL20.glBufferData(GL20.GL_ARRAY_BUFFER, vertices.length * Float.BYTES, GL20.GL_DYNAMIC_DRAW);
+        // vboID = GL20.glGenBuffers();
+        // GL20.glBindBuffer(GL20.GL_ARRAY_BUFFER, vboID);
+        // GL20.glBufferData(GL20.GL_ARRAY_BUFFER, vertices.length * Float.BYTES, GL20.GL_DYNAMIC_DRAW);
+
+        // // int eboID = GL20.glGenBuffers();
+        // int[] indices = new int[ebo.getLength() * maxBatchSize];
+
+        // for(int i = 0; i < maxBatchSize; i++){
+        //     int offsetArrayIndex = ebo.getLength() * i;
+        //     int offset = ebo.getNumberOfVertices() * i;
+        //     System.out.println(offsetArrayIndex);
+        //     System.out.println(offset);
+
+        //     int[] eboIndices = ebo.getIndices();
+        //     for (int j = 0; j < eboIndices.length; j++) {
+        //         indices[offsetArrayIndex + j] = offset + eboIndices[j];
+        //     }
+        // }
+
+        // System.out.println(Arrays.toString(indices));
+        // IntBuffer elementBuffer = BufferUtils.createIntBuffer(indices.length);
+        // elementBuffer.put(indices).flip();
 
         // int eboID = GL20.glGenBuffers();
-        int[] indices = new int[ebo.getLength() * maxBatchSize];
+        // GL20.glBindBuffer(GL20.GL_ELEMENT_ARRAY_BUFFER, eboID);
+        // GL20.glBufferData(GL20.GL_ELEMENT_ARRAY_BUFFER, elementBuffer, GL20.GL_STATIC_DRAW);
 
-        for(int i = 0; i < maxBatchSize; i++){
-            int offsetArrayIndex = ebo.getLength() * i;
-            int offset = ebo.getNumberOfVertices() * i;
-            System.out.println(offsetArrayIndex);
-            System.out.println(offset);
-
-            int[] eboIndices = ebo.getIndices();
-            for (int j = 0; j < eboIndices.length; j++) {
-                indices[offsetArrayIndex + j] = offset + eboIndices[j];
-            }
-        }
-
-        System.out.println(Arrays.toString(indices));
-        IntBuffer elementBuffer = BufferUtils.createIntBuffer(indices.length);
-        elementBuffer.put(indices).flip();
-
-        int eboID = GL20.glGenBuffers();
-        GL20.glBindBuffer(GL20.GL_ELEMENT_ARRAY_BUFFER, eboID);
-        GL20.glBufferData(GL20.GL_ELEMENT_ARRAY_BUFFER, elementBuffer, GL20.GL_STATIC_DRAW);
-
-        vao.bindPointers();
+        // vao.bindPointers();
 
 
     }
@@ -109,20 +109,12 @@ public class RenderBatch {
         }
         // System.out.println(Arrays.toString(vertices));
 
-        FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length);
-        verticesBuffer.put(vertices).flip();
+        Renderer.bufferVertices(renderables[0], vertices);
 
-        GL20.glBufferData(GL20.GL_ARRAY_BUFFER, verticesBuffer, GL20.GL_DYNAMIC_DRAW);
+        Renderer.enable(renderables[0]);
 
-        shader.use();
-        Renderer.UploadUniforms(shader);
+        Renderer.drawVertices(renderables[0]);
 
-        vao.enable();
-
-        GL20.glDrawElements(GL20.GL_TRIANGLES, 18, GL20.GL_UNSIGNED_INT, 0);
-
-        vao.disable();
-
-        shader.detach();
+        Renderer.disable(renderables[0]);
     }
 }

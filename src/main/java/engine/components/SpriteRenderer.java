@@ -1,10 +1,12 @@
 package engine.components;
 import org.joml.Vector3f;
 
+import engine.Window;
 import engine.renderer.EBO;
 import engine.renderer.Shader;
 import engine.renderer.SpriteMap;
 import engine.renderer.VAO;
+import engine.util.Time;
 
 public class SpriteRenderer extends Renderable{
     /** NOTE
@@ -21,6 +23,8 @@ public class SpriteRenderer extends Renderable{
 
     public SpriteRenderer(SpriteMap spriteMap){
         super(Shader.SPRITE_RGB, VAO.SPRITE, EBO.QUAD);
+
+        this.renderableType = "sprite";
 
         this.spriteMap = spriteMap;
 
@@ -62,6 +66,20 @@ public class SpriteRenderer extends Renderable{
         }
         // System.out.println("-----------------");
         // System.out.println();
+    }
+
+    @Override
+    public void UploadUniforms() {
+        Shader.SPRITE_RGB.uploadMat4f("uProjection", Window.get().camera.getProjectionMatrix());
+        Shader.SPRITE_RGB.uploadMat4f("uView",       Window.get().camera.getViewMatrix());
+        Shader.SPRITE_RGB.uploadFloat("uTime",       (float)Time.getTime());  
+        Shader.SPRITE_RGB.uploadInt("texSampler", 0);
+    }
+
+    @Override
+    public void render() {
+        // TODO Auto-generated method stub
+        
     }
     
 }
