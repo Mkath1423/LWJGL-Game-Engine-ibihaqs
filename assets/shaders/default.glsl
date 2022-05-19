@@ -27,6 +27,6 @@ out vec4 color;
 void main()
 {
     
-    color = texture(TEX_SAMPLER, vec2(0.005 + 0.01*floor(fTexCoords.x/0.01), 0.005 + 0.01*floor(fTexCoords.y/0.01)));
+    color = texture(TEX_SAMPLER, fTexCoords);
     
 }

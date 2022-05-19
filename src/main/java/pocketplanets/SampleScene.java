@@ -16,6 +16,7 @@ import engine.renderer.SpriteMap;
 import engine.renderer.Texture;
 import engine.scenes.Scene;
 import engine.scenes.SceneManager;
+import physics.Move;
 
 public class SampleScene extends Scene{
 
@@ -44,6 +45,7 @@ public class SampleScene extends Scene{
             ));
             go.addComponent(new SpriteRenderer(sp));
             go.addComponent(new SampleComponent());
+            go.addComponent(new Move());
         
         gameObjects.add(go);
     }

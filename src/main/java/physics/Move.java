@@ -32,7 +32,7 @@ public class Move extends Component {
      * @param vel   (Vector3f) Velocity with an x and y component
      */
     public void initialize(Vector3f acc, Vector3f vel) {
-
+        change = new Vector3f();
         acceleration = acc;
         velocity = vel; 
     }
@@ -59,6 +59,7 @@ public class Move extends Component {
 
         locomotion();
         n.position = change;
+
     }
 
 
@@ -71,9 +72,7 @@ public class Move extends Component {
      * Changes the velocity according to acceleration
      */
     private void accelerate() {
-
-        if(acceleration.x != 0) velocity.x += acceleration.x;
-        if(acceleration.y != 0) velocity.y += acceleration.x;
+        velocity.add(acceleration);
     }
     
     

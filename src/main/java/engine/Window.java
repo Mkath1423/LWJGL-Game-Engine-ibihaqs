@@ -140,7 +140,9 @@ public class Window {
         for (VAO vao : VAO.values()) {
             vao.init();
         }
-        
+
+        GL20.glEnable(GL20.GL_BLEND);
+        GL20.glBlendFunc(GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA);
         
     }
 

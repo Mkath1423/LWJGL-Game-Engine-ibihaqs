@@ -50,7 +50,7 @@ public class Transform extends Component{
         this.rotation = rotation;
 
         this.positionOrigin = PositionMode.TOP_LEFT;
-        this.rotationOrigin = PositionMode.TOP_LEFT;
+        this.rotationOrigin = PositionMode.CENTER_MIDDLE;
     }
 
     public Quad getQuad(){
