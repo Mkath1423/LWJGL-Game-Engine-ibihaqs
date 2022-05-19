@@ -37,7 +37,7 @@ public abstract class Renderable extends Component{
         this.ebo = ebo;
     }
 
-    public void Awake(){
+    public void Start(){
         Renderer.addRenderable(layerId, this);
     }
 

@@ -79,8 +79,6 @@ public class RenderBatch {
         GL20.glBufferData(GL20.GL_ELEMENT_ARRAY_BUFFER, elementBuffer, GL20.GL_STATIC_DRAW);
 
         vao.bindPointers();
-
-
     }
 
 

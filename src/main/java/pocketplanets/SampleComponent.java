@@ -24,8 +24,8 @@ public class SampleComponent extends Component{
 
     // handle inputs and update things in update
     public void Update(double deltaTime){
-        t.rotation -= 0.01 * Input.getAxis("rotation");
-        t.position.x -= 0.01 * Input.getAxis("horizontal");
-        t.position.y -= 0.01 * Input.getAxis("vertical");
+        t.rotation += deltaTime * Input.getAxis("rotation") * 5;
+        t.position.x += deltaTime * Input.getAxis("horizontal") * 5;
+        t.position.y += deltaTime * Input.getAxis("vertical") * 5;
     }
 }
