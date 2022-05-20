@@ -11,10 +11,16 @@ public class Resource {
     public Resource(String name, int id, int amount){
         resourceName = name;
         resourceId = id;
+        if(amount > 99){
+            amount = 99;
+        }
         setAmount(amount);
     }
 
     public void setAmount(int amount){
+        if(amount > 99){
+            amount = 99;
+        }
         resourceAmount = amount;
     }
 

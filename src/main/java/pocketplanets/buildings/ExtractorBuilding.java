@@ -41,9 +41,6 @@ public class ExtractorBuilding extends Building{
         
         Random rand = new Random();
         resource.setAmount(resource.getAmount() + (rand.nextInt(max - min + 1) + min));
-        if(resource.getAmount() > maxHeldResource){
-            resource.setAmount(maxHeldResource);
-        }
         return resource.getAmount();
     }
 }
