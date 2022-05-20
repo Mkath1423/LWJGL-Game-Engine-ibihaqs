@@ -108,10 +108,10 @@ public final class MouseListener {
      * @param mods modifier keys
      */
     public static void mouseButtonCallback(long window, int button, int action, int mods){
-        System.out.println(button + " " + action);
+        // System.out.println(button + " " + action);
         if(button >= get().mouseButtonPressed.length) return;
 
-        System.out.println(button + " " + action);
+        // System.out.println(button + " " + action);
 
         if(action == GLFW.GLFW_PRESS){
             get().mouseButtonPressed[button] = true;

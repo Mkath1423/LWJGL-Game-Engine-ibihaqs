@@ -46,31 +46,33 @@ public enum VAO {
 
     }
 
-    public void init(){
-        ID = ARBVertexArrayObject.glGenVertexArrays();
-        ARBVertexArrayObject.glBindVertexArray(ID);
-    
-        
+    public static int genBuffer(){
+        int ID = ARBVertexArrayObject.glGenVertexArrays();
+
+        return ID;
     }
 
-    public void bindPointers(){
+    public static void bind(int ID){
         ARBVertexArrayObject.glBindVertexArray(ID);
-        for (int i = 0; i < attributes.length; i++) {
+    }
+
+    public static void bindPointers(VAO vao){
+        for (int i = 0; i < vao.attributes.length; i++) {
             // System.out.println(attributes[i].name + " " + attributes[i].size + " " + attributes[i].offset);
-            GL20.glVertexAttribPointer(i, attributes[i].size, GL20.GL_FLOAT, false, vaoSize*Float.BYTES, attributes[i].offset*Float.BYTES);
+            GL20.glVertexAttribPointer(i, vao.attributes[i].size, GL20.GL_FLOAT, false, vao.vaoSize*Float.BYTES, vao.attributes[i].offset*Float.BYTES);
             GL20.glEnableVertexAttribArray(i);
         }
     }
 
-    public void enable(){
+    public static void enable(int ID, VAO vao){
         ARBVertexArrayObject.glBindVertexArray(ID);
-        for (int i = 0; i < attributes.length; i++) {
+        for (int i = 0; i < vao.attributes.length; i++) {
             GL20.glEnableVertexAttribArray(i);
         }
     }
 
-    public void disable(){
-        for (int i = 0; i < attributes.length; i++) {
+    public static void disable(int ID, VAO vao){
+        for (int i = 0; i < vao.attributes.length; i++) {
             GL20.glDisableVertexAttribArray(i);
         }
         ARBVertexArrayObject.glBindVertexArray(0);

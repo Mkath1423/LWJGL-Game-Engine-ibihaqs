@@ -22,7 +22,7 @@ public class RenderBatch {
     private boolean hasRoom;
     private float[] vertices;
 
-    private int vboID;
+    private int vaoID, vboID;
     
     private Shader shader;
     private VAO vao;
@@ -51,6 +51,10 @@ public class RenderBatch {
     }
 
     public void start(){
+
+        vaoID = VAO.genBuffer();
+        VAO.bind(vaoID);
+ 
         vboID = GL20.glGenBuffers();
         GL20.glBindBuffer(GL20.GL_ARRAY_BUFFER, vboID);
         GL20.glBufferData(GL20.GL_ARRAY_BUFFER, vertices.length * Float.BYTES, GL20.GL_DYNAMIC_DRAW);
@@ -78,7 +82,9 @@ public class RenderBatch {
         GL20.glBindBuffer(GL20.GL_ELEMENT_ARRAY_BUFFER, eboID);
         GL20.glBufferData(GL20.GL_ELEMENT_ARRAY_BUFFER, elementBuffer, GL20.GL_STATIC_DRAW);
 
-        vao.bindPointers();
+        VAO.bindPointers(vao);
+
+        VAO.disable(vaoID, vao);
     }
 
 
@@ -107,19 +113,17 @@ public class RenderBatch {
         }
         // System.out.println(Arrays.toString(vertices));
 
-        FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length);
-        verticesBuffer.put(vertices).flip();
-
-        GL20.glBufferData(GL20.GL_ARRAY_BUFFER, verticesBuffer, GL20.GL_DYNAMIC_DRAW);
+        GL20.glBindBuffer(GL20.GL_ARRAY_BUFFER, vboID);
+        GL20.glBufferSubData(GL20.GL_ARRAY_BUFFER, 0, vertices);
 
         shader.use();
         Renderer.UploadUniforms(shader);
 
-        vao.enable();
+        VAO.enable(vaoID, vao);
 
         GL20.glDrawElements(GL20.GL_TRIANGLES, 18, GL20.GL_UNSIGNED_INT, 0);
 
-        vao.disable();
+        VAO.disable(vaoID, vao);
 
         shader.detach();
     }
