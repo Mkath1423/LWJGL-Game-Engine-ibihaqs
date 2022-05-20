@@ -15,33 +15,35 @@ public class ExtractorBuilding extends Building{
 
     private int productionRate;
 
-    private int resourceGenerationMax;
-    private int resourceGenerationMin;
+    private int resourceGenerationMax = 5;
+    private int resourceGenerationMin = 1;
 
-    public ExtractorBuilding(int size, Resource resource, int resourceMax, int resourceMin, String resourceType, int resourceId) {
+    public ExtractorBuilding(int size, Resource resource, String resourceType, int resourceId) {
         resource = new Resource(resourceType, resourceId, 0);
-
-        if(resourceMax <= maxHeldResource && resourceMax > 1){
-            this.resourceGenerationMax = resourceMax;
-        }
-        else{
-            this.resourceGenerationMax = 99;
-        }
-
-        if(resourceMin > 0 && resourceMin < resourceMax){
-            this.resourceGenerationMin = resourceMin;
-        }
-        else{
-            this.resourceGenerationMin = 1;
-        }
-        
         generateResource(resourceGenerationMax, resourceGenerationMin);
     }
 
+    @Override
+    public void Update(double deltaTime){
+        if(resource.getAmount() < maxHeldResource){
+            generateResource(resourceGenerationMax, resourceGenerationMin);
+        }
+    }
+
+    /**
+     * Generates resources 
+     * 
+     * @param max
+     * @param min
+     * @return
+     */
     public int generateResource(int max, int min){
         
         Random rand = new Random();
-        resource.setAmount(rand.nextInt(max - min + 1) + min);
+        resource.setAmount(resource.getAmount() + (rand.nextInt(max - min + 1) + min));
+        if(resource.getAmount() > maxHeldResource){
+            resource.setAmount(maxHeldResource);
+        }
         return resource.getAmount();
     }
 }
