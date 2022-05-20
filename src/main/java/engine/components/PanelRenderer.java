@@ -1,5 +1,6 @@
 package engine.components;
 
+import java.util.List;
 import java.util.stream.BaseStream;
 
 import org.joml.Vector2f;
@@ -71,6 +72,18 @@ public class PanelRenderer extends Renderable{
         } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
+        
+    }
+
+    @Override
+    public void UploadUniforms() {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void render(List<Renderable> value) {
+        // TODO Auto-generated method stub
         
     }
     

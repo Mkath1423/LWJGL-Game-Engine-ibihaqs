@@ -32,6 +32,7 @@ public class SampleScene extends Scene{
 
         // get textures (and other assets later)
         Texture t = AssetManager.getTexture("assets/textures/testImage.png");
+        Texture t2 = AssetManager.getTexture("assets/textures/thumb_when-u-blow-on-ur-bottled-water-because-its-too-39289070.png");
 
 
         // create gameobject 
@@ -45,6 +46,19 @@ public class SampleScene extends Scene{
             ));
             go.addComponent(new SpriteRenderer(sp));
             go.addComponent(new SampleComponent());
+            // go.addComponent(new Move());
+        
+        gameObjects.add(go);
+
+        SpriteMap sp2 = new SpriteMap(t2, 1, 1);
+        GameObject go2 = new GameObject();
+            go2.addComponent(new Transform(
+                new Vector3f(0, 200, 0),
+                new Vector2f(100, 100),
+                0
+            ));
+            // go2.addComponent(new SpriteRenderer(sp));
+            go2.addComponent(new SampleComponent());
             // go.addComponent(new Move());
         
         gameObjects.add(go);
