@@ -143,6 +143,9 @@ public class Window {
     }
 
     public void loop(){
+
+        System.out.println(GL20.glGetInteger(GL20.GL_MAX_TEXTURE_IMAGE_UNITS));
+
         Texture t = new Texture("assets/textures/testImage.png");
 
         while(!GLFW.glfwWindowShouldClose(glfwWindow)){

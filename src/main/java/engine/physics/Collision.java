@@ -1,4 +1,4 @@
-package physics;
+package engine.physics;
 
 import engine.geometry.Quad;
 import engine.geometry.Circle;
