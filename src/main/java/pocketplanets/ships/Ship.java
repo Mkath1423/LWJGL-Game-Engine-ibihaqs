@@ -8,7 +8,7 @@ import org.joml.Vector3f;
 import engine.components.Component;
 import engine.components.Transform;
 import engine.gameobjects.GameObject;
-import physics.Move;
+import engine.physics.Move;
 import pocketplanets.Planet;
 
 public abstract class Ship extends Component{
@@ -58,7 +58,7 @@ public abstract class Ship extends Component{
         if(!isLanded && transform.position.distance(destination) < 30){
             acceleration.set(0, 0, 0);
             velocity.set(0, 0, 0);
-            move.initialize(acceleration, velocity);
+            move.initialize(acceleration, velocity, new Vector3f(0,0,0));
             
             
         } 
@@ -84,7 +84,7 @@ public abstract class Ship extends Component{
         velocity = new Vector3f((destination.x - transform.position.x), (destination.y - transform.position.y), (destination.z - transform.position.z));
         acceleration = new Vector3f(accelMagnitude, accelMagnitude, accelMagnitude);
         velocity = velocity.normalize().add(speed, speed, speed);
-        move.initialize(acceleration, velocity);
+        move.initialize(acceleration, velocity, new Vector3f(0,0,0));
     }
 
     // /*

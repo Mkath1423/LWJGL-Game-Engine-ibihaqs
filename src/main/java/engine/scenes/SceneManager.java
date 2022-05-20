@@ -1,8 +1,10 @@
 package engine.scenes;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import engine.gameobjects.GameObject;
 import engine.renderer.Camera;
 import engine.renderer.Renderer;
 
@@ -56,5 +58,15 @@ public class SceneManager {
         if(get().activeScene != null){
             get().activeScene.Update(deltaTime);
         }
+    }
+
+    /**
+     * Getter for game objects
+     * 
+     * @return  (List) A list of all the active gameObjects
+     */
+    public static List<GameObject> getGameObjects() {
+
+        return get().activeScene.gameObjects;
     }
 }
