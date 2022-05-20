@@ -45,9 +45,13 @@ public class SaveStates {
      */
     private static void selectFile(int slot) {
 
-        file = 
-        "C:\\Users\\ibrah\\Documents\\GitHub\\ics4-final-project-ibihaqs\\src\\main\\java\\engine\\serializer\\"
+        String filepath = 
+        "src\\main\\java\\engine\\serializer\\"
         + "Slot" + Integer.toString(slot) + ".txt";
+
+        File fp = new File(filepath);
+
+        file = fp.getAbsolutePath();
     }
     
     
