@@ -45,7 +45,7 @@ public class SampleScene extends Scene{
             ));
             go.addComponent(new SpriteRenderer(sp));
             go.addComponent(new SampleComponent());
-            go.addComponent(new Move());
+            // go.addComponent(new Move());
         
         gameObjects.add(go);
     }

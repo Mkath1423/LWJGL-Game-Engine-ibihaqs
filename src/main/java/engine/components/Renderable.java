@@ -1,20 +1,25 @@
 package engine.components;
 
+import java.util.List;
+
 import engine.renderer.EBO;
 import engine.renderer.Renderer;
 import engine.renderer.Shader;
 import engine.renderer.VAO;
 
 public abstract class Renderable extends Component{
-    
+
+    public String renderableType;
+
     protected int layerId;
 
     // store the shader vao and ebo
-    protected Shader shader;
-    protected VAO    vao;
-    protected EBO    ebo;
+    public Shader shader;
+    public VAO    vao;
+    public EBO    ebo;
 
     protected boolean dirty;
+
     public boolean getDirty(){
         return true/**dirty */;
     }
@@ -58,4 +63,8 @@ public abstract class Renderable extends Component{
     public boolean isBatchable(Shader s, VAO a, EBO e){
         return this.shader == s && this.vao  == a && this.ebo == e;
     }
+
+    public abstract void UploadUniforms();
+
+    public abstract void render(List<Renderable> value);
 }

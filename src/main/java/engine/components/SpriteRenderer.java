@@ -1,10 +1,15 @@
 package engine.components;
+import java.util.List;
+
 import org.joml.Vector3f;
 
+import engine.Window;
 import engine.renderer.EBO;
+import engine.renderer.Renderer;
 import engine.renderer.Shader;
 import engine.renderer.SpriteMap;
 import engine.renderer.VAO;
+import engine.util.Time;
 
 public class SpriteRenderer extends Renderable{
     /** NOTE
@@ -25,6 +30,8 @@ public class SpriteRenderer extends Renderable{
         this.spriteMap = spriteMap;
 
         this.layerId = 0;
+        
+        this.renderableType = "sprite";
     }
 
     @Override
@@ -62,6 +69,34 @@ public class SpriteRenderer extends Renderable{
         }
         // System.out.println("-----------------");
         // System.out.println();
+    }
+
+    @Override
+    public void UploadUniforms() {
+        Shader.SPRITE_RGB.uploadMat4f("uProjection", Window.get().camera.getProjectionMatrix());
+        Shader.SPRITE_RGB.uploadMat4f("uView",       Window.get().camera.getViewMatrix());
+        Shader.SPRITE_RGB.uploadFloat("uTime",       (float)Time.getTime());  
+        Shader.SPRITE_RGB.uploadInt("texSampler", 0);
+    }
+
+    @Override
+    public void render(List<Renderable> renderables) {
+        System.out.println(renderableType + " drawing " + renderables.size() + "sprites");
+
+        for(int batchNumber = 0; batchNumber < Math.ceil((float)renderables.size()/Renderer.maxBatchSize); batchNumber++){
+            float[] vertices = new float[Renderer.maxBatchSize * ebo.getNumberOfVertices() * vao.vaoSize];
+
+            for (int i = batchNumber*Renderer.maxBatchSize; 
+                 i < renderables.size() && i < (batchNumber+1)*Renderer.maxBatchSize; 
+                 i++) {
+                if(renderables.get(i) == null) continue;
+                renderables.get(i).loadVertexData(vertices, batchNumber * ebo.getNumberOfVertices() * vao.vaoSize);
+            }
+
+            Renderer.bufferVertices(this, vertices);
+            Renderer.drawVertices(this);
+        }
+        
     }
     
 }
