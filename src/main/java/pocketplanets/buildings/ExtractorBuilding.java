@@ -19,8 +19,6 @@ public class ExtractorBuilding extends Building{
     private int resourceGenerationMin;
 
     public ExtractorBuilding(int size, Resource resource, int resourceMax, int resourceMin, String resourceType, int resourceId) {
-        super(size);
-
         resource = new Resource(resourceType, resourceId, 0);
 
         if(resourceMax <= maxHeldResource && resourceMax > 1){

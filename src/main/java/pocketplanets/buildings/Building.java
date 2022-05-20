@@ -7,10 +7,7 @@ public abstract class Building extends Component{
 
 
 
-    // Size of building
-    public int size;
-
-    public Building(int size){
+    public Building(){
         
     }
 
