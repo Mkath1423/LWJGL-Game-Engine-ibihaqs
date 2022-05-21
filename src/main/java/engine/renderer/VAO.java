@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL20;
  * Defines the structure of a vertex
  */
 public enum VAO {
-    SPRITE(new String[] {"aPosition", "aUV"}, new int[] {3, 2});
+    SPRITE(new String[] {"aPosition", "aUV", "aTexID"}, new int[] {3, 2, 1});
     // TINTED_SPRITE(new String[] {"aPosition", "aColor", "aUV"}, new int[] {3, 4, 2}),
     // COLOR(new String[] {"aPosition", "aColor"}, new int[] {3, 4});
 

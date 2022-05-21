@@ -137,16 +137,18 @@ public class Window {
             s.compile();
         }
 
+        // enable alpha blending
         GL20.glEnable(GL20.GL_BLEND);
         GL20.glBlendFunc(GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA);
         
+        // enable antialiasing 
+        GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
+        GL20.glEnable(GL20.GL_MULTISAMPLE); 
     }
 
     public void loop(){
 
         System.out.println(GL20.glGetInteger(GL20.GL_MAX_TEXTURE_IMAGE_UNITS));
-
-        Texture t = new Texture("assets/textures/testImage.png");
 
         while(!GLFW.glfwWindowShouldClose(glfwWindow)){
             // events
@@ -156,13 +158,10 @@ public class Window {
             SceneManager.Update(0.01);
 
             // background
-            GL11.glClearColor(1, 1, 1, 0);
+            GL11.glClearColor(1f, 0.98f, 0.84f, 0);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
-            GL20.glActiveTexture(GL20.GL_TEXTURE0);
-            t.bind();
             Renderer.draw();
-            t.unbind();
 
             GLFW.glfwSwapBuffers(glfwWindow);
         }

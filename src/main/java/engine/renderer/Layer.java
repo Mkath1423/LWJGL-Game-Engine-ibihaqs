@@ -16,13 +16,15 @@ public class Layer {
     }
 
     protected void addRenderable(Renderable r){
+        System.out.println("attempting to add new " + r.renderableType+" to layer");
         for(Entry<String, List<Renderable>> e : renderables.entrySet()){
-            if(e.getKey().equals(r.getClass().toString())){
+            if(e.getKey().equals(r.renderableType)){
                 e.getValue().add(r);
                 return;
             }
         }
-
+        
+        System.out.println("detected new type, making new catagory");
         List<Renderable> toAdd = new ArrayList<>();
             toAdd.add(r);
 

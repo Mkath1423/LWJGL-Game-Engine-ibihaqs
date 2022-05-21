@@ -44,6 +44,7 @@ public abstract class Renderable extends Component{
 
     public void Start(){
         Renderer.addRenderable(layerId, this);
+        System.out.println("started sprite");
     }
 
     public void End(){

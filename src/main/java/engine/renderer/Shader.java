@@ -14,7 +14,8 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 
 public enum Shader {
-    SPRITE_RGB("assets/shaders/default.glsl");
+    SPRITE_RGB("assets/shaders/default.glsl"),
+    SPRITE("assets/shaders/multitex.glsl");
     // SPRITE_RGBA("xxx.glsl"),
     // COLOR("xxx.glsl"),
     // SPRITE_TINT("xxx.glsl");
@@ -191,5 +192,11 @@ public enum Shader {
         int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
         use();
         GL20.glUniform1f(varLocation, val);
+    }
+
+    public void uploadIntArray(String varName, int[] array) {
+        int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
+        use();
+        GL20.glUniform1iv(varLocation, array);
     }
 }
