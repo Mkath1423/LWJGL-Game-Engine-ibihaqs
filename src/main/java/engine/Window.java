@@ -1,38 +1,23 @@
 package engine;
 
-import java.nio.Buffer;
-import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
 import org.joml.Vector2f;
-import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.opengl.ARBVertexArrayObject;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryUtil;
-import org.lwjgl.system.windows.INPUT;
 
 import engine.Inputs.Input;
-import engine.Inputs.InputAxis;
 import engine.Inputs.KeyListener;
 import engine.Inputs.MouseListener;
-import engine.components.SpriteRenderer;
-import engine.components.Transform;
-import engine.gameobjects.GameObject;
-import engine.renderer.Camera;
-import engine.renderer.EBO;
 import engine.renderer.Renderer;
 import engine.renderer.Shader;
-import engine.renderer.SpriteMap;
-import engine.renderer.Texture;
-import engine.renderer.VAO;
 import engine.scenes.SceneManager;
 import engine.util.Time;
 
@@ -55,30 +40,11 @@ public class Window {
 
     private static Window window = null;
 
-    public Camera camera;
-
-    private float[] vertexArray = {
-        // position               // color
-         50.5f, 0f, 0.0f,          1, 1,// Bottom right 0
-         0f,  50f, 0.0f,           0, 0,// Top left     1
-         50.5f,  50f, 0.0f ,       1, 0,// Top right    2
-        -0.5f, -0.5f, 0.0f,        0, 1 // Bottom left  3
-    };
-
-    // IMPORTANT: Must be in counter-clockwise order
-    private int[] elementArray = {
-            2, 1, 0, // Top right triangle
-            0, 1, 3 // bottom left triangle
-    };
-
-    private int vaoID, vboID, eboID;
 
     private Window(){
         this.width = 1920;
         this.height = 1080;
         this.title = "Pocket Planets";
-
-        camera = new Camera(new Vector2f());
     }
 
     public static Window get(){
