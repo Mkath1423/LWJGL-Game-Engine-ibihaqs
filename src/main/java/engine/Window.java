@@ -1,5 +1,6 @@
 package engine;
 
+import java.nio.Buffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
@@ -38,6 +39,16 @@ import engine.util.Time;
 
 public class Window {
     private int width, height;
+
+    public static Vector2f getSize(){
+        IntBuffer w = BufferUtils.createIntBuffer(1);
+        IntBuffer h = BufferUtils.createIntBuffer(1);
+
+        GLFW.glfwGetWindowSize(get().glfwWindow, w, h);
+
+        return new Vector2f(w.get(0), h.get(0));
+    }
+
     private String title;
     // Image thumbnail
 
@@ -64,8 +75,8 @@ public class Window {
     private int vaoID, vboID, eboID;
 
     private Window(){
-        this.width = 1280;
-        this.height = 720;
+        this.width = 1920;
+        this.height = 1080;
         this.title = "Pocket Planets";
 
         camera = new Camera(new Vector2f());
@@ -105,8 +116,8 @@ public class Window {
         // configure window
         GLFW.glfwDefaultWindowHints();
         GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE,   GLFW.GLFW_FALSE);
-        GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_FALSE);
-        GLFW.glfwWindowHint(GLFW.GLFW_MAXIMIZED, GLFW.GLFW_FALSE);
+        GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE);
+        GLFW.glfwWindowHint(GLFW.GLFW_MAXIMIZED, GLFW.GLFW_TRUE);
 
 
         // create window
@@ -152,6 +163,8 @@ public class Window {
         System.out.println(GL20.glGetInteger(GL20.GL_MAX_TEXTURE_IMAGE_UNITS));
 
         while(!GLFW.glfwWindowShouldClose(glfwWindow)){
+            Vector2f size = getSize();
+            System.out.printf("(%s, %s)\n", (int)size.x, (int)size.y);
             // events
             GLFW.glfwPollEvents();
             Input.Update(0.2f);

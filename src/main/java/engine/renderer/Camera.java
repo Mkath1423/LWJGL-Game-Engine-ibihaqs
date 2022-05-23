@@ -4,6 +4,7 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+import engine.Window;
 import engine.components.Component;
 
 public class Camera extends Component{
@@ -46,11 +47,13 @@ public class Camera extends Component{
     }
 
     public Vector2f screenToWorldCoordinate(Vector2f screenPosition){
-        Vector4f resultant = new Vector4f(screenPosition.x / 1280 * 2.0f - 1.0f, 
-                                          screenPosition.y/ 720 * -2.0f + 1.0f, 
+        Vector2f windowSize = Window.getSize();
+
+        Vector4f resultant = new Vector4f(screenPosition.x / windowSize.x * 2.0f - 1.0f, 
+                                          screenPosition.y/ windowSize.y * -2.0f + 1.0f, 
                                           1f, 1f);
 
-        System.out.printf("(%s, %s)\n", screenPosition.x, screenPosition.y);
+        // System.out.printf("(%s, %s)\n", screenPosition.x, screenPosition.y);
         resultant.mul(invViewMatrix).mul(invProjectionMatrix);
         
         return new Vector2f(resultant.x, resultant.y);
