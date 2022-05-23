@@ -50,19 +50,30 @@ public class SampleScene extends Scene{
             // go.addComponent(new Move());
 
         SpriteMap sp2 = new SpriteMap(t2, 1, 1);
-        GameObject go2 = new GameObject();
-            go2.addComponent(new Transform(
-                new Vector3f(0, 0, 0),
-                new Vector2f(30, 150),
+        // GameObject go2 = new GameObject();
+        //     go2.addComponent(new Transform(
+        //         new Vector3f(0, 0, 0),
+        //         new Vector2f(30, 150),
+        //         0
+        //     ));
+        //     go2.addComponent(new SpriteRenderer(sp2));
+        //     go2.addComponent(new SampleSwinging());
+        //     go2.setParent(go1);
+        //     // go.addComponent(new Move());
+        
+        GameObject go3 = new GameObject();
+            go3.addComponent(new Transform(
+                new Vector3f(100, 100, 0),
+                new Vector2f(50, 50),
                 0
             ));
-            go2.addComponent(new SpriteRenderer(sp2));
-            go2.addComponent(new SampleSwinging());
-            go2.setParent(go1);
+            go3.addComponent(new SpriteRenderer(sp2));
+            go3.addComponent(new FollowMouse());
             // go.addComponent(new Move());
-        
+
         gameObjects.add(go1);
-        gameObjects.add(go2);
+        // gameObjects.add(go2);
+        gameObjects.add(go3);
     }
 
     // public void MakeShip(){

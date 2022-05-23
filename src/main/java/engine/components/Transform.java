@@ -118,7 +118,6 @@ public class Transform extends Component{
         if(gameObject.getParent() != null){
             Transform pt  = gameObject.getParent().getComponent(Transform.class);
             if(pt != null){
-
                 Vector3f parentCenterOfRotation = pt.getCenterOfRotation();
 
                 // transform by parent matrix
@@ -128,17 +127,12 @@ public class Transform extends Component{
                     new Vector3f(0, 0, 1)
                 );
                 
-                System.out.println("-----------------------");
                 for(Vector3f v : boundingBox.getVertices()){
-                    System.out.println(v.toString());
                     v.add(new Vector3f(pt.position.x, pt.position.y, 0));
                     v.sub(new Vector3f(parentCenterOfRotation.x, parentCenterOfRotation.y, 0));
-                    System.out.println(v.toString());
                     v.mul(parentMatrix);
                     v.add(new Vector3f(parentCenterOfRotation.x, parentCenterOfRotation.y, 0));
-                    System.out.println("---------");
                 }
-                System.out.print("\r");
                 
             }
         }
