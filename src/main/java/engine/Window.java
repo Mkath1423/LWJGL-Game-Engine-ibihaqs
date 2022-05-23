@@ -142,7 +142,7 @@ public class Window {
         GL20.glBlendFunc(GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA);
         
         // enable antialiasing 
-        GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 4);
+        GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 16);
         GL20.glEnable(GL20.GL_MULTISAMPLE); 
     }
 

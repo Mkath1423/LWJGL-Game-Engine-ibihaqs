@@ -24,9 +24,9 @@ public class Quad {
     public static Quad Rect(Vector3f topLeft, float width, float height){
         return new Quad(
             new Vector3f(topLeft), 
-            new Vector3f(topLeft.x + width, topLeft.y,          topLeft.z), 
-            new Vector3f(topLeft.x,         topLeft.y + height, topLeft.z),  
-            new Vector3f(topLeft.x + width, topLeft.y + height, topLeft.z)
+            new Vector3f(topLeft.x + width, topLeft.y,          topLeft.z),
+            new Vector3f(topLeft.x,         topLeft.y - height, topLeft.z),
+            new Vector3f(topLeft.x + width, topLeft.y - height, topLeft.z)  
         );
     }
 

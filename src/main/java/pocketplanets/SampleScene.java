@@ -37,31 +37,44 @@ public class SampleScene extends Scene{
 
         // // create gameobject 
         SpriteMap sp = new SpriteMap(t, 1, 1);
-    
-        GameObject go = new GameObject();
-            go.addComponent(new Transform(
-                new Vector3f(0, 100, 0),
+
+        // mario
+        GameObject go1 = new GameObject();
+            go1.addComponent(new Transform(
+                new Vector3f(300, 100, 0),
                 new Vector2f(100, 100),
                 0
             ));
-            go.addComponent(new SpriteRenderer(sp));
-            go.addComponent(new SampleComponent());
+            go1.addComponent(new SpriteRenderer(sp));
+            go1.addComponent(new SampleComponent());
             // go.addComponent(new Move());
 
         SpriteMap sp2 = new SpriteMap(t2, 1, 1);
         GameObject go2 = new GameObject();
             go2.addComponent(new Transform(
-                new Vector3f(0, 200, 0),
-                new Vector2f(100, 100),
+                new Vector3f(0, 0, 0),
+                new Vector2f(30, 150),
                 0
             ));
             go2.addComponent(new SpriteRenderer(sp2));
-            go2.addComponent(new SampleComponent());
+            go2.addComponent(new SampleSwinging());
+            go2.setParent(go1);
             // go.addComponent(new Move());
         
-        gameObjects.add(go);
+        gameObjects.add(go1);
         gameObjects.add(go2);
     }
+
+    // public void MakeShip(){
+    //     GameObject newShip = new GameObject();
+    //         newShip.addComponent(new Transform());
+    //         newShip.addComponent(new SpriteRenderer(spriteMap));
+    //         newShip.addComponent(new Move());
+
+    //         newShip.addComponent(new Ship(params));
+
+    //     gameObjects.add(newShip);
+    // }
 
     @Override
     public void Awake(){

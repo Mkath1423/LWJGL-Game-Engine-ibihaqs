@@ -1,18 +1,16 @@
 package pocketplanets;
 
-import org.joml.Vector3f;
-
 import engine.Inputs.Input;
-import engine.Inputs.Input.KeyCode;
 import engine.components.Component;
 import engine.components.Transform;
-import physics.Move;
 
-public class SampleComponent extends Component{
+public class SampleSwinging extends Component{
     
     // declare the other components that you are using
     Transform t;
     // Move m;
+
+    float sumTime = 0;
 
     // get the other components you are affecting
     public void Awake(){
@@ -33,8 +31,8 @@ public class SampleComponent extends Component{
     // handle inputs and update things in update
     public void Update(double deltaTime){
         if(t == null) return;
-        t.rotation += deltaTime * Input.getAxis("rotation") * 3;
-        t.position.x += deltaTime * Input.getAxis("horizontal") * 50;
-        t.position.y += deltaTime * Input.getAxis("vertical") * 50;
+        sumTime += deltaTime;
+        t.rotation = (float)Math.toDegrees(Math.cos(sumTime));
     }
+    
 }
