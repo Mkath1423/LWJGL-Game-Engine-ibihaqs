@@ -30,7 +30,7 @@ public class Renderer {
 
     private Map<Integer, Layer> layers;
 
-    public static int maxBatchSize = 2;
+    public static int maxBatchSize = 1000;
     public static int maxTextures = 32;
 
     public static void addRenderable(int layerID, Renderable renderable){
@@ -38,7 +38,6 @@ public class Renderer {
 
         if(!get().layers.containsKey(layerID)){
             get().layers.put(layerID, new Layer());
-            System.out.println("Renderer: making new layer " + layerID);
         }
 
         get().layers.get(layerID).addRenderable(renderable);
@@ -56,16 +55,6 @@ public class Renderer {
 
     public static void Refresh(){
         get().layers = new HashMap<>();
-    }
-
-    public static void UploadUniforms(Shader shader){
-        switch(shader){
-            case SPRITE_RGB:
-                // Shader.SPRITE_RGB.uploadMat4f("uProjection", SceneManager.getActiveMainCamera().getProjectionMatrix());
-                // Shader.SPRITE_RGB.uploadMat4f("uView",       SceneManager.getActiveMainCamera().getViewMatrix());
-                
-                break;
-        }
     }
 
     private Map<String, BufferIDs> buffers;

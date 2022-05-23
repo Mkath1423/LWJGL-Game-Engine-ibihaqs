@@ -1,4 +1,4 @@
-package pocketplanets;
+package pocketplanets.testing;
 
 import java.util.ArrayList;
 

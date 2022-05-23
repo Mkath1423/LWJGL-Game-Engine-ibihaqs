@@ -28,7 +28,6 @@ import engine.components.Transform;
 import engine.gameobjects.GameObject;
 import engine.renderer.Camera;
 import engine.renderer.EBO;
-import engine.renderer.RenderBatch;
 import engine.renderer.Renderer;
 import engine.renderer.Shader;
 import engine.renderer.SpriteMap;
@@ -161,15 +160,16 @@ public class Window {
     public void loop(){
 
         System.out.println(GL20.glGetInteger(GL20.GL_MAX_TEXTURE_IMAGE_UNITS));
+        double beginTime = Time.getTime();
+        double endTime = Time.getTime();
+        double deltaTime = -1;
 
         while(!GLFW.glfwWindowShouldClose(glfwWindow)){
-            Vector2f size = getSize();
-            System.out.printf("(%s, %s)\n", (int)size.x, (int)size.y);
             // events
             GLFW.glfwPollEvents();
             Input.Update(0.2f);
 
-            SceneManager.Update(0.01);
+            SceneManager.Update(deltaTime);
 
             // background
             GL11.glClearColor(1f, 0.98f, 0.84f, 0);
@@ -178,6 +178,10 @@ public class Window {
             Renderer.draw();
 
             GLFW.glfwSwapBuffers(glfwWindow);
+
+            endTime = Time.getTime();
+            deltaTime = endTime - beginTime;
+            beginTime = endTime;
         }
     }
 }

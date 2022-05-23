@@ -1,4 +1,4 @@
-package pocketplanets;
+package pocketplanets.testing;
 
 import org.joml.Vector3f;
 

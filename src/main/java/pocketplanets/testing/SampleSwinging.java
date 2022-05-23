@@ -1,4 +1,4 @@
-package pocketplanets;
+package pocketplanets.testing;
 
 import javax.print.attribute.SupportedValuesAttribute;
 
@@ -34,13 +34,6 @@ public class SampleSwinging extends Component{
 
     // handle inputs and update things in update
     public void Update(double deltaTime){
-        if(Input.getMouseButtonPressed(KeyCode.MOUSE_BUTTON_0)){
-            System.out.println("-----------------");
-            System.out.println(Input.getMousePosition());
-            System.out.println(SceneManager.getActiveMainCamera().screenToWorldCoordinate(Input.getMousePosition()));
-
-        }
-
         if(t == null) return;
         sumTime += deltaTime;
         t.rotation = (float)Math.toDegrees(Math.cos(sumTime));
