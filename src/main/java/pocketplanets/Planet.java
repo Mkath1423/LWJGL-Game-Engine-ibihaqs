@@ -5,7 +5,6 @@ import engine.gameobjects.GameObject;
 
 public class Planet extends Component{
 
-
     private boolean isDiscovered;
     private String planetName;
     private int planetId;
@@ -21,6 +20,7 @@ public class Planet extends Component{
 
     public void planetDiscovered(){
         isDiscovered = true;
+        //Stats.planetsDiscovered += 1;
     }
     
 
