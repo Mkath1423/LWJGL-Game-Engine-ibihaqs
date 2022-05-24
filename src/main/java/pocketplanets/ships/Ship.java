@@ -4,11 +4,16 @@ import java.text.Normalizer;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
+import engine.Inputs.Input;
+import engine.Inputs.Input.KeyCode;
 import engine.components.Component;
 import engine.components.Transform;
+import engine.events.EventListener;
 import engine.gameobjects.GameObject;
 import engine.physics.Move;
+import engine.scenes.SceneManager;
 import pocketplanets.Planet;
 
 public abstract class Ship extends Component{
@@ -55,13 +60,25 @@ public abstract class Ship extends Component{
     
     @Override
     public void Update(double deltaTime){
-        if(!isLanded && transform.position.distance(destination) < 30){
-            acceleration.set(0, 0, 0);
-            velocity.set(0, 0, 0);
-            move.initialize(acceleration, velocity, new Vector3f(0,0,0));
+        // if(transform.position == null) return;
+        
+        // Vector2f mousePos = Input.getMousePosition();
+        // if(mousePos == null) return;
+        // Vector2f newPosition = SceneManager.getActiveMainCamera().screenToWorldCoordinate(mousePos);
+     
+
+        // if(Input.getMouseButtonHeld(KeyCode.MOUSE_BUTTON_0)){
+        //     goToPosition(new Vector3f(newPosition.x, newPosition.y, transform.position.z), 0);
+        // }
+
+        // if(!isLanded && transform.position.distance(destination) < 30){
+        //     acceleration.set(0, 0, 0);
+        //     velocity.set(0, 0, 0);
+        //     move.initialize(acceleration, velocity, new Vector3f(0,0,0));
             
             
-        } 
+        // } 
+        
     }
 
     /**
