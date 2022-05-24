@@ -31,13 +31,29 @@ public class Collision {
         // The coordinates of the point
         float x = point.x;
         float y = point.y;
+
+        // The distance between the point and the circle's origin
+        float dX = Math.abs(cX - x);
+        float dY = Math.abs(cY - y);
+
+        // The "border" coordinates of the circle we are checking
+        if(dX > radius) {
+
+            return false;
+
+        } else {
+
+            float bX = dX;
+            float bY = Math.sqrt((radius*radius) - (dX*dX));
+
+        } 
     
         // Return true if all of the following conditions are met
         return (
-            x >= (cX - radius) &&
-            x <= (cX + radius) &&
-            y >= (cY - radius) &&
-            y <= (cY + radius)
+            x >= (cX - bX) &&
+            x <= (cX + bX) &&
+            y >= (cY - bY) &&
+            y <= (cY + bY)
         );
     }
 
@@ -67,6 +83,32 @@ public class Collision {
 
         // The radius of the circle
         float radius = circle.getRadius();
+
+        // The "border" x coordinate of the circle we are checking
+        // Case 1: The rectangle is on the left
+        if(rX < cX) {
+
+            dX = Math.abs(rX + rWidth + offset - cX);
+
+        // Case 2: The rectangle is on the right
+        }   else {
+
+            dX = Math.abs(rX + offset - cX);
+
+        }
+
+        // The "border" y coordinate of the circle we are checking
+        // Case 1: The rectangle is up
+        if(rY < cY) {
+
+            dY = Math.abs(rY + rHeight + offset - cY);
+
+        // Case 2: The rectangle is down
+        } else {
+
+            dY = Math.abs(rY + offset - cY);
+
+        }
 
         // Return true if all of the following conditions are met
         return(
@@ -122,7 +164,7 @@ public class Collision {
      */
     public static boolean rectRect(Quad rect1, Quad rect2, float offset) {
 
-        // LOGIC: Create one big rectangle whose dimensions are the sum of the dimensions of
+        // LOGIC: Create one border rectangle whose dimensions are the sum of the dimensions of
         // both rectangles, center it on one rectangle, and check if the top left corner
         // of the other rectangle resides within that area
 
@@ -140,11 +182,11 @@ public class Collision {
         float rWidth2  = rect2.getWidth();
         float rHeight2 = rect2.getHeight();
 
-        // The x and y coordinates of the top left corner of the big rectangle, centered on rX2
+        // The x and y coordinates of the top left corner of the border rectangle, centered on rX2
         float bX = rX2 - rWidth1 - offset;
         float bY = ry2 - rHeight1 - offset;
 
-        // The dimensions of the big rectangle
+        // The dimensions of the border rectangle
         float bHeight = rHeight1 + rHeight2 + offset;
         float bWidth  = rWidth1 + rWidth2 + offset;
 
