@@ -1,8 +1,9 @@
-package pocketplanets;
+package pocketplanets.testing;
 
 import org.joml.Vector3f;
 
 import engine.Inputs.Input;
+import engine.Inputs.Input.KeyCode;
 import engine.components.Component;
 import engine.components.Transform;
 import physics.Move;
@@ -31,8 +32,9 @@ public class SampleComponent extends Component{
 
     // handle inputs and update things in update
     public void Update(double deltaTime){
-        t.rotation += deltaTime * Input.getAxis("rotation") * 5;
-        t.position.x += deltaTime * Input.getAxis("horizontal") * 5;
-        t.position.y += deltaTime * Input.getAxis("vertical") * 5;
+        if(t == null) return;
+        t.rotation += deltaTime * Input.getAxis("rotation") * 3;
+        t.position.x += deltaTime * Input.getAxis("horizontal") * 50;
+        t.position.y += deltaTime * Input.getAxis("vertical") * 50;
     }
 }

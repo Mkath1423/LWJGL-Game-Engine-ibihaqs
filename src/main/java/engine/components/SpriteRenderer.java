@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.joml.Vector3f;
 import org.lwjgl.opengl.GL20;
@@ -15,6 +16,7 @@ import engine.renderer.Shader;
 import engine.renderer.SpriteMap;
 import engine.renderer.Texture;
 import engine.renderer.VAO;
+import engine.scenes.SceneManager;
 import engine.util.Time;
 
 public class SpriteRenderer extends Renderable{
@@ -82,11 +84,16 @@ public class SpriteRenderer extends Renderable{
 
     @Override
     public void UploadUniforms() {
-        Shader.SPRITE.uploadMat4f("uProjection", Window.get().camera.getProjectionMatrix());
-        Shader.SPRITE.uploadMat4f("uView",       Window.get().camera.getViewMatrix());
+        Shader.SPRITE.uploadMat4f("uProjection", SceneManager.getActiveMainCamera().getProjectionMatrix());
+        Shader.SPRITE.uploadMat4f("uView",       SceneManager.getActiveMainCamera().getViewMatrix());
         Shader.SPRITE.uploadFloat("uTime",       (float)Time.getTime());  
         Shader.SPRITE.uploadInt("texSampler", 0); 
+        int[] textureSlots = new int[8];
+        for (int i = 0; i < textureSlots.length; i++) {
+            textureSlots[i] = i;
+        }
 
+        Shader.SPRITE.uploadIntArray("uTextures", textureSlots);
         
     }
 
@@ -112,7 +119,7 @@ public class SpriteRenderer extends Renderable{
         public boolean canAdd(SpriteRenderer r){
             // if there is no space left in the batch
             if(currentSpriteRenderer == spr.length) return false;
-            System.out.println("there is space");
+            // System.out.println("there is space"); // TODO test me
             // if there is space but no more texture slots
             if(currentTexture == tex.length){
                 // if we do not need to allocate a new texture slot
@@ -124,7 +131,7 @@ public class SpriteRenderer extends Renderable{
                 return false;
             }
 
-            System.out.println("there are textures");
+            // System.out.println("there are textures");// TODO test me
 
             // if there is space for more textures and more spr
             return true;
@@ -154,7 +161,8 @@ public class SpriteRenderer extends Renderable{
 
     @Override
     public void render(List<Renderable> renderables) {
-        System.out.println("RENDERING " + renderables.size()+ " sprites");
+        // System.out.println("---------------------"); 
+        // System.out.println("RENDERING " + renderables.size()+ " sprites"); 
         
         Map<Integer, List<SpriteRenderer>> sortedRenderables = new HashMap<>();
 
@@ -168,61 +176,61 @@ public class SpriteRenderer extends Renderable{
             }
         }
 
+        // for (Entry<Integer, List<SpriteRenderer>> e : sortedRenderables.entrySet()) {
+        //     System.out.printf("[%s - > %s]\n", e.getKey(), e.getValue().size());
+        // }
+
         List<SpriteGroup> batches = new ArrayList<>();
 
         for(List<SpriteRenderer> bunky : sortedRenderables.values()){
+            
             batchSprites:
             for (SpriteRenderer bunk : bunky) {
                 for (SpriteGroup batch : batches) {
-                    System.out.printf("spr:%s, tex:%s %s\n", batch.currentSpriteRenderer, batch.currentTexture, batch.canAdd(bunk));
+                    // System.out.printf("spr:%s, tex:%s %s\n", batch.currentSpriteRenderer, batch.currentTexture, batch.canAdd(bunk)); 
                     // if the batch is using the same shader and vao
                     // if the batch is not full
                     if(batch.canAdd(bunk)){
                         
                         // add this to the batch
                         batch.addRenderable(bunk);
-                        System.out.println("adding to existing with text slot: " + bunk.texSlot);
-                        break batchSprites;
+                        // System.out.println("adding to existing with text slot: " + bunk.texSlot);//e
+                        continue batchSprites;
                     }
                 }
                 
-                System.out.println("Layer: Adding renderable to new batch");
+                // System.out.println("makingn a new batch"); 
                 SpriteGroup batch = new SpriteGroup();
                     batches.add(batch);
                     batch.addRenderable(bunk);
             }
         }
         
-        System.out.println("num batches: " + batches.size());
+        // System.out.println("num batches: " + batches.size()); 
 
-
+        // System.out.println("Number of batches: " + batches.size());
         for (SpriteGroup batch : batches) {
-            
+            // System.out.println("Rendering batch with amount: " + batch.spr.length);
             float[] vertices = new float[Renderer.maxBatchSize * ebo.getNumberOfVertices() * vao.vaoSize];
 
             for (int i = 0; i < batch.tex.length - 1; i++) {
                 if(batch.tex[i] == null) continue;
-                System.out.println(i);
+                // System.out.println(i); // TODO: TEST me
                 GL20.glActiveTexture(GL20.GL_TEXTURE0 + i);
                 batch.tex[i].bind();
             }
 
-            int[] textureSlots = new int[8];
-            for (int i = 0; i < textureSlots.length; i++) {
-                textureSlots[i] = i;
-            }
-
-            Shader.SPRITE.uploadIntArray("uTextures", textureSlots);
+            
 
             for (int i = 0; i < batch.spr.length; i ++){
                 if(batch.spr[i] == null) continue;
-
+                // System.out.println(batch.spr[i]);
                 batch.spr[i].loadVertexData(vertices, i * ebo.getNumberOfVertices() * vao.vaoSize);
             }
 
-            for(int i = 0; i < Math.ceil(vertices.length/6); i ++){
-                System.out.println(Arrays.toString(Arrays.copyOfRange(vertices, i*6, (i + 1)*6)));
-            }
+            // for(int i = 0; i < Math.ceil(vertices.length/6); i ++){
+            //     System.out.println(Arrays.toString(Arrays.copyOfRange(vertices, i*6, (i + 1)*6))); // TODO: TEST me
+            // }
 
             Renderer.bufferVertices(this, vertices);
             Renderer.drawVertices(this);

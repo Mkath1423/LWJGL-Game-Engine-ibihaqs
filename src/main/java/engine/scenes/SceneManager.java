@@ -28,7 +28,7 @@ public class SceneManager {
     private Scene activeScene = null;
 
     public static Camera getActiveMainCamera(){
-        return get().scenes.get(get().activeScene).mainCamera;
+        return get().activeScene.mainCamera;
     }
 
     public static void addScene(String id, Scene scene){

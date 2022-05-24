@@ -56,10 +56,10 @@ public class SpriteMap {
         return new Sprite(
             texture,
             new Quad( // TODO: fix the order here
-                new Vector3f( x    * 1/numCol, (y+1) * 1/numCol, 0),
-                new Vector3f((x+1) * 1/numCol, (y+1) * 1/numCol, 0),
                 new Vector3f( x    * 1/numCol,  y    * 1/numCol, 0),
-                new Vector3f((x+1) * 1/numCol,  y    * 1/numCol, 0)
+                new Vector3f((x+1) * 1/numCol,  y    * 1/numCol, 0),
+                new Vector3f( x    * 1/numCol, (y+1) * 1/numCol, 0),
+                new Vector3f((x+1) * 1/numCol, (y+1) * 1/numCol, 0)
             )
         );
     }

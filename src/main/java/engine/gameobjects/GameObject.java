@@ -24,6 +24,16 @@ public class GameObject {
      */
     private List<Component> components;
 
+    private GameObject parent;
+
+    public GameObject getParent(){
+        return parent;
+    }
+
+    public void setParent(GameObject parent){
+        this.parent = parent; 
+    }
+
     /**
      * Gets and returns a component 
      *
@@ -90,7 +100,7 @@ public class GameObject {
      * 
      */
     public GameObject(){
-        components = new ArrayList<>();;
+        components = new ArrayList<>();
     }
 
     /**
@@ -101,7 +111,6 @@ public class GameObject {
         for (Component component : components) {
             component.Awake();
         }
-        
     }
 
     /**
