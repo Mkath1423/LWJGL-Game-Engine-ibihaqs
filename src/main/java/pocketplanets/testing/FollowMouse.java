@@ -9,7 +9,6 @@ import engine.components.Component;
 import engine.components.Transform;
 import engine.scenes.Scene;
 import engine.scenes.SceneManager;
-import physics.Move;
 
 public class FollowMouse extends Component{
     

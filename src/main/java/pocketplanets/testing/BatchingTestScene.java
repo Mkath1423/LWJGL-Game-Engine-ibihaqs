@@ -14,9 +14,9 @@ import engine.gameobjects.GameObject;
 import engine.renderer.Camera;
 import engine.renderer.SpriteMap;
 import engine.renderer.Texture;
+import engine.renderer.Texture.Format;
 import engine.scenes.Scene;
 import engine.scenes.SceneManager;
-import physics.Move;
 
 public class BatchingTestScene extends Scene{
 
@@ -28,8 +28,8 @@ public class BatchingTestScene extends Scene{
 
         // get textures (and other assets later)
         Texture t = AssetManager.getTexture("assets/textures/testImage.png");
-        Texture t2 = AssetManager.getTexture("assets/textures/luigi.png");
-
+        Texture t2 = AssetManager.getTexture("assets/textures/opacityTest.png", Format.RGB);
+        
 
         // // create gameobject 
         SpriteMap sp = new SpriteMap(t, 1, 1);
@@ -59,6 +59,16 @@ public class BatchingTestScene extends Scene{
         
             }
         }
+
+        GameObject funky = new GameObject();
+            funky.addComponent(new Transform(
+                new Vector3f(100, 100, 0),
+                new Vector2f(100, 200),
+                0
+            ));
+            funky.addComponent(new SpriteRenderer(sp2));
+
+        gameObjects.add(funky);
     }
 
     @Override

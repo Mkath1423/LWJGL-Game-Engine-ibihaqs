@@ -6,7 +6,6 @@ import engine.Inputs.Input;
 import engine.Inputs.Input.KeyCode;
 import engine.components.Component;
 import engine.components.Transform;
-import physics.Move;
 
 public class SampleComponent extends Component{
     

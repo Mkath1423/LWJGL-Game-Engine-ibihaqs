@@ -16,7 +16,6 @@ import engine.renderer.SpriteMap;
 import engine.renderer.Texture;
 import engine.scenes.Scene;
 import engine.scenes.SceneManager;
-import physics.Move;
 
 public class SampleScene extends Scene{
 
