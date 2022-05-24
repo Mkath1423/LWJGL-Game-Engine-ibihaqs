@@ -7,16 +7,19 @@ public class Collision {
 
 
 
+    // EXTERNAL METHODS
+
+
+
     /**
      * Given a circle and coordinates, return true if the coordinates exist within the
      * boundaries of the circle
      * 
      * @param circle    (Circle) The circle in question
-     * @param x         (float) The x coordinate of the point
-     * @param y         (float) The y coordinate of the point
+     * @param point     (Vector3f) The coordinates of the point
      * @return          (boolean) Is the point within the circle?
      */
-    public static boolean circlePoint(Circle circle, float x, float y) {
+    public static boolean circlePoint(Circle circle, Vector3f point) {
 
         // The coordinates of the center of the circle
         float cX = circle.getX();
@@ -24,6 +27,10 @@ public class Collision {
 
         // The radius of the circle
         float radius = circle.getRadius();
+
+        // The coordinates of the point
+        float x = point.x;
+        float y = point.y;
     
         // Return true if all of the following conditions are met
         return (
@@ -68,7 +75,6 @@ public class Collision {
             (rY + offset) >= (cY - radius) &&
             (rY + rHeight) <= (cY + radius + offset)
         );
-
     }
 
 
@@ -77,12 +83,11 @@ public class Collision {
      * boundaries of the rectangle
      * 
      * @param rect  (Rectangle) The rectangle in question
-     * @param x     (float) The x coordinate of the point
-     * @param y     (float) The y coordinate of the point
+     * @param point (Vector3f) The coordinates of the point
      * 
      * @return      (boolean) Is the point within the rectangle?
      */
-    public static boolean rectPoint(Quad rect, float x, float y) {
+    public static boolean rectPoint(Quad rect, Vector3f point) {
 
         // The coordinates of the upper-left corner of the rectangle
         float rX = rect.getX();
@@ -91,6 +96,10 @@ public class Collision {
         // The height and width of the rectangle
         float rWidth  = rect.getWidth();
         float rHeight = rect.getHeight();
+
+        // The coordinates of the point
+        float x = point.x;
+        float y = point.y;
         
         // Return true if all of the following conditions are met
         return (
@@ -113,6 +122,10 @@ public class Collision {
      */
     public static boolean rectRect(Quad rect1, Quad rect2, float offset) {
 
+        // LOGIC: Create one big rectangle whose dimensions are the sum of the dimensions of
+        // both rectangles, center it on one rectangle, and check if the top left corner
+        // of the other rectangle resides within that area
+
         // The coordinates of the upper-left corner of rectangle 1 & 2
         float rX1 = rect1.getX();
         float rY1 = rect1.getY();
@@ -120,19 +133,28 @@ public class Collision {
         float rX2 = rect2.getX();
         float rY2 = rect2.getY();
 
-        // The height and width of rectangle 1 & 2
+        // The dimensions of rectangle 1 & 2
         float rWidth1  = rect1.getWidth();
         float rHeight1 = rect1.getHeight();
 
         float rWidth2  = rect2.getWidth();
         float rHeight2 = rect2.getHeight();
 
+        // The x and y coordinates of the top left corner of the big rectangle, centered on rX2
+        float bX = rX2 - rWidth1 - offset;
+        float bY = ry2 - rHeight1 - offset;
+
+        // The dimensions of the big rectangle
+        float bHeight = rHeight1 + rHeight2 + offset;
+        float bWidth  = rWidth1 + rWidth2 + offset;
+
+
         // Return true if all of the following conditions are met
         return(
-            (rX1 + rWidth1) >= (rX2 - offset) &&
-            (rX1 - offset) <= (rX2 + rWidth2) &&
-            (rY1 + rHeight1) >= (rY2 - offset) &&
-            (rY1 - offset) <= (rY2 + rHeight2)
+            (rX1 + rWidth1) >= (bX) &&
+            (rX1) <= (bX + bWidth) &&
+            (rY1 + rHeight1) >= (bY) &&
+            (rY1) <= (bY + bHeight)
         );
     }
 
