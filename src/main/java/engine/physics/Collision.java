@@ -3,6 +3,8 @@ package engine.physics;
 import engine.geometry.Quad;
 import engine.geometry.Circle;
 
+import org.joml.Vector3f;
+
 public class Collision {
 
 
@@ -22,39 +24,37 @@ public class Collision {
     public static boolean circlePoint(Circle circle, Vector3f point) {
 
         // The coordinates of the center of the circle
-        float cX = circle.getX();
-        float cY = circle.getY();
+        double cX = circle.getX();
+        double cY = circle.getY();
 
         // The radius of the circle
-        float radius = circle.getRadius();
+        double radius = circle.getRadius();
 
         // The coordinates of the point
-        float x = point.x;
-        float y = point.y;
+        double x = point.x;
+        double y = point.y;
 
         // The distance between the point and the circle's origin
-        float dX = Math.abs(cX - x);
-        float dY = Math.abs(cY - y);
+        double dX = Math.abs(cX - x);
+        double dY = Math.abs(cY - y);
 
         // The "border" coordinates of the circle we are checking
+        double bX;
+        double bY;
+        
+        // Checking if it is out of bounds right away
         if(dX > radius) {
 
             return false;
 
+        // Set it if its within bounds, and return the assessment with the y coordinate
         } else {
 
-            float bX = dX;
-            float bY = Math.sqrt((radius*radius) - (dX*dX));
+            bX = dX;
+            bY = Math.sqrt((radius*radius) - (dX*dX));
+            return (dY <= bY);
 
         } 
-    
-        // Return true if all of the following conditions are met
-        return (
-            x >= (cX - bX) &&
-            x <= (cX + bX) &&
-            y >= (cY - bY) &&
-            y <= (cY + bY)
-        );
     }
 
 
@@ -63,43 +63,49 @@ public class Collision {
      * 
      * @param rect      (Rectangle) The rectangle in question
      * @param circle    (Circle) The circle in question
-     * @param offset    (float) An optional distance to offset by
+     * @param offset    (double) An optional distance to offset by
      * 
      * @return          (boolean) Do the shapes collide within the given offset range
      */
-    public static boolean rectCircle(Quad rect, Circle circle, float offset) {
+    public static boolean rectCircle(Quad rect, Circle circle, double offset) {
 
         // The coordinates of the upper-left corner of the rectangle
-        float rX = rect.getX();
-        float rY = rect.getY();
+        double rX = rect.getX();
+        double rY = rect.getY();
 
         // The height and width of the rectangle
-        float rWidth  = rect.getWidth();
-        float rHeight = rect.getHeight();
+        double rWidth  = rect.getWidth();
+        double rHeight = rect.getHeight();
 
         // The coordinates of the center of the circle
-        float cX = circle.getX();
-        float cY = circle.getY();
+        double cX = circle.getX();
+        double cY = circle.getY();
 
         // The radius of the circle
-        float radius = circle.getRadius();
+        double radius = circle.getRadius();
 
-        // The "border" x coordinate of the circle we are checking
+
+        // RESOLVING DISTANCE BETWEEN TOP-LEFT RECT CORNER AND CENTER OF CIRCLE
+
+
+        // The x and y distance from the top-left rectangle corner to the center of the circle
+        double dX;
+        double dY;
+
         // Case 1: The rectangle is on the left
-        if(rX < cX) {
+        if((rX + rWidth + offset) < cX) {
 
             dX = Math.abs(rX + rWidth + offset - cX);
 
         // Case 2: The rectangle is on the right
-        }   else {
+        } else {
 
             dX = Math.abs(rX + offset - cX);
 
         }
 
-        // The "border" y coordinate of the circle we are checking
         // Case 1: The rectangle is up
-        if(rY < cY) {
+        if((rY + rHeight + offset) < cY) {
 
             dY = Math.abs(rY + rHeight + offset - cY);
 
@@ -110,13 +116,26 @@ public class Collision {
 
         }
 
-        // Return true if all of the following conditions are met
-        return(
-            (rX + offset) >= (cX - radius) &&
-            (rX + rWidth) <= (cX + radius + offset) &&
-            (rY + offset) >= (cY - radius) &&
-            (rY + rHeight) <= (cY + radius + offset)
-        );
+
+        // RESOLVING "BORDER" COORDINATES
+
+
+        double bX;
+        double bY;
+
+        // Checking if its out of bounds right away
+        if(dX > radius) {
+
+            return false;
+
+        // Set it if its within bounds, and return the assessment with the y coordinate
+        } else {
+
+            bX = dX;
+            bY = Math.sqrt((radius*radius) - (dX*dX));
+            return(dY <= bY);
+
+        }
     }
 
 
@@ -132,16 +151,16 @@ public class Collision {
     public static boolean rectPoint(Quad rect, Vector3f point) {
 
         // The coordinates of the upper-left corner of the rectangle
-        float rX = rect.getX();
-        float rY = rect.getY();
+        double rX = rect.getX();
+        double rY = rect.getY();
 
         // The height and width of the rectangle
-        float rWidth  = rect.getWidth();
-        float rHeight = rect.getHeight();
+        double rWidth  = rect.getWidth();
+        double rHeight = rect.getHeight();
 
         // The coordinates of the point
-        float x = point.x;
-        float y = point.y;
+        double x = point.x;
+        double y = point.y;
         
         // Return true if all of the following conditions are met
         return (
@@ -158,37 +177,37 @@ public class Collision {
      * 
      * @param rect1     (Rectangle) The first rectangle to be compared
      * @param rect2     (Rectangle) The second rectangle to be compared
-     * @param offset    (int) An optional distance to offset by
+     * @param offset    (double) An optional distance to offset by
      * 
      * @return          (boolean) Do the rectangles collide within the given offset range?
      */
-    public static boolean rectRect(Quad rect1, Quad rect2, float offset) {
+    public static boolean rectRect(Quad rect1, Quad rect2, double offset) {
 
         // LOGIC: Create one border rectangle whose dimensions are the sum of the dimensions of
         // both rectangles, center it on one rectangle, and check if the top left corner
         // of the other rectangle resides within that area
 
         // The coordinates of the upper-left corner of rectangle 1 & 2
-        float rX1 = rect1.getX();
-        float rY1 = rect1.getY();
+        double rX1 = rect1.getX();
+        double rY1 = rect1.getY();
 
-        float rX2 = rect2.getX();
-        float rY2 = rect2.getY();
+        double rX2 = rect2.getX();
+        double rY2 = rect2.getY();
 
         // The dimensions of rectangle 1 & 2
-        float rWidth1  = rect1.getWidth();
-        float rHeight1 = rect1.getHeight();
+        double rWidth1  = rect1.getWidth();
+        double rHeight1 = rect1.getHeight();
 
-        float rWidth2  = rect2.getWidth();
-        float rHeight2 = rect2.getHeight();
+        double rWidth2  = rect2.getWidth();
+        double rHeight2 = rect2.getHeight();
 
         // The x and y coordinates of the top left corner of the border rectangle, centered on rX2
-        float bX = rX2 - rWidth1 - offset;
-        float bY = ry2 - rHeight1 - offset;
+        double bX = rX2 - rWidth1 - offset;
+        double bY = rY2 - rHeight1 - offset;
 
         // The dimensions of the border rectangle
-        float bHeight = rHeight1 + rHeight2 + offset;
-        float bWidth  = rWidth1 + rWidth2 + offset;
+        double bHeight = rHeight1 + rHeight2 + offset;
+        double bWidth  = rWidth1 + rWidth2 + offset;
 
 
         // Return true if all of the following conditions are met
