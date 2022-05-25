@@ -10,6 +10,7 @@ import engine.Inputs.Input;
 import engine.Inputs.InputAxis;
 import engine.components.SpriteRenderer;
 import engine.components.Transform;
+import engine.components.Transform.PositionMode;
 import engine.gameobjects.GameObject;
 import engine.physics.Move;
 import engine.renderer.Camera;
@@ -56,13 +57,19 @@ public class MainGameScene extends Scene{
 
         SpriteMap sp2 = new SpriteMap(t2, 1, 1);
 
+
+
+
         GameObject go2 = new GameObject();
-            go2.addComponent(new Transform(
-                new Vector3f(),
-                new Vector2f(),
+            Transform reticleTransform = new Transform(
+                new Vector3f(100, 100, 0),
+                new Vector2f(50, 50),
                 0
-            ));
-            go2.addComponent(new SpriteRenderer(sp1));
+            );
+
+            reticleTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
+            go2.addComponent(reticleTransform);
+            go2.addComponent(new SpriteRenderer(sp2));
             go2.addComponent(new FollowMouse());
 
         gameObjects.add(go1);
