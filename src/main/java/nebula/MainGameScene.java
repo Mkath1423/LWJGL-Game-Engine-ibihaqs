@@ -19,7 +19,6 @@ import engine.scenes.Scene;
 import engine.scenes.SceneManager;
 //import physics.Move;
 import pocketplanets.ships.BuilderShip;
-import pocketplanets.testing.FollowMouse;
 import pocketplanets.testing.SampleComponent;
 
 public class MainGameScene extends Scene{
@@ -35,13 +34,13 @@ public class MainGameScene extends Scene{
         Input.addAxis("vertical", new InputAxis(-1, 1, 20, 20, Input.KeyCode.W, Input.KeyCode.S));
 
         // get textures (and other assets later)
-        Texture t = AssetManager.getTexture("assets/textures/testImage.png");
-        Texture t2 = AssetManager.getTexture("assets/textures/luigi.png");
-        Texture t3 = AssetManager.getTexture("assets/textures/smiley.png");
+        Texture t1 = AssetManager.getTexture("assets/textures/smiley.png");
+        Texture t2 = AssetManager.getTexture("assets/textures/reticle.png");
+
 
 
         // // create gameobject 
-        SpriteMap sp = new SpriteMap(t, 1, 1);
+        SpriteMap sp1 = new SpriteMap(t1, 1, 1);
 
         // mario
         GameObject go1 = new GameObject();
@@ -50,60 +49,45 @@ public class MainGameScene extends Scene{
                 new Vector2f(100, 100),
                 0
             ));
-            go1.addComponent(new SpriteRenderer(sp));
-            go1.addComponent(new SampleComponent());
+            go1.addComponent(new SpriteRenderer(sp1));
+            go1.addComponent(new Player());
             // go.addComponent(new Move());
+
 
         SpriteMap sp2 = new SpriteMap(t2, 1, 1);
-        // GameObject go2 = new GameObject();
-        //     go2.addComponent(new Transform(
-        //         new Vector3f(0, 0, 0),
-        //         new Vector2f(30, 150),
-        //         0
-        //     ));
-        //     go2.addComponent(new SpriteRenderer(sp2));
-        //     go2.addComponent(new SampleSwinging());
-        //     go2.setParent(go1);
-        //     // go.addComponent(new Move());
-        
 
-        
-
-        GameObject go3 = new GameObject();
-            go3.addComponent(new Transform(
-                new Vector3f(100, 100, 0),
-                new Vector2f(50, 50),
+        GameObject go2 = new GameObject();
+            go2.addComponent(new Transform(
+                new Vector3f(),
+                new Vector2f(),
                 0
             ));
-            go3.addComponent(new SpriteRenderer(sp2));
-            go3.addComponent(new FollowMouse());
-            // go.addComponent(new Move());
+            go2.addComponent(new SpriteRenderer(sp1));
+            go2.addComponent(new FollowMouse());
 
         gameObjects.add(go1);
-        // gameObjects.add(go2);
-        gameObjects.add(go3);
-        SpriteMap sp3 = new SpriteMap(t3, 1, 1);
-        MakeShip(sp3);
+        gameObjects.add(go2);
+        //MakeShip(sp3);
         
     }
 
     
 
-    public void MakeShip(SpriteMap sprite){
-        GameObject newShip = new GameObject();
-            newShip.addComponent(new Transform(
-                new Vector3f(200, 200, 0), 
-                new Vector2f(50, 50), 
-                0
-            ));
-            newShip.addComponent(new SpriteRenderer(sprite));
-            //newShip.addComponent(new FollowMouse());
-            //newShip.addComponent(new Move());
+    // public void MakeShip(SpriteMap sprite){
+    //     GameObject newShip = new GameObject();
+    //         newShip.addComponent(new Transform(
+    //             new Vector3f(200, 200, 0), 
+    //             new Vector2f(50, 50), 
+    //             0
+    //         ));
+    //         newShip.addComponent(new SpriteRenderer(sprite));
+    //         //newShip.addComponent(new FollowMouse());
+    //         //newShip.addComponent(new Move());
 
-            newShip.addComponent(new BuilderShip(100, 100, 3, 20, 10, false));
+    //         newShip.addComponent(new BuilderShip(100, 100, 3, 20, 10, false));
 
-        gameObjects.add(newShip);
-    }
+    //     gameObjects.add(newShip);
+    // }
 
     @Override
     public void Awake(){
