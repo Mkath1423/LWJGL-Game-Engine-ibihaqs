@@ -42,15 +42,15 @@ public class Player extends Component{
         inputForce.set(Input.getAxis("horizontal"), Input.getAxis("vertical"), 0);
         inputForce.normalize();
         // Gets vector angle between mouse and player and sets current sprite rotation to match
-        transform.rotation = (float)(Math.atan2(mouseWorldCoordinates.y - transform.position.y, mouseWorldCoordinates.x - transform.position.x));
+        transform.rotation = (float)Math.atan2(mouseWorldCoordinates.y - transform.position.y, mouseWorldCoordinates.x - transform.position.x);
+
         if(Input.getMouseButtonPressed(KeyCode.MOUSE_BUTTON_1)){
             isGrappled = true;
             grapplePosition = mouseWorldCoordinates;
-            System.out.println("Pressed right click");
-
+            grappleVector = grapplePosition.sub(new Vector2f(transform.position.x, transform.position.y));
         }
         if(isGrappled){
-            grappleVector = grapplePosition.sub(new Vector2f(transform.position.x, transform.position.y));
+            
             
             System.out.println(grappleVector.length());
             if(Input.getMouseButtonReleased(KeyCode.MOUSE_BUTTON_1)){

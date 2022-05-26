@@ -26,7 +26,13 @@ public class MainGameScene extends Scene{
 
 
     public MainGameScene(){
-        mainCamera = new Camera(new Vector2f(0, 0)); // camera will be changed soon
+        mainCamera = new GameObject(); // camera will be changed soon
+            mainCamera.addComponent(new Transform(
+                new Vector3f(0, 0, 0),
+                new Vector2f(1920, 1080),
+                0f
+            ));
+            mainCamera.addComponent(new Camera());
         gameObjects = new ArrayList<>();
 
         // setup inputs
