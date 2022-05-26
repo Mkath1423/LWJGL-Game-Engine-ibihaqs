@@ -18,7 +18,6 @@ import engine.renderer.SpriteMap;
 import engine.renderer.Texture;
 import engine.renderer.Texture.Format;
 import engine.scenes.Scene;
-import engine.scenes.SceneManager;
 
 public class BatchingTestScene extends Scene{
 
