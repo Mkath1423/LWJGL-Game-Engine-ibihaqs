@@ -123,6 +123,12 @@ public class GameObject {
         }
     }
 
+    public void EarlyUpdate(double deltaTime){
+        for (Component component : components) {
+            component.EarlyUpdate(deltaTime);
+        }
+    }
+
     /**
      * Called every frame that the scene is displayed and this game object is enabled
      * 
@@ -141,6 +147,12 @@ public class GameObject {
     public void End(){
         for (Component component : components) {
             component.End();
+        }
+    }
+
+    public void LateUpdate(double deltaTime){
+        for (Component component : components) {
+            component.LateUpdate(deltaTime);
         }
     }
 }
