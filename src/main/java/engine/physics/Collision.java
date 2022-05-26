@@ -51,7 +51,7 @@ public class Collision {
         } else {
 
             bX = dX;
-            bY = Math.sqrt((radius*radius) - (dX*dX));
+            bY = Math.sqrt((radius*radius) - (bX*bX));
             return (dY <= bY);
 
         } 
@@ -132,7 +132,7 @@ public class Collision {
         } else {
 
             bX = dX;
-            bY = Math.sqrt((radius*radius) - (dX*dX));
+            bY = Math.sqrt((radius*radius) - (bX*bX));
             return(dY <= bY);
 
         }
