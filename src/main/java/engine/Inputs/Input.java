@@ -256,7 +256,8 @@ public final class Input {
 
     public static boolean getKeyboardButtonHeld(KeyCode i){
         if(i.getValue() < 0 || i.getValue() >= get().keyboardButtonyStates.length) return false;
-        return !get().keyboardButtonyStates[i.getValue()].getChanged();
+        return get().keyboardButtonyStates[i.getValue()].getValue() && 
+               !get().keyboardButtonyStates[i.getValue()].getChanged();
     }  
 
     // SECTION: MOUSE
@@ -286,7 +287,8 @@ public final class Input {
 
     public static boolean getMouseButtonHeld(KeyCode i){
         if(i.getValue() < 0 || i.getValue() >= get().mouseButtonStates.length) return false;
-        return !get().mouseButtonStates[i.getValue()].getChanged();
+        return get().mouseButtonStates[i.getValue()].getValue() &&
+              !get().mouseButtonStates[i.getValue()].getChanged();
     }
 
     public static boolean getMouseDragging(){

@@ -9,10 +9,12 @@ public abstract class Component {
      */
     public GameObject gameObject;
 
-    public void Awake() {};
-    public void Start() {};
-    public void Update(double deltaTime) {};
-    public void End() {};
+    public void Awake() {}
+    public void Start() {}
+    public void Update(double deltaTime) {}
+    public void End() {}
+    public void EarlyUpdate(double deltaTime) {}
+    public void LateUpdate(double deltaTime) {}
 
 
 }
