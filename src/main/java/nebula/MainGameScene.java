@@ -34,9 +34,12 @@ public class MainGameScene extends Scene{
         Input.addAxis("horizontal", new InputAxis(-1, 1, 20, 20, Input.KeyCode.D, Input.KeyCode.A));
         Input.addAxis("vertical", new InputAxis(-1, 1, 20, 20, Input.KeyCode.W, Input.KeyCode.S));
 
+        
+
         // get textures (and other assets later)
         Texture t1 = AssetManager.getTexture("assets/textures/smiley.png");
         Texture t2 = AssetManager.getTexture("assets/textures/reticle.png");
+        Texture t3 = AssetManager.getTexture("assets/textures/whitePlanet.png");
 
 
 
@@ -57,12 +60,9 @@ public class MainGameScene extends Scene{
 
         SpriteMap sp2 = new SpriteMap(t2, 1, 1);
 
-
-
-
         GameObject go2 = new GameObject();
             Transform reticleTransform = new Transform(
-                new Vector3f(100, 100, 0),
+                new Vector3f(100, 100, 10),
                 new Vector2f(50, 50),
                 0
             );
@@ -72,29 +72,26 @@ public class MainGameScene extends Scene{
             go2.addComponent(new SpriteRenderer(sp2));
             go2.addComponent(new FollowMouse());
 
+        SpriteMap sp3 = new SpriteMap(t3, 1, 1);
+
+        GameObject go3 = new GameObject();
+            go3.addComponent(new Transform(
+                new Vector3f(600, 400, 0),
+                new Vector2f(200, 200),
+                0
+            ));
+
+            go3.addComponent(new SpriteRenderer(sp3));
+  
+
         gameObjects.add(go1);
         gameObjects.add(go2);
-        //MakeShip(sp3);
+        gameObjects.add(go3);
+
+        
         
     }
 
-    
-
-    // public void MakeShip(SpriteMap sprite){
-    //     GameObject newShip = new GameObject();
-    //         newShip.addComponent(new Transform(
-    //             new Vector3f(200, 200, 0), 
-    //             new Vector2f(50, 50), 
-    //             0
-    //         ));
-    //         newShip.addComponent(new SpriteRenderer(sprite));
-    //         //newShip.addComponent(new FollowMouse());
-    //         //newShip.addComponent(new Move());
-
-    //         newShip.addComponent(new BuilderShip(100, 100, 3, 20, 10, false));
-
-    //     gameObjects.add(newShip);
-    // }
 
     @Override
     public void Awake(){
