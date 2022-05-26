@@ -86,8 +86,6 @@ public class SpriteRenderer extends Renderable{
     public void UploadUniforms() {
         Shader.SPRITE.uploadMat4f("uProjection", SceneManager.getActiveMainCamera().getProjectionMatrix());
         Shader.SPRITE.uploadMat4f("uView",       SceneManager.getActiveMainCamera().getViewMatrix());
-        Shader.SPRITE.uploadFloat("uTime",       (float)Time.getTime());  
-        Shader.SPRITE.uploadInt("texSampler", 0); 
         int[] textureSlots = new int[8];
         for (int i = 0; i < textureSlots.length; i++) {
             textureSlots[i] = i;
