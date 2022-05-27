@@ -30,7 +30,7 @@ public class Renderer {
 
     private Map<Integer, Layer> layers;
 
-    public static int maxBatchSize = 1000;
+    public static int maxBatchSize = 100;
     public static int maxTextures = 32;
 
     public static void addRenderable(int layerID, Renderable renderable){

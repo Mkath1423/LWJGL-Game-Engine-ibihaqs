@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import engine.renderer.Texture;
+import engine.renderer.Texture.Format;
 
 
 /**
@@ -33,6 +34,19 @@ public class AssetManager {
          */
         if(!textures.containsKey(file.getAbsolutePath())){
             textures.put(file.getAbsolutePath(), new Texture(filepath));
+        }
+        
+        return textures.get(file.getAbsolutePath());
+    }
+
+    public static Texture getTexture(String filepath, Format format){
+        File file = new File(filepath);
+
+        /**
+         * if the texture has not been loaded, load it
+         */
+        if(!textures.containsKey(file.getAbsolutePath())){
+            textures.put(file.getAbsolutePath(), new Texture(filepath, format));
         }
         
         return textures.get(file.getAbsolutePath());

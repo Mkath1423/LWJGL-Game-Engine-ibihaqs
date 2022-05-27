@@ -13,6 +13,21 @@ import org.lwjgl.stb.STBImage;
  * A Texture for openGL
  */
 public class Texture {
+    public enum Format{
+        RGB(GL11.GL_RGB),
+        RGBA(GL11.GL_RGBA);
+
+        int format;
+
+        private Format(int format){
+            this.format = format;
+        }
+
+        public int get(){
+            return format;
+        }
+
+    }
 
     /**
      * The file this texture was loaded from
@@ -46,7 +61,7 @@ public class Texture {
         return pos / getWidth();
     }
 
-    public Texture(String filepath){
+    public Texture(String filepath, Format format){
         this.filepath = filepath;
 
         /**
@@ -79,7 +94,7 @@ public class Texture {
          * Send the texture buffer to openGL
          */
         if(image != null){
-            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA, width.get(0), height.get(0), 0, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, image);
+            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, format.get(), width.get(0), height.get(0), 0, format.get(), GL11.GL_UNSIGNED_BYTE, image);
         }
         else{
             assert false : "Texture " + filepath + " could not be loaded";
@@ -95,6 +110,10 @@ public class Texture {
          */
         texWidth = GL20.glGetTexLevelParameteri(texId, 0, GL20.GL_TEXTURE_WIDTH);
         texHeight = GL20.glGetTexLevelParameteri(texId, 0, GL20.GL_TEXTURE_HEIGHT);
+    }
+
+    public Texture(String filepath){
+        this(filepath, Format.RGBA);
     }
 
     /**

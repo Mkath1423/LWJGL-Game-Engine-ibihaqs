@@ -28,7 +28,7 @@ public class SceneManager {
     private Scene activeScene = null;
 
     public static Camera getActiveMainCamera(){
-        return get().activeScene.mainCamera;
+        return get().activeScene.mainCamera.getComponent(Camera.class);
     }
 
     public static void addScene(String id, Scene scene){
@@ -56,7 +56,9 @@ public class SceneManager {
 
     public static void Update(double deltaTime){
         if(get().activeScene != null){
+            get().activeScene.EarlyUpdate(deltaTime);
             get().activeScene.Update(deltaTime);
+            get().activeScene.LateUpdate(deltaTime);
         }
     }
 

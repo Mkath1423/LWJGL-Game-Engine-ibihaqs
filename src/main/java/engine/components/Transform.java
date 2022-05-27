@@ -59,6 +59,9 @@ public class Transform extends Component{
         return centerOfRotation;
     }
 
+    public float getRotationRadians(){
+        return (float)Math.toRadians(rotation);
+    }
 
     public Transform(){
         this(new Vector3f(), new Vector2f(), 0f);
@@ -93,9 +96,9 @@ public class Transform extends Component{
         
         // create the rotation matrix
         Matrix3f rotationMatrix = new Matrix3f(
-            new Vector3f((float)Math.cos(rotation), (float)Math.sin(rotation), 0), 
-            new Vector3f(-(float)Math.sin(rotation),  (float)Math.cos(rotation), 0),
-            new Vector3f( 0,                         0,                         1));
+            new Vector3f( (float)Math.cos(rotation), (float)Math.sin(rotation), 0), 
+            new Vector3f(-(float)Math.sin(rotation), (float)Math.cos(rotation), 0),
+            new Vector3f(        0                 , 0                        , 1));
 
         // rotate the bb vectors about the center of rotation
         // boundingBox.topLeft.mul(rotationMatrix);
@@ -122,8 +125,8 @@ public class Transform extends Component{
 
                 // transform by parent matrix
                 Matrix3f parentMatrix = new Matrix3f(
-                    new Vector3f((float)Math.cos(pt.rotation), (float)Math.sin(pt.rotation), 0), 
-                    new Vector3f(-(float)Math.sin(pt.rotation),  (float)Math.cos(pt.rotation), 0),
+                    new Vector3f((float)Math.cos(pt.getRotationRadians()),  (float)Math.sin(pt.getRotationRadians()), 0), 
+                    new Vector3f(-(float)Math.sin(pt.getRotationRadians()), (float)Math.cos(pt.getRotationRadians()), 0),
                     new Vector3f(0, 0, 1)
                 );
                 
@@ -136,9 +139,6 @@ public class Transform extends Component{
                 
             }
         }
-
-        
-
 
         return boundingBox;
     }

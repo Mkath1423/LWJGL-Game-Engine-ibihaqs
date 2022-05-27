@@ -109,6 +109,8 @@ public class Window {
 
         // init caps
         GL.createCapabilities();
+        
+        GLFW.glfwSetInputMode(glfwWindow, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
 
         for (Shader s : Shader.values()) {
             s.compile();
