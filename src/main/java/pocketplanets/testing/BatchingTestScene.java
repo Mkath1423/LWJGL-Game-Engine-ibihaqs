@@ -10,6 +10,7 @@ import org.joml.Vector3f;
 import engine.AssetManager;
 import engine.Inputs.Input;
 import engine.Inputs.InputAxis;
+import engine.components.SpriteRenderable;
 import engine.components.SpriteRenderer;
 import engine.components.Transform;
 import engine.gameobjects.GameObject;
@@ -44,29 +45,29 @@ public class BatchingTestScene extends Scene{
         SpriteMap sp2 = new SpriteMap(t2, 1, 1);
 
 
-        for(int x = 0; x < 20; x ++){
-            for (int y = 0; y < 50; y++) {
-                GameObject go = new GameObject();
-                    go.addComponent(new Transform(
-                        new Vector3f(500 - x*10, 500 - y*10, 0),
-                        new Vector2f(10, 10),
-                        0
-                    ));
-                    go.addComponent(new SpriteRenderer(sp));
+        // for(int x = 0; x < 20; x ++){
+        //     for (int y = 0; y < 50; y++) {
+        //         GameObject go = new GameObject();
+        //             go.addComponent(new Transform(
+        //                 new Vector3f(500 - x*10, 500 - y*10, 0),
+        //                 new Vector2f(10, 10),
+        //                 0
+        //             ));
+        //             go.addComponent(new SpriteRenderer(sp));
 
-                gameObjects.add(go);
-                GameObject go2 = new GameObject();
-                go2.addComponent(new Transform(
-                    new Vector3f(1000- x*10, 500 - y*10, 0),
-                    new Vector2f(10, 10),
-                    0
-                ));
-                go2.addComponent(new SpriteRenderer(sp2));
+        //         gameObjects.add(go);
+        //         GameObject go2 = new GameObject();
+        //         go2.addComponent(new Transform(
+        //             new Vector3f(1000- x*10, 500 - y*10, 0),
+        //             new Vector2f(10, 10),
+        //             0
+        //         ));
+        //         go2.addComponent(new SpriteRenderer(sp2));
 
-                gameObjects.add(go2);
+        //         gameObjects.add(go2);
         
-            }
-        }
+        //     }
+        // }
 
         GameObject funky = new GameObject();
             funky.addComponent(new Transform(
@@ -74,14 +75,13 @@ public class BatchingTestScene extends Scene{
                 new Vector2f(100, 200),
                 0
             ));
-            funky.addComponent(new SpriteRenderer(sp2));
+            funky.addComponent(new SpriteRenderable(sp));
 
         gameObjects.add(funky);
     }
 
     @Override
     public void Update(double deltaTime){
-        System.out.println("fps: " + 1/deltaTime);
         super.Update(deltaTime);
     }
 }

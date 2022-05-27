@@ -16,6 +16,7 @@ import org.lwjgl.system.MemoryUtil;
 import engine.Inputs.Input;
 import engine.Inputs.KeyListener;
 import engine.Inputs.MouseListener;
+import engine.renderer.QuadRenderer;
 import engine.renderer.Renderer;
 import engine.renderer.Shader;
 import engine.scenes.SceneManager;
@@ -143,7 +144,7 @@ public class Window {
             GL11.glClearColor(1f, 0.98f, 0.84f, 0);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
-            Renderer.draw();
+            QuadRenderer.render();
 
             GLFW.glfwSwapBuffers(glfwWindow);
 

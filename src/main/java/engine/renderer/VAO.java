@@ -1,80 +1,91 @@
 package engine.renderer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.lwjgl.opengl.ARBVertexArrayObject;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL33;
 
 /**
  * Defines the structure of a vertex
  */
-public enum VAO {
-    SPRITE(new String[] {"aPosition", "aUV", "aTexID"}, new int[] {3, 2, 1});
-    // TINTED_SPRITE(new String[] {"aPosition", "aColor", "aUV"}, new int[] {3, 4, 2}),
-    // COLOR(new String[] {"aPosition", "aColor"}, new int[] {3, 4});
+public class VAO {
+    // SPRITE(new String[] {"aPosition", "aUV", "aTexID"}, new int[] {3, 2, 1});
+    // // TINTED_SPRITE(new String[] {"aPosition", "aColor", "aUV"}, new int[] {3, 4, 2}),
+    // // COLOR(new String[] {"aPosition", "aColor"}, new int[] {3, 4});
 
-    public class Attribute{
+    private class Attribute{
         public String name;
         public int size;
         public int offset;
+        public int divisor;
+
+        public Attribute(String name, int size, int offset, int divisor){
+            this.name = name;
+            this.size = size;
+            this.offset = offset;
+            this.divisor = divisor;
+        }
     }
 
-    public Attribute[] attributes;
-    public Attribute[] getEmptyAttributes(){ return Arrays.copyOf(attributes, attributes.length); }
+    public List<Attribute> attributes;
 
     public int vaoSize = 0;
 
     private int ID = -1;
     public int getID(){ return ID; }
-
-    private VAO(String[] propertyNames, int[] propertySizes){
-        assert propertyNames.length == propertySizes.length : "VAO: property names and sizes do not match up";
-
-        attributes = new Attribute[propertySizes.length];
-
-        vaoSize = 0;
-
-        for (int i = 0; i < propertyNames.length; i++) {
-            attributes[i] = new Attribute();
-
-            attributes[i].name   = propertyNames[i];
-            attributes[i].size   = propertySizes[i];
-            attributes[i].offset = vaoSize;
-
-            vaoSize += propertySizes[i];
-        }
-
-    }
-
     public static int genBuffer(){
-        int ID = ARBVertexArrayObject.glGenVertexArrays();
-
-        return ID;
+        return ARBVertexArrayObject.glGenVertexArrays();
     }
 
-    public static void bind(int ID){
+    public VAO(){
+        ID = genBuffer();
+        attributes = new ArrayList<>();
+        vaoSize = 0;
+    }
+
+    public void addAttribute(String name, int sizeFloats, int divisor){
+        attributes.add(
+            new Attribute(
+                name,
+                sizeFloats,
+                vaoSize,
+                divisor
+            )
+        );
+
+        vaoSize += sizeFloats;
+    }
+    
+    public void bind(){
         ARBVertexArrayObject.glBindVertexArray(ID);
     }
 
-    public static void bindPointers(VAO vao){
-        for (int i = 0; i < vao.attributes.length; i++) {
-            // System.out.println(attributes[i].name + " " + attributes[i].size + " " + attributes[i].offset);
-            GL20.glVertexAttribPointer(i, vao.attributes[i].size, GL20.GL_FLOAT, false, vao.vaoSize*Float.BYTES, vao.attributes[i].offset*Float.BYTES);
+    public void unbind(){
+        ARBVertexArrayObject.glBindVertexArray(0);
+    }
+
+    public void bindPointers(){
+        for (int i = 0; i < attributes.size(); i++) {
+            System.out.println(attributes.get(i).name + " " + attributes.get(i).size + " " + attributes.get(i).offset);
+            GL20.glVertexAttribPointer(i, attributes.get(i).size, GL20.GL_FLOAT, false, vaoSize*Float.BYTES, attributes.get(i).offset*Float.BYTES);
+            // GL33.glVertexAttribDivisor(i, attributes.get(i).divisor);
             GL20.glEnableVertexAttribArray(i);
         }
     }
 
-    public static void enable(int ID, VAO vao){
-        ARBVertexArrayObject.glBindVertexArray(ID);
-        for (int i = 0; i < vao.attributes.length; i++) {
+    public void enable(){
+        for (int i = 0; i < attributes.size(); i++) {
             GL20.glEnableVertexAttribArray(i);
         }
     }
 
-    public static void disable(int ID, VAO vao){
-        for (int i = 0; i < vao.attributes.length; i++) {
+    public void disable(){
+        for (int i = 0; i < attributes.size(); i++) {
             GL20.glDisableVertexAttribArray(i);
         }
-        ARBVertexArrayObject.glBindVertexArray(0);
+        unbind();
     }
 }

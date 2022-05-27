@@ -11,6 +11,7 @@ import org.lwjgl.opengl.GL20;
 
 import engine.Window;
 import engine.renderer.EBO;
+import engine.renderer.QuadRenderer;
 import engine.renderer.Renderer;
 import engine.renderer.Shader;
 import engine.renderer.SpriteMap;
@@ -66,14 +67,14 @@ public class SpriteRenderer extends Renderable{
         // System.out.println("-----------------");
         for(int i = 0; i < 4; i ++){
             // System.out.printf("(%s, %s) ", vertices[i].x, vertices[i].y);
-            buffer[start + vao.vaoSize * i + 0] = vertices[i].x;
-            buffer[start + vao.vaoSize * i + 1] = vertices[i].y;
-            buffer[start + vao.vaoSize * i + 2] = vertices[i].z;
+            buffer[start + QuadRenderer.getVAO().vaoSize * i + 0] = vertices[i].x;
+            buffer[start + QuadRenderer.getVAO().vaoSize * i + 1] = vertices[i].y;
+            buffer[start + QuadRenderer.getVAO().vaoSize * i + 2] = vertices[i].z;
 
-            buffer[start + vao.vaoSize * i + 3] = uvVertices[i].x; 
-            buffer[start + vao.vaoSize * i + 4] = uvVertices[i].y;
+            buffer[start + QuadRenderer.getVAO().vaoSize * i + 3] = uvVertices[i].x; 
+            buffer[start + QuadRenderer.getVAO().vaoSize * i + 4] = uvVertices[i].y;
             
-            buffer[start + vao.vaoSize * i + 5] = texSlot; 
+            buffer[start + QuadRenderer.getVAO().vaoSize * i + 5] = texSlot; 
 
             // System.out.printf("(%s, %s) -> (%s, %s)\n", buffer[start + vao.vaoSize * i + 0], buffer[start + vao.vaoSize * i + 1], 
             // buffer[start + vao.vaoSize * i + 3], buffer[start + vao.vaoSize * i + 4]);
