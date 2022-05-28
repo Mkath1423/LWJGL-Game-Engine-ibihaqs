@@ -54,14 +54,17 @@ public class MainGameScene extends Scene{
 
         // mario
         GameObject go1 = new GameObject();
-            go1.addComponent(new Transform(
+            Transform playerTransform = new Transform(
                 new Vector3f(300, 100, 0),
                 new Vector2f(100, 100),
                 0
-            ));
+            );
+
+            playerTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
+            go1.addComponent(playerTransform);
             go1.addComponent(new SpriteRenderer(sp1));
             go1.addComponent(new Player());
-            // go.addComponent(new Move());
+            go1.addComponent(new Move());
 
 
         SpriteMap sp2 = new SpriteMap(t2, 1, 1);
