@@ -1,6 +1,8 @@
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
+import javax.sound.sampled.FloatControl;
+
 import org.joml.Vector2f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Version;
@@ -15,6 +17,8 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryUtil;
 
 import renderer.Shader;
+import renderer.VAO;
+import renderer.VBO;
 import util.Time;
 
 public class Window {
@@ -42,7 +46,9 @@ public class Window {
             0, 1, 3 // bottom left triangle
     };
 
-    private int vaoID, vboID, eboID;
+    private int vboID, eboID;
+    private VAO vao;
+    private VBO vbo;
 
     private Window(){
         this.width = 1920;
@@ -124,20 +130,14 @@ public class Window {
         double endTime = Time.getTime();
         double deltaTime = -1;
 
+        vao = new VAO();
+            vao.addAttribute("position", 3, 0);
+            vao.addAttribute("color", 4, 0);
 
-        vaoID = ARBVertexArrayObject.glGenVertexArrays();
-        ARBVertexArrayObject.glBindVertexArray(vaoID);
+        
+        vao.bind();
 
-        // creat float buffer verticies
-
-        FloatBuffer vertexBuffer = BufferUtils.createFloatBuffer(vertexArray.length);
-        vertexBuffer.put(vertexArray).flip();
-
-        // VBO and upload vertex butffer
-
-        vboID = GL20.glGenBuffers();
-        GL20.glBindBuffer(GL20.GL_ARRAY_BUFFER, vboID);
-        GL20.glBufferData(GL20.GL_ARRAY_BUFFER, vertexBuffer, GL20.GL_STATIC_DRAW);
+        vbo = new VBO(vertexArray.length * Float.BYTES);
 
         // creat indicies and upload
         IntBuffer elementBuffer = BufferUtils.createIntBuffer(elementArray.length);
@@ -146,23 +146,15 @@ public class Window {
         eboID = GL20.glGenBuffers();
         GL20.glBindBuffer(GL20.GL_ELEMENT_ARRAY_BUFFER, eboID);
         GL20.glBufferData(GL20.GL_ELEMENT_ARRAY_BUFFER, elementBuffer, GL20.GL_STATIC_DRAW);
-    
-        // taiohkjqthjr3wqioupfhnbersadhjklfbvdahjklfhwenfbewlsfnbdsalfh2   rfhdjnsdk;azvbsdjiapfhw
-        int positionSize = 3;
-        int colorSize = 4;
 
-        int floatByteSize = 4;
-        int vertexSizeBytes = (positionSize + colorSize) * floatByteSize;
 
-        GL20.glVertexAttribPointer(0, positionSize, GL20.GL_FLOAT, false, vertexSizeBytes, 0);
-        GL20.glEnableVertexAttribArray(0);
-
-        GL20.glVertexAttribPointer(1, colorSize, GL20.GL_FLOAT, false, vertexSizeBytes, positionSize*floatByteSize);
-        GL20.glEnableVertexAttribArray(1);
+        vao.bindPointers();
 
         while(!GLFW.glfwWindowShouldClose(glfwWindow)){
             // events
             GLFW.glfwPollEvents();
+            
+            vbo.bufferData(vertexArray);
 
             // background
             GL11.glClearColor(1, 1, 1, 0);
@@ -175,17 +167,11 @@ public class Window {
 
             camera.position.x -= 50 *deltaTime;
 
-            GL30.glBindVertexArray(vaoID);
-
-            GL20.glEnableVertexAttribArray(0);
-            GL20.glEnableVertexAttribArray(1);
+            vao.enable();
 
             GL20.glDrawElements(GL30.GL_TRIANGLES, elementArray.length, GL30.GL_UNSIGNED_INT, 0);
 
-            GL20.glDisableVertexAttribArray(0);
-            GL20.glDisableVertexAttribArray(1);
-
-            GL30.glBindVertexArray(0);
+            vao.disable();
             s.detach();
             
             GLFW.glfwSwapBuffers(glfwWindow);
