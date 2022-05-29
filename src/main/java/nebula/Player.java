@@ -12,7 +12,7 @@ import engine.scenes.SceneManager;
 
 public class Player extends Component{
 
-    public Transform transform;
+    public static Transform transform;
     public Move move;
 
     private Vector3f inputForce;
@@ -20,6 +20,8 @@ public class Player extends Component{
     private Vector3f grappleForce;
     private Vector2f grapplePosition;
     private Vector2f grappleVector;
+
+    public int playerHealth = 3;
 
     @Override
     public void Awake() {
@@ -86,4 +88,5 @@ public class Player extends Component{
     public void End() {
 
     };
+    
 }
