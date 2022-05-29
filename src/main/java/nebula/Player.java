@@ -69,15 +69,15 @@ public class Player extends Component{
             
             //move.addMass(10);
             //move.addForce(new Vector3f(10, 0, 0));
-      
+
             // If right click is released 
             if(Input.getMouseButtonReleased(KeyCode.MOUSE_BUTTON_1)){
                 isGrappled = false;
             }
         }
         else{
-            transform.position.x += deltaTime * Input.getAxis("horizontal") * 40;
-            transform.position.y += deltaTime * Input.getAxis("vertical") * 40;
+            transform.position.x += deltaTime * Input.getAxis("horizontal") * 80;
+            transform.position.y += deltaTime * Input.getAxis("vertical") * 80;
         }
         
 
