@@ -45,9 +45,7 @@ public class Player extends Component{
         // Convert mouse coordinates to world coordinates
         Vector2f mouseWorldCoordinates = SceneManager.getActiveMainCamera().screenToWorldCoordinate(Input.getMousePosition());
 
-        // Setting up input force to influence grapple movement 
-        inputForce.set(Input.getAxis("horizontal"), Input.getAxis("vertical"), 0);
-        inputForce.normalize();
+
 
         // Gets vector angle between mouse and player and sets current sprite rotation to match
         transform.rotation = (float)Math.atan2(mouseWorldCoordinates.y - transform.position.y, mouseWorldCoordinates.x - transform.position.x);
@@ -59,16 +57,20 @@ public class Player extends Component{
         }
         if(isGrappled){
             // Get vector between Player and Mouse
-            grappleVector = new Vector2f(grapplePosition.y - transform.position.y, grapplePosition.x - transform.position.x);
+            grappleVector = new Vector2f(grapplePosition.x - transform.position.x, grapplePosition.y - transform.position.y);
 
             // Find deltaX for use in hooke's law equation
-            Float deltaX = Math.max(grappleVector.length() - 10, 0);
+            Float deltaX = Math.max(grappleVector.length() - 100, 0);
             
             // Set the force vector components
-            grappleForce.set(new Vector3f(grappleVector.normalize().add(grappleVector.x * deltaX * 5, grappleVector.y * deltaX * 5), 0));
+            grappleForce.set(new Vector3f(grappleVector.normalize().mul(deltaX * 0.5f), 0));
+            grappleForce.mul((float)deltaTime);
+
+            transform.position.x += grappleForce.x;
+            transform.position.y += grappleForce.y;
             
-            //move.addMass(10);
-            //move.addForce(new Vector3f(10, 0, 0));
+            transform.position.x += deltaTime * Input.getAxis("horizontal") * 120;
+            transform.position.y += deltaTime * Input.getAxis("vertical") * 120;
 
             // If right click is released 
             if(Input.getMouseButtonReleased(KeyCode.MOUSE_BUTTON_1)){

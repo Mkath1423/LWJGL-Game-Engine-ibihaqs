@@ -109,7 +109,7 @@ public class MainGameScene extends Scene{
 
             swordObject.addComponent(new SpriteRenderer(swordSprite));
             swordObject.addComponent(new Weapon());
-
+        
             
         gameObjects.add(playerObject);
         gameObjects.add(reticleObject);
