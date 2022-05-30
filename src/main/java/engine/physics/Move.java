@@ -26,9 +26,9 @@ public class Move extends Component {
     private Vector3f force =                // The force applied to the object
         new Vector3f(0, 0, 0);                
     private Vector3f velocity =             // The velocity as a Vector3f
-        new Vector3f(0, 0, 0);              
-    private Vector3f zero =                 // A Vector3f quantity of 0
-        new Vector3f(0, 0, 0);
+        new Vector3f(0, 0, 0);   
+    private Vector3f zero =                 // A zero vector, for comparisons
+        new Vector3f(0, 0, 0);  
 
 
 
@@ -111,16 +111,12 @@ public class Move extends Component {
      */
     private void calculate() {
 
+        acceleration.add(acceleration.mul(FRICTION * -1));
+
         if(force != zero) {
 
-            acceleration.add(acceleration.mul(FRICTION * -1));
             acceleration.add(force.div(mass));
-            force = zero;
-
-        } else {
-
-            acceleration.add(acceleration.mul(FRICTION * -1));
-
+            force = new Vector3f(0, 0, 0);
         }
     }
     
