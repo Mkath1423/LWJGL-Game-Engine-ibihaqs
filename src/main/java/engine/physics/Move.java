@@ -113,6 +113,7 @@ public class Move extends Component {
 
         if(force != zero) {
 
+            acceleration.add(acceleration.mul(FRICTION * -1));
             acceleration.add(force.div(mass));
             force = zero;
 
