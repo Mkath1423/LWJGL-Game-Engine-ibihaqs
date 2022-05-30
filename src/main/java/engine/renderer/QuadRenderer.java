@@ -49,20 +49,6 @@ public class QuadRenderer {
     }
 
     // SECTION GL RENDERING
-    
-    private float[] vertexArray = {
-        // position               // color
-         50.5f + 100, 0f+ 100, 0.0f,       1.0f, 0.0f, 0.0f, // Bottom right 0
-        0f+ 100,  50f+ 100, 0.0f,       1.0f, 1.0f, 0.0f,  // Top left     1
-         50.5f+ 100,  50f+ 100, 0.0f ,      0.0f, 1.0f, 1.0f, // Top right    2
-        -0.5f+ 100, -0.5f+ 100, 0.0f,       0.0f, 0.0f, 0.0f,  // Bottom left  3
-    };
-
-    // IMPORTANT: Must be in counter-clockwise order
-    private int[] elementArray = {
-            2, 1, 0, // Top right triangle
-            0, 1, 3 // bottom left triangle
-    };
 
     private VAO vao;
     private VBO vbo;
@@ -74,9 +60,12 @@ public class QuadRenderer {
             vao.addAttribute("texID", 1, 0);
         vao.bind();
 
-        vbo = new VBO(vertexArray.length * Float.BYTES);
+        vbo = new VBO(MAX_BATCH_SIZE * EBO.QUAD.getNumberOfVertices() * vao.vaoSize * Float.BYTES);
 
         // creat indicies and upload
+
+        int[] elementArray = EBO.generateIndices(EBO.QUAD, MAX_BATCH_SIZE);
+
         IntBuffer elementBuffer = BufferUtils.createIntBuffer(elementArray.length);
         elementBuffer.put(elementArray).flip();
 
@@ -100,9 +89,6 @@ public class QuadRenderer {
     }
 
     public static void render(){
-        get().vbo.bufferData(get().vertexArray);
-
-        
         List<QuadRenderBatch> batches = new ArrayList<>();
 
         // batch the renderables
@@ -145,7 +131,7 @@ public class QuadRenderer {
 
             get().vao.enable();
 
-            GL20.glDrawElements(GL30.GL_TRIANGLES, get().elementArray.length, GL30.GL_UNSIGNED_INT, 0);
+            GL20.glDrawElements(GL30.GL_TRIANGLES, EBO.QUAD.getLength() * MAX_BATCH_SIZE, GL30.GL_UNSIGNED_INT, 0);
 
             get().vao.disable();
             Shader.SPRITE.detach();
