@@ -21,9 +21,12 @@ public class Move extends Component {
 
     private Vector3f change =               // The new position to be returned
         new Vector3f(0, 0, 0);                
-    private Vector3f acceleration;          // The acceleration as a Vector3f
-    private Vector3f force;                 // The force applied to the object
-    private Vector3f velocity;              // The velocity as a Vector3f
+    private Vector3f acceleration =         // The acceleration as a Vector3f
+        new Vector3f(0, 0, 0);          
+    private Vector3f force =                // The force applied to the object
+        new Vector3f(0, 0, 0);                
+    private Vector3f velocity =             // The velocity as a Vector3f
+        new Vector3f(0, 0, 0);              
     private Vector3f zero =                 // A Vector3f quantity of 0
         new Vector3f(0, 0, 0);
 
