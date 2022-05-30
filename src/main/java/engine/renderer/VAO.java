@@ -34,7 +34,7 @@ public class VAO {
 
     public int vaoSize = 0;
 
-    private int ID = -1;
+    public int ID = -1;
     public int getID(){ return ID; }
     public static int genBuffer(){
         return ARBVertexArrayObject.glGenVertexArrays();
@@ -77,6 +77,7 @@ public class VAO {
     }
 
     public void enable(){
+        bind();
         for (int i = 0; i < attributes.size(); i++) {
             GL20.glEnableVertexAttribArray(i);
         }

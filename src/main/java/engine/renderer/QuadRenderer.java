@@ -1,22 +1,24 @@
 package engine.renderer;
 
 import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.ARBVertexArrayObject;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
 
 import engine.components.QuadRenderable;
-import engine.components.Renderable;
-import engine.geometry.Quad;
 import engine.scenes.SceneManager;
 
 public class QuadRenderer {
+    static final int MAX_BATCH_SIZE = 1;
+    static final int MAX_TEXTURES = 32;
+
+    // SECTION SINGLETON
     static QuadRenderer instance;
 
     private static QuadRenderer get(){
@@ -27,173 +29,131 @@ public class QuadRenderer {
         return QuadRenderer.instance;
     }
 
-    private VAO vao;
-    public static VAO getVAO(){
-        return get().vao;
-    }
-
-
-    private VBO vbo;
-    public static VBO getVBO(){
-        return get().vbo;
-    }
-
-    static final int MAX_BATCH_SIZE = 2;
-
-    int vaoID, vboID, eboID;
-
     public QuadRenderer(){
         renderables = new ArrayList<>();
-
-        // vao = new VAO();
-        //     vao.addAttribute("position", 3, 0);
-        //     vao.addAttribute("uvCoords", 2, 0);
-        //     vao.addAttribute("texID", 1, 0);
-
-        // vao.bind();
-
-        vaoID = ARBVertexArrayObject.glGenVertexArrays();
-        ARBVertexArrayObject.glBindVertexArray(vaoID);
-
-        // generate vbo
-        // vbo = new VBO(MAX_BATCH_SIZE * 6 * Float.BYTES);
-        vboID = GL20.glGenBuffers();
-        GL20.glBindBuffer(GL20.GL_ARRAY_BUFFER, vboID);
-        GL20.glBufferData(GL20.GL_ARRAY_BUFFER, 2 * 6 * Float.BYTES, GL20.GL_DYNAMIC_DRAW);
-
-        // Create and upload indices buffer
-        int eboID = GL20.glGenBuffers();
-        int[] indices = EBO.generateIndices(EBO.QUAD, MAX_BATCH_SIZE);
-        GL20.glBindBuffer(GL20.GL_ELEMENT_ARRAY_BUFFER, eboID);
-        GL20.glBufferData(GL20.GL_ELEMENT_ARRAY_BUFFER, indices, GL20.GL_STATIC_DRAW);
-
-        GL20.glVertexAttribPointer(0, 3, GL20.GL_FLOAT, false, 6*Float.BYTES, 0*Float.BYTES);
-        GL20.glEnableVertexAttribArray(0);
-
-        
-        GL20.glVertexAttribPointer(1, 2, GL20.GL_FLOAT, false, 6*Float.BYTES, 3*Float.BYTES);
-        GL20.glEnableVertexAttribArray(0);
-
-        
-        GL20.glVertexAttribPointer(3, 1, GL20.GL_FLOAT, false, 6*Float.BYTES, 5*Float.BYTES);
-        GL20.glEnableVertexAttribArray(0);
-
-        // vao.bindPointers();
-        // vao.disable();
-        
-        ARBVertexArrayObject.glBindVertexArray(0);
+        init();
     }
 
+
+    // SECTION RENDERABLES
     private List<QuadRenderable> renderables;
+
+
     public static void addRenderable(QuadRenderable renderable){
         get().renderables.add(renderable);
         System.out.println("adding quad renderable");
     }
 
+    public static void removeRenderable(QuadRenderable renderable){
+        get().renderables.remove(renderable);
+    }
+
+    // SECTION GL RENDERING
+    
+    private float[] vertexArray = {
+        // position               // color
+         50.5f + 100, 0f+ 100, 0.0f,       1.0f, 0.0f, 0.0f, // Bottom right 0
+        0f+ 100,  50f+ 100, 0.0f,       1.0f, 1.0f, 0.0f,  // Top left     1
+         50.5f+ 100,  50f+ 100, 0.0f ,      0.0f, 1.0f, 1.0f, // Top right    2
+        -0.5f+ 100, -0.5f+ 100, 0.0f,       0.0f, 0.0f, 0.0f,  // Bottom left  3
+    };
+
+    // IMPORTANT: Must be in counter-clockwise order
+    private int[] elementArray = {
+            2, 1, 0, // Top right triangle
+            0, 1, 3 // bottom left triangle
+    };
+
+    private VAO vao;
+    private VBO vbo;
+
+    private void init(){
+        vao = new VAO();
+            vao.addAttribute("position", 3, 0);
+            vao.addAttribute("uvCoords", 2, 0);
+            vao.addAttribute("texID", 1, 0);
+        vao.bind();
+
+        vbo = new VBO(vertexArray.length * Float.BYTES);
+
+        // creat indicies and upload
+        IntBuffer elementBuffer = BufferUtils.createIntBuffer(elementArray.length);
+        elementBuffer.put(elementArray).flip();
+
+        int eboID = GL20.glGenBuffers();
+        GL20.glBindBuffer(GL20.GL_ELEMENT_ARRAY_BUFFER, eboID);
+        GL20.glBufferData(GL20.GL_ELEMENT_ARRAY_BUFFER, elementBuffer, GL20.GL_STATIC_DRAW);
+
+        vao.bindPointers();
+        vao.disable();
+    }
+
+    private static void uploadUniforms(){
+        Shader.SPRITE.uploadMat4f("uProjection", SceneManager.getActiveMainCamera().getProjectionMatrix());
+        Shader.SPRITE.uploadMat4f("uView",       SceneManager.getActiveMainCamera().getViewMatrix());
+        int[] textureSlots = new int[8];
+        for (int i = 0; i < textureSlots.length; i++) {
+            textureSlots[i] = i;
+        }
+
+        Shader.SPRITE.uploadIntArray("uTextures", textureSlots);
+    }
+
     public static void render(){
-        // System.out.println("rendering quads");
-        Map<Texture, List<QuadRenderable>> sortedRenderables = new HashMap<>();
+        get().vbo.bufferData(get().vertexArray);
 
-        for (QuadRenderable r : get().renderables) {
-            if(!sortedRenderables.containsKey(r.getTexture())){
-                sortedRenderables.put(r.getTexture(), new ArrayList<>());
-            }
-            sortedRenderables.get(r.getTexture()).add(r);
-        }
-
-        for (List<QuadRenderable> lqr : sortedRenderables.values()) {
-            // System.out.println("bonkus " + lqr.size());
-        }
         
         List<QuadRenderBatch> batches = new ArrayList<>();
 
-        for(List<QuadRenderable> l : sortedRenderables.values()){ 
-            for(QuadRenderable qr : l){
-                // System.out.println("adding elem to batch");
-                for (QuadRenderBatch quadRenderBatch : batches) {
-                    if(quadRenderBatch.canAdd(qr))
-                    {
-                        // System.out.println("I can add to an existing one");
-                        quadRenderBatch.add(qr);
-                        break;
-                    }
+        // batch the renderables
+        renderables:
+        for (QuadRenderable renderable : get().renderables) {
+            for (QuadRenderBatch batch : batches) {
+                if(batch.canAdd(renderable)){
+                    batch.add(renderable);
+                    break renderables;
                 }
-
-                // System.out.println("I am making a new one");
-                QuadRenderBatch qrb = new QuadRenderBatch();
-                    qrb.add(qr);
-
-                    
-                batches.add(qrb);
             }
+
+            QuadRenderBatch batch = new QuadRenderBatch();
+                batch.add(renderable);
+
+            batches.add(batch);
         }
-
-        // for (QuadRenderBatch quadRenderBatch : batches) {
-            // System.out.println("drawing batch of size " + quadRenderBatch.quads.size());
-        // }
-
+        
+        // buffer each batch and render
         for (QuadRenderBatch batch : batches) {
-            float[] vertices = new float[MAX_BATCH_SIZE * EBO.QUAD.getNumberOfVertices() * 6];
+            float[] vertices = new float[QuadRenderer.MAX_BATCH_SIZE * EBO.QUAD.getNumberOfVertices() * get().vao.vaoSize];
 
-            int offset = 0;
-            for (QuadRenderable qr : batch.quads) {
-                qr.loadVertexData(vertices, offset);
-                offset += qr.numberVertices * 6;
+            int index = 0;
+            for (QuadRenderable qr : get().renderables) {
+                qr.loadVertexData(vertices, index);
+                index += get().vao.vaoSize * qr.numberVertices;
             }
 
-            GL20.glBindBuffer(GL20.GL_ARRAY_BUFFER, get().vboID);
+            System.out.println(Arrays.toString(vertices));
 
-            FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(vertices.length);
-            verticesBuffer.put(vertices).flip();
-            
-            GL20.glBufferSubData(GL20.GL_ARRAY_BUFFER, 0, verticesBuffer);
+            get().vbo.bufferData(vertices);
 
-            // System.out.println(Arrays.toString(vertices));
-
-            for (int i = 0; i < batch.textures.size(); i++) {
-                if(batch.textures.get(i) == null) continue;
+            for (int i = 0; i < batch.textures.size(); i ++) {
                 GL20.glActiveTexture(GL20.GL_TEXTURE0 + i);
                 batch.textures.get(i).bind();
             }
 
             Shader.SPRITE.use();
-            Shader.SPRITE.uploadMat4f("uProjection", SceneManager.getActiveMainCamera().getProjectionMatrix());
-            Shader.SPRITE.uploadMat4f("uView",       SceneManager.getActiveMainCamera().getViewMatrix());
-            int[] textureSlots = new int[8];
-            for (int i = 0; i < textureSlots.length; i++) {
-                textureSlots[i] = i;
-            }
+            uploadUniforms();
 
-            Shader.SPRITE.uploadIntArray("uTextures", textureSlots);
+            get().vao.enable();
 
-            // getVAO().bind();
-            // getVAO().enable();
+            GL20.glDrawElements(GL30.GL_TRIANGLES, get().elementArray.length, GL30.GL_UNSIGNED_INT, 0);
 
-            ARBVertexArrayObject.glBindVertexArray(get().vaoID);
-
-            GL20.glEnableVertexAttribArray(0);
-            GL20.glEnableVertexAttribArray(1);
-            GL20.glEnableVertexAttribArray(2);
-
-            GL20.glDrawElements(GL20.GL_TRIANGLES, EBO.QUAD.getLength() * MAX_BATCH_SIZE, GL20.GL_UNSIGNED_INT, 0);
-
-            GL20.glEnableVertexAttribArray(2);
-            GL20.glEnableVertexAttribArray(1);
-            GL20.glEnableVertexAttribArray(0);
-
-            ARBVertexArrayObject.glBindVertexArray(0);
-            // getVAO().disable();
-            // getVAO().unbind();
-
+            get().vao.disable();
             Shader.SPRITE.detach();
 
-            for (int i = 0; i < batch.textures.size(); i++) {
-                if(batch.textures.get(i) == null) continue;
+            for (int i = 0; i < batch.textures.size(); i ++) {
                 GL20.glActiveTexture(GL20.GL_TEXTURE0 + i);
                 batch.textures.get(i).unbind();
             }
-
         }
-
     }
 }

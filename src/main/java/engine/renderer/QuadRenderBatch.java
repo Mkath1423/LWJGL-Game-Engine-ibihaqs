@@ -1,12 +1,19 @@
 package engine.renderer;
 
+import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
+
 import engine.components.QuadRenderable;
+import engine.components.Renderable;
+import engine.scenes.SceneManager;
 
 public class QuadRenderBatch {
-    List<QuadRenderable> quads = new ArrayList<>();
+    List<QuadRenderable> renderables = new ArrayList<>();
 
     List<Texture> textures = new ArrayList<>();
 
@@ -24,25 +31,27 @@ public class QuadRenderBatch {
         }
 
         // System.out.println("    checking t amount");
-        return amountTextures < 8;
+        return amountTextures < QuadRenderer.MAX_TEXTURES;
     }
 
-    public void add(QuadRenderable qr){
-        if(!canAdd(qr)) return;
+    public void add(QuadRenderable renderable){
+        if(!canAdd(renderable)) return;
         // System.out.println("adding qr to batch");
 
         boolean allocateTexture = true;
 
         for (Texture tex : textures) {
-            if(tex.getTexId() == qr.getTexture().getTexId()) allocateTexture = false;            
+            if(tex.getTexId() == renderable.getTexture().getTexId()) allocateTexture = false;            
         }
 
-        quads.add(qr);
-        amountVertices += qr.numberVertices;
+        renderables.add(renderable);
+        amountVertices += renderable.numberVertices;
 
         if(allocateTexture){
-            textures.add(qr.getTexture());
+            textures.add(renderable.getTexture());
             amountTextures ++;
         }
+
+        renderable.texSlot = textures.indexOf(renderable.getTexture());
     }
 }

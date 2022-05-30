@@ -15,6 +15,7 @@ void main()
     fTexCoords = aUV;
     fTexID = aTexID;
     gl_Position = uProjection * uView * vec4(aPosition, 1);
+    
 }
 
 #type fragment

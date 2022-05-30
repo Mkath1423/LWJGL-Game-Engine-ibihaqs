@@ -10,7 +10,6 @@ import org.joml.Vector3f;
 import engine.AssetManager;
 import engine.Inputs.Input;
 import engine.Inputs.InputAxis;
-import engine.components.SpriteRenderable;
 import engine.components.SpriteRenderer;
 import engine.components.Transform;
 import engine.gameobjects.GameObject;
@@ -71,11 +70,11 @@ public class BatchingTestScene extends Scene{
 
         GameObject funky = new GameObject();
             funky.addComponent(new Transform(
-                new Vector3f(100, 100, 0),
+                new Vector3f(300, 300, 0),
                 new Vector2f(100, 200),
                 0
             ));
-            funky.addComponent(new SpriteRenderable(sp));
+            funky.addComponent(new SpriteRenderer(sp));
 
         gameObjects.add(funky);
     }

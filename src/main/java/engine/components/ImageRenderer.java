@@ -1,17 +1,21 @@
 package engine.components;
 
 import org.joml.Vector3f;
+
 import engine.renderer.SpriteMap;
 import engine.renderer.Texture;
 
-public class SpriteRenderer extends QuadRenderable{
+public class ImageRenderer extends QuadRenderable{
 
     private SpriteMap spriteMap;
     private int currentSprite;
 
     private Transform transform;
 
-    public SpriteRenderer(SpriteMap spriteMap){
+    private int texSlot = 0;
+
+
+    public ImageRenderer(SpriteMap spriteMap){
         super(4, 0);
 
         this.spriteMap = spriteMap;
@@ -30,20 +34,16 @@ public class SpriteRenderer extends QuadRenderable{
         Vector3f[] vertices = transform.getQuad().getVertices();
         Vector3f[] uvVertices = spriteMap.getSprite(currentSprite).uvCoordinates.getVertices();
         
-        // System.out.println("-----------------");
         for(int i = 0; i < 4; i ++){
-            // System.out.printf("(%s, %s) ", vertices[i].x, vertices[i].y);
-            buffer[start + 6 * i + 0] = vertices[i].x;
-            buffer[start + 6 * i + 1] = vertices[i].y;
-            buffer[start + 6 * i + 2] = vertices[i].z;
+            buffer[start + 7 * i + 0] = vertices[i].x;
+            buffer[start + 7 * i + 1] = vertices[i].y;
+            buffer[start + 7 * i + 2] = vertices[i].z;
 
-            buffer[start + 6 * i + 3] = uvVertices[i].x; 
-            buffer[start + 6 * i + 4] = uvVertices[i].y;
+            buffer[start + 7 * i + 3] = uvVertices[i].x; 
+            buffer[start + 7 * i + 4] = uvVertices[i].y;
             
-            buffer[start + 6 * i + 5] = texSlot;
-
-            // System.out.printf("(%s, %s) -> (%s, %s)\n", buffer[start + vao.vaoSize * i + 0], buffer[start + vao.vaoSize * i + 1], 
-            // buffer[start + vao.vaoSize * i + 3], buffer[start + vao.vaoSize * i + 4]);
+            buffer[start + 7 * i + 5] = texSlot;
+            buffer[start + 7 * i + 6] = 0;  
         }
     }
 
