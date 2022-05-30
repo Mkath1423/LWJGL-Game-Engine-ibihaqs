@@ -74,7 +74,7 @@ public class MainGameScene extends Scene{
         GameObject reticleObject = new GameObject();
             Transform reticleTransform = new Transform(
                 new Vector3f(100, 100, 10),
-                new Vector2f(50, 50),
+                new Vector2f(100, 100),
                 0
             );
 
