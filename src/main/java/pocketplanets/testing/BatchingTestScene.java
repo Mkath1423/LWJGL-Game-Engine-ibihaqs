@@ -23,6 +23,11 @@ public class BatchingTestScene extends Scene{
 
 
     public BatchingTestScene(){
+
+        Input.addAxis("rotation", new InputAxis(-1, 1, 20, 20, Input.KeyCode.Q, Input.KeyCode.E));
+        Input.addAxis("horizontal", new InputAxis(-1, 1, 20, 20, Input.KeyCode.D, Input.KeyCode.A));
+        Input.addAxis("vertical", new InputAxis(-1, 1, 20, 20, Input.KeyCode.W, Input.KeyCode.S));
+
         mainCamera = new GameObject(); // camera will be changed soon
             mainCamera.addComponent(new Transform(
                 new Vector3f(0, 0, 0),
@@ -44,29 +49,29 @@ public class BatchingTestScene extends Scene{
         SpriteMap sp2 = new SpriteMap(t2, 1, 1);
 
 
-        for(int x = 0; x < 20; x ++){
-            for (int y = 0; y < 50; y++) {
-                GameObject go = new GameObject();
-                    go.addComponent(new Transform(
-                        new Vector3f(500 - x*10, 500 - y*10, 0),
-                        new Vector2f(10, 10),
-                        0
-                    ));
-                    go.addComponent(new SpriteRenderer(sp));
+        // for(int x = 0; x < 20; x ++){
+        //     for (int y = 0; y < 50; y++) {
+        //         GameObject go = new GameObject();
+        //             go.addComponent(new Transform(
+        //                 new Vector3f(500 - x*10, 500 - y*10, 0),
+        //                 new Vector2f(10, 10),
+        //                 0
+        //             ));
+        //             go.addComponent(new SpriteRenderer(sp));
 
-                gameObjects.add(go);
-                GameObject go2 = new GameObject();
-                go2.addComponent(new Transform(
-                    new Vector3f(1000- x*10, 500 - y*10, 0),
-                    new Vector2f(10, 10),
-                    0
-                ));
-                go2.addComponent(new SpriteRenderer(sp2));
+        //         gameObjects.add(go);
+        //         GameObject go2 = new GameObject();
+        //         go2.addComponent(new Transform(
+        //             new Vector3f(1000- x*10, 500 - y*10, 0),
+        //             new Vector2f(10, 10),
+        //             0
+        //         ));
+        //         go2.addComponent(new SpriteRenderer(sp2));
 
-                gameObjects.add(go2);
+        //         gameObjects.add(go2);
         
-            }
-        }
+        //     }
+        // }
 
         GameObject funky = new GameObject();
             funky.addComponent(new Transform(
@@ -75,8 +80,20 @@ public class BatchingTestScene extends Scene{
                 0
             ));
             funky.addComponent(new SpriteRenderer(sp2));
+            funky.addComponent(new SampleComponent());
 
         gameObjects.add(funky);
+
+        GameObject bunky = new GameObject();
+        bunky.addComponent(new Transform(
+                new Vector3f(0, 0, 0),
+                new Vector2f(100, 100),
+                0
+            ));
+            bunky.addComponent(new SpriteRenderer(sp2));
+            bunky.setParent(funky);
+
+        gameObjects.add(bunky);
     }
 
     @Override

@@ -60,7 +60,7 @@ public class Transform extends Component{
     }
 
     public float getRotationRadians(){
-        return (float)Math.toRadians(rotation);
+        return rotation;
     }
 
     public Transform(){
@@ -83,60 +83,40 @@ public class Transform extends Component{
         // get bounding box vectors in world space
         Quad boundingBox = Quad.Rect(topLeft, scale.x, scale.y);
 
-
-        // TODO: FIX Y ORIGIN BEING INVERTED
         // get center of rotation in world space
         Vector3f centerOfRotation = getCenterOfRotation();
-        
-        // // make bounding box in CoR space
-        // boundingBox.topLeft.sub(centerOfRotation);
-        // boundingBox.topRight.sub(centerOfRotation);
-        // boundingBox.bottomLeft.sub(centerOfRotation);
-        // boundingBox.bottomRight.sub(centerOfRotation);
-        
+    
         // create the rotation matrix
-        Matrix3f rotationMatrix = new Matrix3f(
-            new Vector3f( (float)Math.cos(rotation), (float)Math.sin(rotation), 0), 
-            new Vector3f(-(float)Math.sin(rotation), (float)Math.cos(rotation), 0),
-            new Vector3f(        0                 , 0                        , 1));
+        Matrix3f rotationMatrix = new Matrix3f();
+            rotationMatrix.rotate(getRotationRadians(), new Vector3f(0, 0, 1));
 
-        // rotate the bb vectors about the center of rotation
-        // boundingBox.topLeft.mul(rotationMatrix);
-        // boundingBox.topRight.mul(rotationMatrix);
-        // boundingBox.bottomLeft.mul(rotationMatrix);
-        // boundingBox.bottomRight.mul(rotationMatrix);
-        
-        // // make the bb vectors in world space
-        // boundingBox.topLeft.add(centerOfRotation);
-        // boundingBox.topRight.add(centerOfRotation);
-        // boundingBox.bottomLeft.add(centerOfRotation);
-        // boundingBox.bottomRight.add(centerOfRotation);
-
+        // rotate each of the bb vectors about the CoR
         for(Vector3f v : boundingBox.getVertices()){
             v.sub(centerOfRotation);
             v.mul(rotationMatrix);
             v.add(centerOfRotation);
         }
 
+        // Transform into parent vector space
         if(gameObject.getParent() != null){
+
             Transform pt  = gameObject.getParent().getComponent(Transform.class);
             if(pt != null){
+                // get the parent's CoR
                 Vector3f parentCenterOfRotation = pt.getCenterOfRotation();
 
-                // transform by parent matrix
-                Matrix3f parentMatrix = new Matrix3f(
-                    new Vector3f((float)Math.cos(pt.getRotationRadians()),  (float)Math.sin(pt.getRotationRadians()), 0), 
-                    new Vector3f(-(float)Math.sin(pt.getRotationRadians()), (float)Math.cos(pt.getRotationRadians()), 0),
-                    new Vector3f(0, 0, 1)
-                );
-                
+                // get the parent's rotation matrix
+                Matrix3f parentMatrix = new Matrix3f();
+                    parentMatrix.rotate((pt.getRotationRadians()), new Vector3f(0, 0, 1));
+
+                // transform the parent
                 for(Vector3f v : boundingBox.getVertices()){
-                    v.add(new Vector3f(pt.position.x, pt.position.y, 0));
-                    v.sub(new Vector3f(parentCenterOfRotation.x, parentCenterOfRotation.y, 0));
+                    // rotate the bb about the parent's CoR
                     v.mul(parentMatrix);
+
+                    // translate the bb by the parent's CoR
                     v.add(new Vector3f(parentCenterOfRotation.x, parentCenterOfRotation.y, 0));
                 }
-                
             }
         }
 
