@@ -60,17 +60,30 @@ public class Player extends Component{
             grappleVector = new Vector2f(grapplePosition.x - transform.position.x, grapplePosition.y - transform.position.y);
 
             // Find deltaX for use in hooke's law equation
-            Float deltaX = Math.max(grappleVector.length() - 100, 0);
-            
-            // Set the force vector components
-            grappleForce.set(new Vector3f(grappleVector.normalize().mul(deltaX * 0.5f), 0));
-            grappleForce.mul((float)deltaTime);
+            Float deltaX = Math.max(grappleVector.length() - 300, 0);
 
+
+
+            // if(deltaX <= 30){
+            //     grappleForce.x = grappleVector.y;
+            //     grappleForce.y = -grappleVector.x;
+            //     grappleForce.mul((float)deltaTime);
+                     
+            // }
+            // else{
+                // Set the force vector components
+                grappleForce.set(new Vector3f(grappleVector.normalize().mul(deltaX * 0.8f ), 0));
+                grappleForce.mul((float)deltaTime);
+            // }
+                
             transform.position.x += grappleForce.x;
             transform.position.y += grappleForce.y;
             
-            transform.position.x += deltaTime * Input.getAxis("horizontal") * 120;
-            transform.position.y += deltaTime * Input.getAxis("vertical") * 120;
+            transform.position.x += deltaTime * Input.getAxis("horizontal") * 150;
+            transform.position.y += deltaTime * Input.getAxis("vertical") * 150;
+
+            // move.addMass(10000);
+            // move.addForce(grappleForce);
 
             // If right click is released 
             if(Input.getMouseButtonReleased(KeyCode.MOUSE_BUTTON_1)){

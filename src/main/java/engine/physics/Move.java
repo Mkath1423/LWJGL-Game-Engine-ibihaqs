@@ -15,7 +15,7 @@ public class Move extends Component {
 
     Transform n;                            // The transform component of the gameObject we work with
     
-    private static float FRICTION = 1/20;   // The coefficient of friction
+    private static float FRICTION = 1/2;   // The coefficient of friction
     
     public float mass = 0;                  // The mass, in kg, of the object
 
