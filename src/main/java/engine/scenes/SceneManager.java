@@ -45,7 +45,7 @@ public class SceneManager {
             if(get().activeScene != null)
                 get().activeScene.End();
 
-            Renderer.Refresh();
+            // Renderer.Refresh();
 
             get().activeScene = get().scenes.get(nextScene);
             get().activeScene.Start();

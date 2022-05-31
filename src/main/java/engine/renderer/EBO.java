@@ -40,4 +40,22 @@ public enum EBO {
     public int getNumberOfVertices(){
         return numberVertices;
     }
+
+    public static int[] generateIndices(EBO format, int numElements){
+        int[] indices = new int[format.getLength() * numElements];
+
+        for(int i = 0; i < numElements; i++){
+            int offsetArrayIndex = format.getLength() * i;
+            int offset = format.getNumberOfVertices() * i;
+            // System.out.println(offsetArrayIndex);
+            // System.out.println(offset);
+
+            int[] eboIndices = format.getIndices();
+            for (int j = 0; j < eboIndices.length; j++) {
+                indices[offsetArrayIndex + j] = offset + eboIndices[j];
+            }
+        }
+
+        return indices;
+    } 
 }
