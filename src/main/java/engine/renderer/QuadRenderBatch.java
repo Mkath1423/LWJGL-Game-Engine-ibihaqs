@@ -31,6 +31,7 @@ public class QuadRenderBatch {
         }
 
         // System.out.println("    checking t amount");
+        // System.out.println("    " + (amountTextures < QuadRenderer.MAX_TEXTURES));
         return amountTextures < QuadRenderer.MAX_TEXTURES;
     }
 

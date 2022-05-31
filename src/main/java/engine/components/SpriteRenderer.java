@@ -26,7 +26,6 @@ public class SpriteRenderer extends QuadRenderable{
 
     @Override
     public void loadVertexData(float[] buffer, int start) {
-
         Vector3f[] vertices = transform.getQuad().getVertices();
         Vector3f[] uvVertices = spriteMap.getSprite(currentSprite).uvCoordinates.getVertices();
         

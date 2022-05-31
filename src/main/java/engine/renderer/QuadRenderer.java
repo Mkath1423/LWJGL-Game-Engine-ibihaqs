@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.print.attribute.SupportedValuesAttribute;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.ARBVertexArrayObject;
 import org.lwjgl.opengl.GL20;
@@ -15,8 +17,8 @@ import engine.components.QuadRenderable;
 import engine.scenes.SceneManager;
 
 public class QuadRenderer {
-    static final int MAX_BATCH_SIZE = 1;
-    static final int MAX_TEXTURES = 32;
+    static final int MAX_BATCH_SIZE = 1000;
+    static final int MAX_TEXTURES = 8;
 
     // SECTION SINGLETON
     static QuadRenderer instance;
@@ -65,7 +67,6 @@ public class QuadRenderer {
         // creat indicies and upload
 
         int[] elementArray = EBO.generateIndices(EBO.QUAD, MAX_BATCH_SIZE);
-
         IntBuffer elementBuffer = BufferUtils.createIntBuffer(elementArray.length);
         elementBuffer.put(elementArray).flip();
 
@@ -97,7 +98,7 @@ public class QuadRenderer {
             for (QuadRenderBatch batch : batches) {
                 if(batch.canAdd(renderable)){
                     batch.add(renderable);
-                    break renderables;
+                    continue renderables;
                 }
             }
 
@@ -112,14 +113,18 @@ public class QuadRenderer {
             float[] vertices = new float[QuadRenderer.MAX_BATCH_SIZE * EBO.QUAD.getNumberOfVertices() * get().vao.vaoSize];
 
             int index = 0;
-            for (QuadRenderable qr : get().renderables) {
+            for (QuadRenderable qr : batch.renderables) {
                 qr.loadVertexData(vertices, index);
                 index += get().vao.vaoSize * qr.numberVertices;
             }
 
-            System.out.println(Arrays.toString(vertices));
-
             get().vbo.bufferData(vertices);
+
+            // System.out.println(vertices.length);
+            // System.out.println("----------------");
+            // for(int i = 0; i < vertices.length / get().vao.vaoSize; i++){
+            //     System.out.println(Arrays.toString(Arrays.copyOfRange(vertices, i, i + get().vao.vaoSize)));
+            // }
 
             for (int i = 0; i < batch.textures.size(); i ++) {
                 GL20.glActiveTexture(GL20.GL_TEXTURE0 + i);

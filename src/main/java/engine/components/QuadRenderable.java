@@ -4,7 +4,6 @@ import engine.renderer.QuadRenderer;
 import engine.renderer.Texture;
 
 public abstract class QuadRenderable extends Component{
-    public static final int MAX_BATCH_SIZE = 0;
 
     public int layerID;
 
