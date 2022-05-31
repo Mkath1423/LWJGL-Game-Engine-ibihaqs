@@ -16,6 +16,7 @@ import org.lwjgl.system.MemoryUtil;
 import engine.Inputs.Input;
 import engine.Inputs.KeyListener;
 import engine.Inputs.MouseListener;
+import engine.renderer.QuadRenderer;
 import engine.renderer.Renderer;
 import engine.renderer.Shader;
 import engine.scenes.SceneManager;
@@ -44,7 +45,7 @@ public class Window {
     private Window(){
         this.width = 1920;
         this.height = 1080;
-        this.title = "Pocket Planets";
+        this.title = "Nebula";
     }
 
     public static Window get(){
@@ -116,6 +117,11 @@ public class Window {
             s.compile();
         }
 
+        // enable depth testing
+        GL20.glEnable(GL20.GL_DEPTH_TEST);
+        GL20.glDepthFunc(GL20.GL_LESS);
+
+
         // enable alpha blending
         GL20.glEnable(GL20.GL_BLEND);
         GL20.glBlendFunc(GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -123,6 +129,7 @@ public class Window {
         // enable antialiasing 
         GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 16);
         GL20.glEnable(GL20.GL_MULTISAMPLE); 
+
     }
 
     public void loop(){
@@ -141,9 +148,9 @@ public class Window {
 
             // background
             GL11.glClearColor(1f, 0.98f, 0.84f, 0);
-            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
-            Renderer.draw();
+            QuadRenderer.render();
 
             GLFW.glfwSwapBuffers(glfwWindow);
 

@@ -14,6 +14,7 @@ public class Main {
         Window window = Window.get(); 
         window.init();
 
+
         SceneManager.addScene("MainGameScene", new MainGameScene());
 
         SceneManager.swapScene("MainGameScene");

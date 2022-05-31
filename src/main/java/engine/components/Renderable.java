@@ -1,45 +1,19 @@
 package engine.components;
 
-import java.util.List;
-
-import engine.renderer.EBO;
 import engine.renderer.Renderer;
-import engine.renderer.Shader;
-import engine.renderer.VAO;
+import engine.renderer.Renderer.RenderType;
 
 public abstract class Renderable extends Component{
 
-    public String renderableType;
-
     protected int layerId;
 
-    // store the shader vao and ebo
-    public Shader shader;
-    public VAO    vao;
-    public EBO    ebo;
+    public int numberVertices;
 
     protected boolean dirty;
 
-    public boolean getDirty(){
-        return true/**dirty */;
-    }
-
-    public Shader getShader(){
-        return shader;
-    }
-
-    public VAO getVAO(){
-        return vao;
-    }
-
-    public EBO getEBO(){
-        return ebo;
-    }
-
-    protected Renderable(Shader shader, VAO vao, EBO ebo){
-        this.shader = shader;
-        this.vao = vao;
-        this.ebo = ebo;
+    protected Renderable(int numberVertices, int layerId){
+        this.layerId        = layerId;
+        this.numberVertices = numberVertices;
     }
 
     public void Start(){
@@ -53,19 +27,4 @@ public abstract class Renderable extends Component{
 
     public abstract void loadVertexData(float[] buffer, int start);
 
-    protected boolean CheckBufferSize(int[] buffer){
-        return buffer.length == vao.vaoSize;
-    }
-
-    public boolean isBatchable(Renderable that){
-        return isBatchable(that.shader, that.vao, that.ebo);
-    }
-
-    public boolean isBatchable(Shader s, VAO a, EBO e){
-        return this.shader == s && this.vao  == a && this.ebo == e;
-    }
-
-    public abstract void UploadUniforms();
-
-    public abstract void render(List<Renderable> value);
 }
