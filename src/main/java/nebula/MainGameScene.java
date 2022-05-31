@@ -46,6 +46,7 @@ public class MainGameScene extends Scene{
         Texture playerTexture = AssetManager.getTexture("assets/textures/smiley.png");
         Texture reticleTexture = AssetManager.getTexture("assets/textures/reticle.png");
         Texture planetTexture = AssetManager.getTexture("assets/textures/whitePlanet.png");
+        //Texture backgroundTexture = AssetManager.getTexture("assets/textures/background.png");
 
         // Player tool textures 
         Texture swordTexture = AssetManager.getTexture("assets/textures/sword.png");
@@ -110,11 +111,27 @@ public class MainGameScene extends Scene{
             swordObject.addComponent(new SpriteRenderer(swordSprite));
             swordObject.addComponent(new Weapon());
         
+        
+        // SpriteMap backgroundSprite = new SpriteMap(backgroundTexture, 1, 1);
+        
+        // GameObject backgroundObject = new GameObject();
+        //     Transform backgroundTransform = new Transform(
+        //         new Vector3f(0, 0, 0),
+        //         new Vector2f(1920, 1080),
+        //         0
+        //         );
+    
+        //     backgroundTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
+        //     backgroundObject.addComponent(backgroundTransform);
+    
+        //     backgroundObject.addComponent(new SpriteRenderer(backgroundSprite));
             
+    
         gameObjects.add(playerObject);
         gameObjects.add(reticleObject);
         gameObjects.add(planetObject);
         gameObjects.add(swordObject);
+        //gameObjects.add(backgroundObject);
         
         
     }
