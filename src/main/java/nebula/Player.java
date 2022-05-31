@@ -54,6 +54,7 @@ public class Player extends Component{
         if(Input.getMouseButtonPressed(KeyCode.MOUSE_BUTTON_1)){
             isGrappled = true;
             grapplePosition = mouseWorldCoordinates;
+            
         }
         if(isGrappled){
             // Get vector between Player and Mouse
