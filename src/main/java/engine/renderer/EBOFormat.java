@@ -2,7 +2,7 @@ package engine.renderer;
 
 import java.util.Arrays;
 
-public enum EBO {
+public enum EBOFormat {
     QUAD(new int[] {0, 2, 1,      // Top right triangle tr-tl-br
                     1, 2, 3 }),   // bottom left triangle br-tl-bl
     TRIANGLE(new int[] {0, 1, 2}),
@@ -22,7 +22,7 @@ public enum EBO {
     private int[] indices;
     private int numberVertices;
 
-    private EBO(int[] indices){
+    private EBOFormat(int[] indices){
         this.indices = indices;
 
         // https://stackoverflow.com/questions/65637209/counting-unique-values-in-an-array-java
@@ -41,7 +41,7 @@ public enum EBO {
         return numberVertices;
     }
 
-    public static int[] generateIndices(EBO format, int numElements){
+    public static int[] generateIndices(EBOFormat format, int numElements){
         int[] indices = new int[format.getLength() * numElements];
 
         for(int i = 0; i < numElements; i++){

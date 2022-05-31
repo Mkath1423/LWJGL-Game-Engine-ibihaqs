@@ -1,18 +1,22 @@
 package engine.components;
 
 import org.joml.Vector3f;
+
+import engine.renderer.EBOFormat;
+import engine.renderer.Shader;
 import engine.renderer.SpriteMap;
 import engine.renderer.Texture;
+import engine.renderer.VAO.VAOFormat;
 
-public class SpriteRenderer extends QuadRenderable{
+public class SpriteRenderer extends Renderable{
 
     private SpriteMap spriteMap;
     private int currentSprite;
 
     private Transform transform;
 
-    public SpriteRenderer(SpriteMap spriteMap){
-        super(4, 0);
+    public SpriteRenderer(SpriteMap spriteMap, int layer){
+        super(Shader.SPRITE, VAOFormat.SPRITE, EBOFormat.QUAD, 1, layer);
 
         this.spriteMap = spriteMap;
     }
@@ -20,7 +24,6 @@ public class SpriteRenderer extends QuadRenderable{
     @Override
     public void Awake(){
         transform = gameObject.getComponent(Transform.class);
-        System.out.println("Sprite Renderer: Transform is... " + transform);
         super.Awake();
     }
 

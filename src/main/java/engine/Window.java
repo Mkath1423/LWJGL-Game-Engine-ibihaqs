@@ -150,7 +150,7 @@ public class Window {
             GL11.glClearColor(1f, 0.98f, 0.84f, 0);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 
-            QuadRenderer.render();
+            Renderer.draw();
 
             GLFW.glfwSwapBuffers(glfwWindow);
 
