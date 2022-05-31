@@ -75,8 +75,8 @@ public class MainGameScene extends Scene{
 
         GameObject reticleObject = new GameObject();
             Transform reticleTransform = new Transform(
-                new Vector3f(100, 100, 10),
-                new Vector2f(100, 100),
+                new Vector3f(100, 100, -1),
+                new Vector2f(140, 100),
                 0
             );
 
@@ -89,7 +89,7 @@ public class MainGameScene extends Scene{
 
         GameObject planetObject = new GameObject();
             planetObject.addComponent(new Transform(
-                new Vector3f(600, 400, 0),
+                new Vector3f(600, 400, -10),
                 new Vector2f(200, 200),
                 0
             ));
@@ -101,7 +101,7 @@ public class MainGameScene extends Scene{
         
         GameObject swordObject = new GameObject();
             Transform swordTransform = new Transform(
-                new Vector3f(200, 375, 0),
+                new Vector3f(200, 375, -11),
                 new Vector2f(300, 100),
                 0
                 );
@@ -117,7 +117,7 @@ public class MainGameScene extends Scene{
         
         GameObject backgroundObject = new GameObject();
             Transform backgroundTransform = new Transform(
-                new Vector3f(0, 0, -1),
+                new Vector3f(0, 0, -20),
                 new Vector2f(1920, 1080),
                 0
                 );
@@ -129,9 +129,11 @@ public class MainGameScene extends Scene{
             
     
         gameObjects.add(backgroundObject);
-        gameObjects.add(playerObject);
-        gameObjects.add(reticleObject);
+        
+        
         gameObjects.add(planetObject);
+        gameObjects.add(reticleObject);
+        gameObjects.add(playerObject);
         gameObjects.add(swordObject);
         
         

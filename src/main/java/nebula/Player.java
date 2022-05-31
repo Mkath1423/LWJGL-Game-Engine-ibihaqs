@@ -7,6 +7,7 @@ import engine.Inputs.Input;
 import engine.Inputs.Input.KeyCode;
 import engine.components.Component;
 import engine.components.Transform;
+import engine.gameobjects.GameObject;
 import engine.physics.Move;
 import engine.scenes.SceneManager;
 
@@ -23,6 +24,10 @@ public class Player extends Component{
 
     public int playerHealth = 3;
 
+    // Player(GameObject camera, GameObject background){
+
+    // }
+
     @Override
     public void Awake() {
         inputForce = new Vector3f();
@@ -31,6 +36,8 @@ public class Player extends Component{
         grappleVector = new Vector2f();
         transform = gameObject.getComponent(Transform.class);
         move = gameObject.getComponent(Move.class);
+
+
     };
 
     @Override
@@ -77,14 +84,14 @@ public class Player extends Component{
                 grappleForce.mul((float)deltaTime);
             // }
                 
-            transform.position.x += grappleForce.x;
-            transform.position.y += grappleForce.y;
+            // transform.position.x += grappleForce.x;
+            // transform.position.y += grappleForce.y;
             
             transform.position.x += deltaTime * Input.getAxis("horizontal") * 150;
             transform.position.y += deltaTime * Input.getAxis("vertical") * 150;
 
-            // move.addMass(10000);
-            // move.addForce(grappleForce);
+            move.addMass(10000);
+            move.addForce(grappleForce);
 
             // If right click is released 
             if(Input.getMouseButtonReleased(KeyCode.MOUSE_BUTTON_1)){
