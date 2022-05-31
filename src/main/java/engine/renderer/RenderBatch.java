@@ -20,7 +20,7 @@ public class RenderBatch {
     // pos                  color                       uv
     // float, float, float, float, float, float, float, float, float,
 
-    private List<Renderable> renderables;
+    List<Renderable> renderables;
     private List<Texture>    textures;
 
     private int quadsUsed;
@@ -28,6 +28,7 @@ public class RenderBatch {
 
     private VAO vao;
     private VBO vbo;
+    private int ebo;
 
     private Shader shader;
     private VAOFormat vaoFormat;
@@ -38,18 +39,21 @@ public class RenderBatch {
            (renderable.getVAOFormat() != vaoFormat) || 
            (renderable.getEBOFormat() != eboFormat)) 
            return false;
-
+        // System.out.println("checking renderable");
+        // System.out.println(" same type");
         if(quadsUsed + renderable.numberQuads > Renderer.MAX_BATCH_SIZE) return false;
 
+        // System.out.println(" enough space");
         for (Texture tex : textures) {
             if(tex.getTexId() == renderable.getTexture().getTexId()) return true;            
         }
+        // System.out.println(" enough textures?" + (texturesUsed < QuadRenderer.MAX_TEXTURES));
 
         return texturesUsed < QuadRenderer.MAX_TEXTURES;
     }
 
-    public boolean addRenderable(Renderable renderable){
-        if(!canAddRenderable(renderable)) return false;
+    public void addRenderable(Renderable renderable){
+        if(!canAddRenderable(renderable)) return;
 
         boolean allocateTexture = true;
 
@@ -67,7 +71,6 @@ public class RenderBatch {
 
         renderable.texSlot = textures.indexOf(renderable.getTexture());
 
-        return true;
     }
 
     public RenderBatch(Shader shader, VAOFormat vaoFormat, EBOFormat eboFormat){
@@ -87,14 +90,14 @@ public class RenderBatch {
         vao.bind();
 
         vbo = new VBO(Renderer.MAX_BATCH_SIZE * EBOFormat.QUAD.getNumberOfVertices() * vaoFormat.getVaoSize() * Float.BYTES);
-
+        System.out.println(Renderer.MAX_BATCH_SIZE * EBOFormat.QUAD.getNumberOfVertices() * vaoFormat.getVaoSize() * Float.BYTES);
         // create indices and upload
         int[] elementArray = EBOFormat.generateIndices(EBOFormat.QUAD, Renderer.MAX_BATCH_SIZE);
         IntBuffer elementBuffer = BufferUtils.createIntBuffer(elementArray.length);
         elementBuffer.put(elementArray).flip();
 
-        int eboID = GL20.glGenBuffers();
-        GL20.glBindBuffer(GL20.GL_ELEMENT_ARRAY_BUFFER, eboID);
+        ebo = GL20.glGenBuffers();
+        GL20.glBindBuffer(GL20.GL_ELEMENT_ARRAY_BUFFER, ebo);
         GL20.glBufferData(GL20.GL_ELEMENT_ARRAY_BUFFER, elementBuffer, GL20.GL_STATIC_DRAW);
 
         vao.bindPointers();
@@ -129,7 +132,7 @@ public class RenderBatch {
         vao.enable();
 
         GL20.glDrawElements(GL30.GL_TRIANGLES, EBOFormat.QUAD.getLength() * Renderer.MAX_BATCH_SIZE, GL30.GL_UNSIGNED_INT, 0);
-
+        
         vao.disable();
         Shader.SPRITE.detach();
 
@@ -137,5 +140,7 @@ public class RenderBatch {
             GL20.glActiveTexture(GL20.GL_TEXTURE0 + i);
             textures.get(i).unbind();
         }
+
+        
     }
 }

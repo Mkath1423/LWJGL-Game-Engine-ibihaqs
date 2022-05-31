@@ -1,8 +1,11 @@
 package engine;
 
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.Callbacks;
@@ -16,9 +19,18 @@ import org.lwjgl.system.MemoryUtil;
 import engine.Inputs.Input;
 import engine.Inputs.KeyListener;
 import engine.Inputs.MouseListener;
+import engine.components.SpriteRenderer;
+import engine.components.Transform;
+import engine.gameobjects.GameObject;
+import engine.renderer.EBOFormat;
 import engine.renderer.QuadRenderer;
+import engine.renderer.RenderBatch;
 import engine.renderer.Renderer;
 import engine.renderer.Shader;
+import engine.renderer.SpriteMap;
+import engine.renderer.Texture;
+import engine.renderer.Texture.Format;
+import engine.renderer.VAO.VAOFormat;
 import engine.scenes.SceneManager;
 import engine.util.Time;
 
@@ -117,11 +129,6 @@ public class Window {
             s.compile();
         }
 
-        // enable depth testing
-        GL20.glEnable(GL20.GL_DEPTH_TEST);
-        GL20.glDepthFunc(GL20.GL_LESS);
-
-
         // enable alpha blending
         GL20.glEnable(GL20.GL_BLEND);
         GL20.glBlendFunc(GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -138,6 +145,32 @@ public class Window {
         double beginTime = Time.getTime();
         double endTime = Time.getTime();
         double deltaTime = -1;
+        // get textures (and other assets later)
+        Texture t = AssetManager.getTexture("assets/textures/testImage.png");
+        Texture t2 = AssetManager.getTexture("assets/textures/opacityTest.png", Format.RGB);
+
+
+        // // create gameobject 
+        SpriteMap sp = new SpriteMap(t, 1, 1);
+        SpriteMap sp2 = new SpriteMap(t2, 1, 1);
+
+        List<RenderBatch> batches = new ArrayList<>();
+
+        for (int i = 0; i < 2; i++) {
+            RenderBatch rb = new RenderBatch(Shader.SPRITE, VAOFormat.SPRITE, EBOFormat.QUAD);
+            
+            GameObject go2 = new GameObject();
+            go2.addComponent(new Transform(
+                new Vector3f(1000- i*10, 500 - i*10, -10),
+                new Vector2f(10, 10),
+                0
+            ));
+            go2.addComponent(new SpriteRenderer(sp2, 0));
+            go2.Awake();
+            rb.addRenderable(go2.getComponent(SpriteRenderer.class));
+            batches.add(rb);
+            rb.start();
+        }
 
         while(!GLFW.glfwWindowShouldClose(glfwWindow)){
             // events
@@ -148,9 +181,13 @@ public class Window {
 
             // background
             GL11.glClearColor(1f, 0.98f, 0.84f, 0);
-            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+            GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
-            Renderer.draw();
+            // Renderer.draw();
+            for (RenderBatch renderBatch : batches) {
+                renderBatch.render();
+                break;
+            }
 
             GLFW.glfwSwapBuffers(glfwWindow);
 

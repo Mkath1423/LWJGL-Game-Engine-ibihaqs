@@ -48,8 +48,8 @@ public class BatchingTestScene extends Scene{
         SpriteMap sp2 = new SpriteMap(t2, 1, 1);
 
 
-        for(int x = 0; x < 1; x ++){
-            for (int y = 0; y < 1; y++) {
+        for(int x = 0; x < 10; x ++){
+            for (int y = 0; y < 50; y++) {
                 GameObject go = new GameObject();
                     go.addComponent(new Transform(
                         new Vector3f(500 - x*10, 500 - y*10, -10),
@@ -86,6 +86,7 @@ public class BatchingTestScene extends Scene{
 
     @Override
     public void Update(double deltaTime){
+        System.out.println(1/deltaTime);
         super.Update(deltaTime);
     }
 }

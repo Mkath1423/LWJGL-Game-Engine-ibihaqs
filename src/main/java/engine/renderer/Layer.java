@@ -7,39 +7,51 @@ import engine.components.Renderable;
 
 public class Layer {
 
-    private List<Renderable> renderables;
+    private List<RenderBatch> batches;
 
-    protected void addRenderable(Renderable r){
-        renderables.add(r);
+    protected void addRenderable(Renderable renderable){
+        for (RenderBatch batch : batches) {
+            if(batch.canAddRenderable(renderable)){
+                batch.addRenderable(renderable);
+                return;
+            }
+        }
+        
+        RenderBatch rb = new RenderBatch(renderable.getShader(), renderable.getVAOFormat(), renderable.getEBOFormat());
+            rb.addRenderable(renderable);
+            batches.add(rb);
+            
+            rb.start();
     }
 
     protected void removeRenderable(Renderable r) {
-        renderables.remove(r);
+        // renderables.remove(r);
     }
 
     public Layer(){
-        renderables = new ArrayList<Renderable>();
+        batches = new ArrayList<RenderBatch>();
     }
 
     public void draw() {
-        System.out.println("number of renderables: " + renderables.size());
-        List<RenderBatch> batches = new ArrayList<>();
+        // System.out.println("number of renderables: " + renderables.size());
+        // List<RenderBatch> batches = new ArrayList<>();
 
-        batchingLoop:
-        for (Renderable renderable : renderables) {
-            for (RenderBatch batch : batches) {
-                if(batch.addRenderable(renderable)) continue batchingLoop;
-            }
+        // batchingLoop:
+        // for (Renderable renderable : renderables) {
+        //     for (RenderBatch batch : batches) {
+        //         if(batch.addRenderable(renderable)) continue batchingLoop;
+        //     }
             
-            RenderBatch rb = new RenderBatch(renderable.getShader(), renderable.getVAOFormat(), renderable.getEBOFormat());
-                rb.addRenderable(renderable);
-                batches.add(rb);
+        //     RenderBatch rb = new RenderBatch(renderable.getShader(), renderable.getVAOFormat(), renderable.getEBOFormat());
+        //         rb.addRenderable(renderable);
+        //         batches.add(rb);
                 
-                rb.start();
-        }
+        //         rb.start();
+        // }
         System.out.println("number of batches: " + batches.size());
         for (RenderBatch renderBatch : batches) {
             renderBatch.render();
+            System.out.println(renderBatch.renderables.size());
         }
     }
 }
