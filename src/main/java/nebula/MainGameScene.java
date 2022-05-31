@@ -43,57 +43,95 @@ public class MainGameScene extends Scene{
         
 
         // get textures (and other assets later)
-        Texture t1 = AssetManager.getTexture("assets/textures/smiley.png");
-        Texture t2 = AssetManager.getTexture("assets/textures/reticle.png");
-        Texture t3 = AssetManager.getTexture("assets/textures/whitePlanet.png");
+        Texture playerTexture = AssetManager.getTexture("assets/textures/smiley.png");
+        Texture reticleTexture = AssetManager.getTexture("assets/textures/reticle.png");
+        Texture planetTexture = AssetManager.getTexture("assets/textures/whitePlanet.png");
+        //Texture backgroundTexture = AssetManager.getTexture("assets/textures/background.png");
 
+        // Player tool textures 
+        Texture swordTexture = AssetManager.getTexture("assets/textures/sword.png");
 
 
         // // create gameobject 
-        SpriteMap sp1 = new SpriteMap(t1, 1, 1);
+        SpriteMap playerSprite = new SpriteMap(playerTexture, 1, 1);
 
         // mario
-        GameObject go1 = new GameObject();
-            go1.addComponent(new Transform(
+        GameObject playerObject = new GameObject();
+            Transform playerTransform = new Transform(
                 new Vector3f(300, 100, 0),
                 new Vector2f(100, 100),
                 0
-            ));
-            go1.addComponent(new SpriteRenderer(sp1));
-            go1.addComponent(new Player());
-            // go.addComponent(new Move());
+            );
 
+            playerTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
+            playerObject.addComponent(playerTransform);
+            playerObject.addComponent(new SpriteRenderer(playerSprite));
+            playerObject.addComponent(new Player());
+            playerObject.addComponent(new Move());
+            
 
-        SpriteMap sp2 = new SpriteMap(t2, 1, 1);
+        SpriteMap reticleSprite = new SpriteMap(reticleTexture, 1, 1);
 
-        GameObject go2 = new GameObject();
+        GameObject reticleObject = new GameObject();
             Transform reticleTransform = new Transform(
                 new Vector3f(100, 100, 10),
-                new Vector2f(50, 50),
+                new Vector2f(100, 100),
                 0
             );
 
             reticleTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
-            go2.addComponent(reticleTransform);
-            go2.addComponent(new SpriteRenderer(sp2));
-            go2.addComponent(new FollowMouse());
+            reticleObject.addComponent(reticleTransform);
+            reticleObject.addComponent(new SpriteRenderer(reticleSprite));
+            reticleObject.addComponent(new FollowMouse());
 
-        SpriteMap sp3 = new SpriteMap(t3, 1, 1);
+        SpriteMap planetSprite = new SpriteMap(planetTexture, 1, 1);
 
-        GameObject go3 = new GameObject();
-            go3.addComponent(new Transform(
+        GameObject planetObject = new GameObject();
+            planetObject.addComponent(new Transform(
                 new Vector3f(600, 400, 0),
                 new Vector2f(200, 200),
                 0
             ));
 
-            go3.addComponent(new SpriteRenderer(sp3));
+            planetObject.addComponent(new SpriteRenderer(planetSprite));
   
 
-        gameObjects.add(go1);
-        gameObjects.add(go2);
-        gameObjects.add(go3);
+        SpriteMap swordSprite = new SpriteMap(swordTexture, 1, 1);
+        
+        GameObject swordObject = new GameObject();
+            Transform swordTransform = new Transform(
+                new Vector3f(200, 375, 0),
+                new Vector2f(300, 100),
+                0
+                );
 
+            swordTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
+            swordObject.addComponent(swordTransform);
+
+            swordObject.addComponent(new SpriteRenderer(swordSprite));
+            swordObject.addComponent(new Weapon());
+        
+        
+        // SpriteMap backgroundSprite = new SpriteMap(backgroundTexture, 1, 1);
+        
+        // GameObject backgroundObject = new GameObject();
+        //     Transform backgroundTransform = new Transform(
+        //         new Vector3f(0, 0, 0),
+        //         new Vector2f(1920, 1080),
+        //         0
+        //         );
+    
+        //     backgroundTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
+        //     backgroundObject.addComponent(backgroundTransform);
+    
+        //     backgroundObject.addComponent(new SpriteRenderer(backgroundSprite));
+            
+    
+        gameObjects.add(playerObject);
+        gameObjects.add(reticleObject);
+        gameObjects.add(planetObject);
+        gameObjects.add(swordObject);
+        //gameObjects.add(backgroundObject);
         
         
     }
