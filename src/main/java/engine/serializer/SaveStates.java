@@ -54,7 +54,11 @@ public class SaveStates {
         file = fp.getAbsolutePath();
     }
     
-    
+    /**
+     * Read the information from the selected file
+     * @param slot
+     * @return
+     */
     private static List<Character> read(int slot) {
 
         selectFile(slot);
@@ -87,14 +91,14 @@ public class SaveStates {
 
         // Create the file writer
         try {
-
+            
             writer = new BufferedWriter(new FileWriter(file));
             writer.write("test lmao");
             System.out.println("test lmao");
             writer.close();
         
         } catch (IOException e) {
-
+            
             e.printStackTrace();
         
         }
@@ -102,6 +106,7 @@ public class SaveStates {
 
 
 
+    // "MAIN" METHOD
 
 
 

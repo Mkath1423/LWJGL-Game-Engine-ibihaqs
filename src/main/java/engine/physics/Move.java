@@ -20,18 +20,30 @@ public class Move extends Component {
     public float mass = 0;                  // The mass, in kg, of the object
 
     private Vector3f change =               // The new position to be returned
-        new Vector3f(0, 0, 0);                
+    new Vector3f(0, 0, 0);                
     private Vector3f acceleration =         // The acceleration as a Vector3f
-        new Vector3f(0, 0, 0);          
+    new Vector3f(0, 0, 0);          
     private Vector3f force =                // The force applied to the object
-        new Vector3f(0, 0, 0);                
+    new Vector3f(0, 0, 0);                
     private Vector3f velocity =             // The velocity as a Vector3f
-        new Vector3f(0, 0, 0);   
+    new Vector3f(0, 0, 0);   
     private Vector3f zero =                 // A zero vector, for comparisons
-        new Vector3f(0, 0, 0);  
+    new Vector3f(0, 0, 0);  
 
 
+    /**
+     * Resets movement variables
+     */
+    public void reset() {
 
+        change       = new Vector3f(0, 0, 0);
+        force        = new Vector3f(0, 0, 0);
+        acceleration = new Vector3f(0, 0, 0);
+        velocity     = new Vector3f(0, 0, 0);
+    }
+    
+
+    
     // EXTERNAL METHODS
 
 
@@ -64,6 +76,7 @@ public class Move extends Component {
     public void Awake() {
 
         n = gameObject.getComponent(Transform.class);
+        reset();
     }
 
 
