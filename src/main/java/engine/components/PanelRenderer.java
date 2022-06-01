@@ -11,7 +11,7 @@ import org.joml.Vector3f;
 import org.lwjgl.opengl.GL20;
 
 import engine.AssetManager;
-import engine.renderer.EBO;
+import engine.renderer.EBOFormat;
 import engine.renderer.Renderer;
 import engine.renderer.Shader;
 import engine.renderer.SpriteMap;

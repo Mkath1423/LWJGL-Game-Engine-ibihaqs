@@ -1,57 +1,58 @@
 package engine.renderer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import engine.components.Renderable;
 
 public class Layer {
-    private Map<String, List<Renderable>> renderables;
 
-    public Layer(){
-        renderables = new HashMap<String, List<Renderable>>();
-    }
+    private List<RenderBatch> batches;
 
-    protected void addRenderable(Renderable r){
-        System.out.println("attempting to add new " + r.renderableType+" to layer");
-        for(Entry<String, List<Renderable>> e : renderables.entrySet()){
-            if(e.getKey().equals(r.renderableType)){
-                e.getValue().add(r);
+    protected void addRenderable(Renderable renderable){
+        for (RenderBatch batch : batches) {
+            if(batch.canAddRenderable(renderable)){
+                batch.addRenderable(renderable);
                 return;
             }
         }
         
-        System.out.println("detected new type, making new catagory");
-        List<Renderable> toAdd = new ArrayList<>();
-            toAdd.add(r);
+        RenderBatch rb = new RenderBatch(renderable.getShader(), renderable.getVAOFormat(), renderable.getEBOFormat());
+            rb.start();
 
-        renderables.put(r.renderableType, toAdd);
+            rb.addRenderable(renderable);
+            batches.add(rb);
+            
     }
 
     protected void removeRenderable(Renderable r) {
-        for(Entry<String, List<Renderable>> e : renderables.entrySet()){
-            if(e.getKey().equals(r.getClass().toString())){
-                if(e.getValue().contains(r)){
-                    e.getValue().remove(r);
-                    return;
-                }
-            }
-        }
+        // renderables.remove(r);
+    }
+
+    public Layer(){
+        batches = new ArrayList<RenderBatch>();
     }
 
     public void draw() {
-        for(Entry<String, List<Renderable>> e : renderables.entrySet()){
-            if(e.getValue().size() <= 0) continue;
+        // System.out.println("number of renderables: " + renderables.size());
+        // List<RenderBatch> batches = new ArrayList<>();
 
-            Renderer.enable( e.getValue().get(0));
+        // batchingLoop:
+        // for (Renderable renderable : renderables) {
+        //     for (RenderBatch batch : batches) {
+        //         if(batch.addRenderable(renderable)) continue batchingLoop;
+        //     }
             
-            e.getValue().get(0).UploadUniforms();
-            e.getValue().get(0).render(e.getValue());
-
-            Renderer.disable( e.getValue().get(0));
+        //     RenderBatch rb = new RenderBatch(renderable.getShader(), renderable.getVAOFormat(), renderable.getEBOFormat());
+        //         rb.addRenderable(renderable);
+        //         batches.add(rb);
+                
+        //         rb.start();
+        // }
+        System.out.println("number of batches: " + batches.size());
+        for (RenderBatch renderBatch : batches) {
+            renderBatch.render();
+            System.out.println(renderBatch.renderables.size());
         }
     }
 }
