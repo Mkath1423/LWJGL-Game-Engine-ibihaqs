@@ -25,6 +25,11 @@ public class BatchingTestScene extends Scene{
 
 
     public BatchingTestScene(){
+
+        Input.addAxis("rotation", new InputAxis(-1, 1, 20, 20, Input.KeyCode.Q, Input.KeyCode.E));
+        Input.addAxis("horizontal", new InputAxis(-1, 1, 20, 20, Input.KeyCode.D, Input.KeyCode.A));
+        Input.addAxis("vertical", new InputAxis(-1, 1, 20, 20, Input.KeyCode.W, Input.KeyCode.S));
+
         mainCamera = new GameObject(); // camera will be changed soon
             mainCamera.addComponent(new Transform(
                 new Vector3f(0, 0, 0),
@@ -49,7 +54,6 @@ public class BatchingTestScene extends Scene{
         SpriteMap sp = new SpriteMap(t, 1, 1);
         SpriteMap sp2 = new SpriteMap(t2, 1, 1);
 
-
         // for(int x = 0; x < 10; x ++){
         //     for (int y = 0; y < 50; y++) {
         //         GameObject go = new GameObject();
@@ -70,6 +74,7 @@ public class BatchingTestScene extends Scene{
         //         go2.addComponent(new SpriteRenderer(sp2, 0));
 
         //         gameObjects.add(go2);
+
         
         //     }
         // }
@@ -80,6 +85,7 @@ public class BatchingTestScene extends Scene{
                 new Vector2f(100, 200),
                 0
             ));
+
             funky.addComponent(new SpriteRenderer(sp, new Color(255, 255, 90, 255), 0));
             funky.addComponent(new SampleComponent());
 
@@ -97,6 +103,7 @@ public class BatchingTestScene extends Scene{
             );
 
         gameObjects.add(line);
+
     }
 
     @Override

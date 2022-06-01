@@ -7,6 +7,7 @@ import org.joml.Vector4f;
 import engine.Window;
 import engine.components.Component;
 import engine.components.Transform;
+import nebula.Player;
 
 public class Camera extends Component{
     private Matrix4f projectionMatrix, viewMatrix;

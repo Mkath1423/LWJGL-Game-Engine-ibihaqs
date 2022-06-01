@@ -15,22 +15,35 @@ public class Move extends Component {
 
     Transform n;                            // The transform component of the gameObject we work with
     
-    private static double FRICTION = 0.5;   // The coefficient of friction
-
-    private float dX;                       // X displacement
-    private float dY;                       // Y displacement
+    private static float FRICTION = 1/20;   // The coefficient of friction
     
     public float mass = 0;                  // The mass, in kg, of the object
 
-    private Vector3f change;                // The new position to be returned
-    private Vector3f acceleration;          // The acceleration as a Vector3f
-    private Vector3f force;                 // The force applied to the object
-    private Vector3f velocity;              // The velocity as a Vector3f
-    private Vector3f zero =                 // A Vector3f quantity of 0
-        new Vector3f(0, 0, 0);
+    private Vector3f change =               // The new position to be returned
+    new Vector3f(0, 0, 0);                
+    private Vector3f acceleration =         // The acceleration as a Vector3f
+    new Vector3f(0, 0, 0);          
+    private Vector3f force =                // The force applied to the object
+    new Vector3f(0, 0, 0);                
+    private Vector3f velocity =             // The velocity as a Vector3f
+    new Vector3f(0, 0, 0);   
+    private Vector3f zero =                 // A zero vector, for comparisons
+    new Vector3f(0, 0, 0);  
 
 
+    /**
+     * Resets movement variables
+     */
+    public void reset() {
 
+        change       = new Vector3f(0, 0, 0);
+        force        = new Vector3f(0, 0, 0);
+        acceleration = new Vector3f(0, 0, 0);
+        velocity     = new Vector3f(0, 0, 0);
+    }
+    
+
+    
     // EXTERNAL METHODS
 
 
@@ -53,7 +66,7 @@ public class Move extends Component {
      */
     public void addForce(Vector3f f) {
 
-        force = f;
+        force.add(f);
     }
     
     
@@ -63,6 +76,7 @@ public class Move extends Component {
     public void Awake() {
 
         n = gameObject.getComponent(Transform.class);
+        reset();
     }
 
 
@@ -71,12 +85,29 @@ public class Move extends Component {
      */
     public void Update(double time) {
 
-        // Only run this if there is an active velocity and the object has mass
-        if(mass > 0 && velocity != zero) {
+        // Only run this if the object has mass
+        if(mass > 0) {
 
-            locomotion();
-            n.position.add(change);
+            // locomotion();
+
+            Vector3f acceleration = new Vector3f();
+            force.mul(1/mass, acceleration);
+
+            Vector3f dv = new Vector3f();
+            acceleration.mul((float)time, dv);
+            velocity.add(dv);
+
+            Vector3f dp1 = new Vector3f();
+            velocity.mul((float)time, dp1);
+            
+            Vector3f dp2 = new Vector3f();
+            acceleration.mul((float)(-0.5 * Math.pow(time, 2)), dp2);
+
+            n.position.add(dp1);
+            n.position.add(dp2);
         }
+
+        force = new Vector3f();
     }
 
 
@@ -101,7 +132,7 @@ public class Move extends Component {
      */
     private Vector3f boundCheck() {
 
-        
+        return zero;
     }
 
 
@@ -110,11 +141,10 @@ public class Move extends Component {
      */
     private void calculate() {
 
-        if(force != zero) {
+        acceleration.add(acceleration.mul(FRICTION * -1));
 
-            acceleration.add(force.div(mass));
-            force = zero;
-        }        
+        acceleration.add(force.div(mass));
+        force = new Vector3f(0, 0, 0);
     }
     
     
