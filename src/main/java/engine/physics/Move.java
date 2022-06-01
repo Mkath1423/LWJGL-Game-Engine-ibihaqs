@@ -15,7 +15,7 @@ public class Move extends Component {
 
     Transform n;                            // The transform component of the gameObject we work with
     
-    private static float FRICTION = 1/20;   // The coefficient of friction
+    private static float FRICTION = 1/2;   // The coefficient of friction
     
     public float mass = 0;                  // The mass, in kg, of the object
 
@@ -66,7 +66,7 @@ public class Move extends Component {
      */
     public void addForce(Vector3f f) {
 
-        force.add(f);
+        force = f;
     }
     
     
@@ -88,26 +88,9 @@ public class Move extends Component {
         // Only run this if the object has mass
         if(mass > 0) {
 
-            // locomotion();
-
-            Vector3f acceleration = new Vector3f();
-            force.mul(1/mass, acceleration);
-
-            Vector3f dv = new Vector3f();
-            acceleration.mul((float)time, dv);
-            velocity.add(dv);
-
-            Vector3f dp1 = new Vector3f();
-            velocity.mul((float)time, dp1);
-            
-            Vector3f dp2 = new Vector3f();
-            acceleration.mul((float)(-0.5 * Math.pow(time, 2)), dp2);
-
-            n.position.add(dp1);
-            n.position.add(dp2);
+            locomotion();
+            n.position.add(change);
         }
-
-        force = new Vector3f();
     }
 
 
