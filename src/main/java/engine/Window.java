@@ -1,24 +1,40 @@
 package engine;
 
+import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.Callbacks;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
+import org.lwjgl.opengl.ARBVertexArrayObject;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryUtil;
 
 import engine.Inputs.Input;
 import engine.Inputs.KeyListener;
 import engine.Inputs.MouseListener;
+import engine.components.SpriteRenderer;
+import engine.components.Transform;
+import engine.gameobjects.GameObject;
+import engine.renderer.DummyBatch;
+import engine.renderer.EBOFormat;
 import engine.renderer.QuadRenderer;
+import engine.renderer.RenderBatch;
 import engine.renderer.Renderer;
 import engine.renderer.Shader;
+import engine.renderer.SpriteMap;
+import engine.renderer.Texture;
+import engine.renderer.Texture.Format;
+import engine.renderer.VAO.VAOFormat;
 import engine.scenes.SceneManager;
 import engine.util.Time;
 
@@ -126,6 +142,31 @@ public class Window {
         GL20.glEnable(GL20.GL_MULTISAMPLE); 
 
     }
+    
+    private float[] vertexArray = {
+        // position               // color
+        0f, 0f, 0.0f,         0.0f, 0.0f, 0.0f,
+        500f,  0f, 0.0f,      1.0f, 0.0f, 0.0f,
+        0f,  500f, 0.0f ,     0.0f, 1.0f, 0.0f, 
+        500f, 500f, 0.0f,     1.0f, 1.0f, 0.0f, 
+    };
+
+    private float[] vertexArray2 = {
+        // position               // color
+        300f, 300f, 0.0f,         0.0f, 0.0f, 0.0f,
+        800f,  300f, 0.0f,      1.0f, 0.0f, 0.0f,
+        300f,  800f, 0.0f ,     0.0f, 1.0f, 0.0f, 
+        800f, 800f, 0.0f,     1.0f, 1.0f, 0.0f, 
+    };
+
+    // IMPORTANT: Must be in counter-clockwise order
+    private int[] elementArray = {
+            0, 2, 1,      // Top right triangle tr-tl-br
+            1, 2, 3   // bottom left triangle br-tl-bl
+    };
+
+    int vaoID, vboID, eboID;
+    int vaoID2, vboID2, eboID2;
 
     public void loop(){
 
@@ -145,7 +186,7 @@ public class Window {
             GL11.glClearColor(1f, 0.98f, 0.84f, 0);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
-            QuadRenderer.render();
+            Renderer.draw();
 
             GLFW.glfwSwapBuffers(glfwWindow);
 

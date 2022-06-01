@@ -62,11 +62,11 @@ public class QuadRenderer {
             vao.addAttribute("texID", 1, 0);
         vao.bind();
 
-        vbo = new VBO(MAX_BATCH_SIZE * EBO.QUAD.getNumberOfVertices() * vao.vaoSize * Float.BYTES);
+        vbo = new VBO(MAX_BATCH_SIZE * EBOFormat.QUAD.getNumberOfVertices() * vao.vaoSize * Float.BYTES);
 
         // creat indicies and upload
 
-        int[] elementArray = EBO.generateIndices(EBO.QUAD, MAX_BATCH_SIZE);
+        int[] elementArray = EBOFormat.generateIndices(EBOFormat.QUAD, MAX_BATCH_SIZE);
         IntBuffer elementBuffer = BufferUtils.createIntBuffer(elementArray.length);
         elementBuffer.put(elementArray).flip();
 
@@ -110,7 +110,7 @@ public class QuadRenderer {
         
         // buffer each batch and render
         for (QuadRenderBatch batch : batches) {
-            float[] vertices = new float[QuadRenderer.MAX_BATCH_SIZE * EBO.QUAD.getNumberOfVertices() * get().vao.vaoSize];
+            float[] vertices = new float[QuadRenderer.MAX_BATCH_SIZE * EBOFormat.QUAD.getNumberOfVertices() * get().vao.vaoSize];
 
             int index = 0;
             for (QuadRenderable qr : batch.renderables) {
@@ -136,7 +136,7 @@ public class QuadRenderer {
 
             get().vao.enable();
 
-            GL20.glDrawElements(GL30.GL_TRIANGLES, EBO.QUAD.getLength() * MAX_BATCH_SIZE, GL30.GL_UNSIGNED_INT, 0);
+            GL20.glDrawElements(GL30.GL_TRIANGLES, EBOFormat.QUAD.getLength() * MAX_BATCH_SIZE, GL30.GL_UNSIGNED_INT, 0);
 
             get().vao.disable();
             Shader.SPRITE.detach();

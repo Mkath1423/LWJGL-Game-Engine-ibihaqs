@@ -20,7 +20,6 @@ public enum Shader {
     // SPRITE_RGBA("xxx.glsl"),
     // COLOR("xxx.glsl"),
     // SPRITE_TINT("xxx.glsl");
-
     
     private int shaderProgramID;
     public int getShaderId(){return shaderProgramID;}

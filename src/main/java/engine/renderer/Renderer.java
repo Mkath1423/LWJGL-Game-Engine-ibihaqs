@@ -14,6 +14,8 @@ import engine.scenes.SceneManager;
 import engine.util.Time;
 
 public class Renderer {
+    static final int MAX_BATCH_SIZE = 1;
+    static final int MAX_TEXTURES = 8;
 
     public enum RenderType{
         QUAD,
@@ -34,9 +36,6 @@ public class Renderer {
     }
 
     private Map<Integer, Layer> layers;
-
-    public static int maxBatchSize = 100;
-    public static int maxTextures = 32;
 
     public static void addRenderable(int layerID, Renderable renderable){
         if(renderable == null) return;
@@ -61,8 +60,29 @@ public class Renderer {
     }
 
     public static void draw(){
+        System.out.println("----------------------------");
+        System.out.println("number of layers: " +get().layers.keySet().size() );
         for (Layer layer : get().layers.values()) {
             layer.draw();
+        }
+    }
+
+    public static void uploadUniforms(Shader shader) {
+        switch(shader){
+            case SPRITE:
+                Shader.SPRITE.uploadMat4f("uProjection", SceneManager.getActiveMainCamera().getProjectionMatrix());
+                Shader.SPRITE.uploadMat4f("uView",       SceneManager.getActiveMainCamera().getViewMatrix());
+                
+                int[] textureSlots = new int[MAX_TEXTURES];
+                for (int i = 0; i < textureSlots.length; i++) {
+                    textureSlots[i] = i;
+                }
+
+                Shader.SPRITE.uploadIntArray("uTextures", textureSlots);
+                break;
+
+            default:
+                break;
         }
     }
 
