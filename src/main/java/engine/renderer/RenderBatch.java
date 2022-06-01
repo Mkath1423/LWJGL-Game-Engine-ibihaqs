@@ -114,7 +114,9 @@ public class RenderBatch {
         }
 
         vbo.bufferData(vertices);
-
+        for (int i = 0; i < 4; i++) {
+            System.out.println(Arrays.toString(Arrays.copyOfRange(vertices, i*11, (i+1) * 11)));
+        }
         // System.out.println(vertices.length);
         // System.out.println("----------------");
         // for(int i = 0; i < vertices.length / get().vao.vaoSize; i++){

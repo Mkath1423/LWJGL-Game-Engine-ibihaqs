@@ -18,10 +18,11 @@ public class Layer {
         }
         
         RenderBatch rb = new RenderBatch(renderable.getShader(), renderable.getVAOFormat(), renderable.getEBOFormat());
+            rb.start();
+
             rb.addRenderable(renderable);
             batches.add(rb);
             
-            rb.start();
     }
 
     protected void removeRenderable(Renderable r) {

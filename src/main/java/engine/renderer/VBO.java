@@ -35,10 +35,14 @@ public class VBO {
     }
 
     public void bufferData(float[] data){
+        bind();
+
         FloatBuffer verticesBuffer = BufferUtils.createFloatBuffer(data.length);
         verticesBuffer.put(data).flip();
         
         GL20.glBufferSubData(GL20.GL_ARRAY_BUFFER, 0, verticesBuffer);
+        
+        unbind();
     }
 
 

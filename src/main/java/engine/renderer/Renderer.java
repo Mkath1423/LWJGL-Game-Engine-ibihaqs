@@ -14,7 +14,7 @@ import engine.scenes.SceneManager;
 import engine.util.Time;
 
 public class Renderer {
-    static final int MAX_BATCH_SIZE = 1000;
+    static final int MAX_BATCH_SIZE = 1;
     static final int MAX_TEXTURES = 8;
 
     public enum RenderType{

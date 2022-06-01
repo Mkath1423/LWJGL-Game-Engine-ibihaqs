@@ -14,6 +14,7 @@ import engine.components.SpriteRenderer;
 import engine.components.Transform;
 import engine.gameobjects.GameObject;
 import engine.renderer.Camera;
+import engine.renderer.Color;
 import engine.renderer.SpriteMap;
 import engine.renderer.Texture;
 import engine.renderer.Texture.Format;
@@ -48,37 +49,37 @@ public class BatchingTestScene extends Scene{
         SpriteMap sp2 = new SpriteMap(t2, 1, 1);
 
 
-        for(int x = 0; x < 10; x ++){
-            for (int y = 0; y < 50; y++) {
-                GameObject go = new GameObject();
-                    go.addComponent(new Transform(
-                        new Vector3f(500 - x*10, 500 - y*10, -10),
-                        new Vector2f(10, 10),
-                        0
-                    ));
-                    go.addComponent(new SpriteRenderer(sp, 0));
+        // for(int x = 0; x < 10; x ++){
+        //     for (int y = 0; y < 50; y++) {
+        //         GameObject go = new GameObject();
+        //             go.addComponent(new Transform(
+        //                 new Vector3f(500 - x*10, 500 - y*10, -10),
+        //                 new Vector2f(10, 10),
+        //                 0
+        //             ));
+        //             go.addComponent(new SpriteRenderer(sp, new Color(), 0));
 
-                gameObjects.add(go);
-                GameObject go2 = new GameObject();
-                go2.addComponent(new Transform(
-                    new Vector3f(1000- x*10, 500 - y*10, -10),
-                    new Vector2f(10, 10),
-                    0
-                ));
-                go2.addComponent(new SpriteRenderer(sp2, 0));
+        //         gameObjects.add(go);
+        //         GameObject go2 = new GameObject();
+        //         go2.addComponent(new Transform(
+        //             new Vector3f(1000- x*10, 500 - y*10, -10),
+        //             new Vector2f(10, 10),
+        //             0
+        //         ));
+        //         go2.addComponent(new SpriteRenderer(sp2, new Color(), 0));
 
-                gameObjects.add(go2);
+        //         gameObjects.add(go2);
         
-            }
-        }
+        //     }
+        // }
 
         GameObject funky = new GameObject();
             funky.addComponent(new Transform(
-                new Vector3f(100, 300, -9),
+                new Vector3f(100, 300, 0),
                 new Vector2f(100, 200),
                 0
             ));
-            funky.addComponent(new SpriteRenderer(sp, 0));
+            funky.addComponent(new SpriteRenderer(sp, new Color(), 0));
             funky.addComponent(new SampleComponent());
 
         gameObjects.add(funky);
