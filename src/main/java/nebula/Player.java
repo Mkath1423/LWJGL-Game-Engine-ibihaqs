@@ -72,26 +72,21 @@ public class Player extends Component{
 
 
 
-            // if(deltaX <= 30){
-            //     grappleForce.x = grappleVector.y;
-            //     grappleForce.y = -grappleVector.x;
-            //     grappleForce.mul((float)deltaTime);
-                     
-            // }
-            // else{
-                // Set the force vector components
-                grappleForce.set(new Vector3f(grappleVector.normalize().mul(deltaX * 0.8f ), 0));
-                grappleForce.mul((float)deltaTime);
-            // }
+            
+            // Set the force vector components
+            grappleForce.set(new Vector3f(grappleVector.normalize().mul(deltaX * 0.8f ), 0));
+            grappleForce.mul((float)deltaTime);
+            
                 
-            // transform.position.x += grappleForce.x;
-            // transform.position.y += grappleForce.y;
+            transform.position.x += grappleForce.x;
+            transform.position.y += grappleForce.y;
             
             transform.position.x += deltaTime * Input.getAxis("horizontal") * 150;
             transform.position.y += deltaTime * Input.getAxis("vertical") * 150;
 
-            move.addMass(10000);
-            move.addForce(grappleForce);
+            // move.addMass(10000);
+            // move.addForce(grappleForce);
+            // System.out.println(grappleForce);
 
             // If right click is released 
             if(Input.getMouseButtonReleased(KeyCode.MOUSE_BUTTON_1)){

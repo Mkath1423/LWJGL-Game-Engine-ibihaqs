@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import engine.AssetManager;
 import engine.Inputs.Input;
@@ -14,14 +15,11 @@ import engine.components.Transform.PositionMode;
 import engine.gameobjects.GameObject;
 import engine.physics.Move;
 import engine.renderer.Camera;
+import engine.renderer.Color;
 import engine.renderer.SpriteMap;
 import engine.renderer.Texture;
 import engine.renderer.Texture.Format;
 import engine.scenes.Scene;
-import engine.scenes.SceneManager;
-//import physics.Move;
-import pocketplanets.ships.BuilderShip;
-import pocketplanets.testing.SampleComponent;
 
 public class MainGameScene extends Scene{
 
@@ -66,7 +64,7 @@ public class MainGameScene extends Scene{
 
             playerTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
             playerObject.addComponent(playerTransform);
-            playerObject.addComponent(new SpriteRenderer(playerSprite));
+            playerObject.addComponent(new SpriteRenderer(playerSprite, new Color(new Vector4f(255, 0, 0, 1)), 0));
             playerObject.addComponent(new Player());
             playerObject.addComponent(new Move());
             
@@ -82,7 +80,7 @@ public class MainGameScene extends Scene{
 
             reticleTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
             reticleObject.addComponent(reticleTransform);
-            reticleObject.addComponent(new SpriteRenderer(reticleSprite));
+            reticleObject.addComponent(new SpriteRenderer(reticleSprite, new Color(new Vector4f(255, 0, 0, 1)), 0));
             reticleObject.addComponent(new FollowMouse());
 
         SpriteMap planetSprite = new SpriteMap(planetTexture, 1, 1);
@@ -94,7 +92,7 @@ public class MainGameScene extends Scene{
                 0
             ));
 
-            planetObject.addComponent(new SpriteRenderer(planetSprite));
+            planetObject.addComponent(new SpriteRenderer(planetSprite, new Color(new Vector4f(255, 0, 0, 1)), 0));
   
 
         SpriteMap swordSprite = new SpriteMap(swordTexture, 1, 1);
@@ -109,7 +107,7 @@ public class MainGameScene extends Scene{
             swordTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
             swordObject.addComponent(swordTransform);
 
-            swordObject.addComponent(new SpriteRenderer(swordSprite));
+            swordObject.addComponent(new SpriteRenderer(swordSprite, new Color(new Vector4f(255, 0, 0, 1)), 0));
             swordObject.addComponent(new Weapon());
         
         
@@ -125,12 +123,10 @@ public class MainGameScene extends Scene{
             backgroundTransform.positionOrigin = PositionMode.BOTTOM_LEFT;
             backgroundObject.addComponent(backgroundTransform);
     
-            backgroundObject.addComponent(new SpriteRenderer(backgroundSprite));
+            backgroundObject.addComponent(new SpriteRenderer(backgroundSprite, new Color(new Vector4f(0, 0, 0, 1)), 0));
             
     
         gameObjects.add(backgroundObject);
-        
-        
         gameObjects.add(planetObject);
         gameObjects.add(reticleObject);
         gameObjects.add(playerObject);
