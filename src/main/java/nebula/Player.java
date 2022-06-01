@@ -13,7 +13,9 @@ import engine.scenes.SceneManager;
 
 public class Player extends Component{
 
-    public static Transform transform;
+    public Transform transform;
+    public Transform cameraTransform;
+    public Transform backgroundTransform;
     public Move move;
 
     private Vector3f inputForce;
@@ -24,9 +26,6 @@ public class Player extends Component{
 
     public int playerHealth = 3;
 
-    // Player(GameObject camera, GameObject background){
-
-    // }
 
     @Override
     public void Awake() {
@@ -97,8 +96,6 @@ public class Player extends Component{
             transform.position.x += deltaTime * Input.getAxis("horizontal") * 80;
             transform.position.y += deltaTime * Input.getAxis("vertical") * 80;
         }
-        
-
           
     };
 

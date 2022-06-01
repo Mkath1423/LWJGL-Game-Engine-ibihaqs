@@ -23,7 +23,6 @@ import engine.scenes.Scene;
 
 public class MainGameScene extends Scene{
 
-
     public MainGameScene(){
         mainCamera = new GameObject(); // camera will be changed soon
             mainCamera.addComponent(new Transform(
@@ -54,7 +53,22 @@ public class MainGameScene extends Scene{
         // // create gameobject 
         SpriteMap playerSprite = new SpriteMap(playerTexture, 1, 1);
 
-        // mario
+        SpriteMap backgroundSprite = new SpriteMap(backgroundTexture, 1, 1);
+        
+        GameObject backgroundObject = new GameObject();
+            Transform backgroundTransform = new Transform(
+                new Vector3f(0, 0, -20),
+                new Vector2f(1920, 1080),
+                0
+                );
+    
+            backgroundTransform.positionOrigin = PositionMode.BOTTOM_LEFT;
+            backgroundObject.addComponent(backgroundTransform);
+
+            backgroundObject.addComponent(new SpriteRenderer(backgroundSprite, new Color(new Vector4f(0, 0, 0, 1)), 0));
+            backgroundObject.getComponent(SpriteRenderer.class).setIsUI(true);
+
+        // Player game object
         GameObject playerObject = new GameObject();
             Transform playerTransform = new Transform(
                 new Vector3f(300, 100, 0),
@@ -108,23 +122,10 @@ public class MainGameScene extends Scene{
             swordObject.addComponent(swordTransform);
 
             swordObject.addComponent(new SpriteRenderer(swordSprite, new Color(new Vector4f(255, 0, 0, 1)), 0));
-            swordObject.addComponent(new Weapon());
+            swordObject.addComponent(new Weapon(playerTransform));
         
         
-        SpriteMap backgroundSprite = new SpriteMap(backgroundTexture, 1, 1);
         
-        GameObject backgroundObject = new GameObject();
-            Transform backgroundTransform = new Transform(
-                new Vector3f(0, 0, -20),
-                new Vector2f(1920, 1080),
-                0
-                );
-    
-            backgroundTransform.positionOrigin = PositionMode.BOTTOM_LEFT;
-            backgroundObject.addComponent(backgroundTransform);
-    
-            backgroundObject.addComponent(new SpriteRenderer(backgroundSprite, new Color(new Vector4f(0, 0, 0, 1)), 0));
-            
     
         gameObjects.add(backgroundObject);
         gameObjects.add(planetObject);

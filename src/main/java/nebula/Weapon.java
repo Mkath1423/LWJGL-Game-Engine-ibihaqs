@@ -12,11 +12,17 @@ import engine.scenes.SceneManager;
 
 public class Weapon extends Component{
     public Transform transform;
+    public Transform playerTransform;
     public Move move;
     private boolean isAttacking = false;
     private float weaponDisplacement;
     private boolean extendingAnimation = true;
     private float weaponRange = 100;
+
+
+    public Weapon(Transform player){
+        playerTransform = player;
+    }
 
     @Override
     public void Awake() {
@@ -34,10 +40,13 @@ public class Weapon extends Component{
         if(transform == null) return;
         
         // Convert mouse coordinates to world coordinates
-        Vector2f mouseWorldCoordinates = SceneManager.getActiveMainCamera().screenToWorldCoordinate(Input.getMousePosition());
+        //Vector2f mouseWorldCoordinates = SceneManager.getActiveMainCamera().screenToWorldCoordinate(Input.getMousePosition());
+
+        // Sets position to constantly update to players position
+        transform.position = playerTransform.getPosition();
 
         // Gets vector angle between mouse and sword and sets current sprite rotation to match
-        transform.rotation = Player.transform.rotation;
+        transform.rotation = playerTransform.getRotation();
 
 
 
@@ -46,8 +55,10 @@ public class Weapon extends Component{
         }
 
         if(isAttacking){
-            transform.position.x = (float) ((Math.cos(Player.transform.rotation) * (150+weaponDisplacement) + Player.transform.position.x));
-            transform.position.y = (float) ((Math.sin(Player.transform.rotation) * (150+weaponDisplacement) + Player.transform.position.y));
+            //transform.position.x = (float) ((Math.cos(Player.transform.rotation) * (150+weaponDisplacement) + Player.transform.position.x));
+            //transform.position.y = (float) ((Math.sin(Player.transform.rotation) * (150+weaponDisplacement) + Player.transform.position.y));
+            transform.position.x = (float) ((Math.cos(transform.rotation) * (150+weaponDisplacement) + transform.position.x));
+            transform.position.y = (float) ((Math.sin(transform.rotation) * (150+weaponDisplacement) + transform.position.y));
             if(weaponDisplacement <= weaponRange && extendingAnimation){
                 weaponDisplacement += 2;
             }
@@ -68,8 +79,8 @@ public class Weapon extends Component{
             }
         }
         else{
-            transform.position.x = (float) ((Math.cos(Player.transform.rotation) * 150) + Player.transform.position.x);
-            transform.position.y = (float) ((Math.sin(Player.transform.rotation) * 150) + Player.transform.position.y);
+            transform.position.x = (float) ((Math.cos(transform.rotation) * 150) + transform.position.x);
+            transform.position.y = (float) ((Math.sin(transform.rotation) * 150) + transform.position.y);
         }
     
     };
