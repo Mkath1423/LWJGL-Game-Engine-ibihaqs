@@ -9,6 +9,7 @@ import org.joml.Vector4f;
 import engine.AssetManager;
 import engine.Inputs.Input;
 import engine.Inputs.InputAxis;
+import engine.components.LineRenderer;
 import engine.components.SpriteRenderer;
 import engine.components.Transform;
 import engine.components.Transform.PositionMode;
@@ -68,6 +69,20 @@ public class MainGameScene extends Scene{
             backgroundObject.addComponent(new SpriteRenderer(backgroundSprite, new Color(new Vector4f(0, 0, 0, 1)), 0));
             backgroundObject.getComponent(SpriteRenderer.class).setIsUI(true);
 
+        GameObject grapplingLine = new GameObject();
+            grapplingLine.addComponent(new Transform(
+            new Vector3f(0, 0, -10),
+            new Vector2f(100, 100),
+            0
+            )); 
+
+            grapplingLine.addComponent(new LineRenderer(
+            new Vector2f(0,0),
+            20,
+            new Color(new Vector4f(255, 0, 0, 0)), 
+            new Color(new Vector4f(255, 0, 0, 0))
+            ));
+
         // Player game object
         GameObject playerObject = new GameObject();
             Transform playerTransform = new Transform(
@@ -79,7 +94,7 @@ public class MainGameScene extends Scene{
             playerTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
             playerObject.addComponent(playerTransform);
             playerObject.addComponent(new SpriteRenderer(playerSprite, new Color(new Vector4f(255, 0, 0, 1)), 0));
-            playerObject.addComponent(new Player());
+            playerObject.addComponent(new Player(grapplingLine));
             playerObject.addComponent(new Move());
             
 
@@ -129,9 +144,10 @@ public class MainGameScene extends Scene{
     
         gameObjects.add(backgroundObject);
         gameObjects.add(planetObject);
-        gameObjects.add(reticleObject);
         gameObjects.add(playerObject);
         gameObjects.add(swordObject);
+        gameObjects.add(grapplingLine);
+        gameObjects.add(reticleObject);
         
         
         

@@ -2,20 +2,24 @@ package nebula;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import engine.Inputs.Input;
 import engine.Inputs.Input.KeyCode;
 import engine.components.Component;
+import engine.components.LineRenderer;
 import engine.components.Transform;
 import engine.gameobjects.GameObject;
 import engine.physics.Move;
+import engine.renderer.Color;
 import engine.scenes.SceneManager;
 
 public class Player extends Component{
 
+    private GameObject grapplingLine;
     public Transform transform;
-    public Transform cameraTransform;
-    public Transform backgroundTransform;
+    public Transform lineTransform;
+    public LineRenderer lineRenderer;
     public Move move;
 
     private Vector3f inputForce;
@@ -27,6 +31,10 @@ public class Player extends Component{
     public int playerHealth = 3;
 
 
+    public Player(GameObject line){
+        grapplingLine = line;
+    }
+
     @Override
     public void Awake() {
         inputForce = new Vector3f();
@@ -35,6 +43,9 @@ public class Player extends Component{
         grappleVector = new Vector2f();
         transform = gameObject.getComponent(Transform.class);
         move = gameObject.getComponent(Move.class);
+
+        lineTransform = grapplingLine.getComponent(Transform.class);
+        lineRenderer = grapplingLine.getComponent(LineRenderer.class);
 
 
     };
@@ -51,7 +62,7 @@ public class Player extends Component{
         // Convert mouse coordinates to world coordinates
         Vector2f mouseWorldCoordinates = SceneManager.getActiveMainCamera().screenToWorldCoordinate(Input.getMousePosition());
 
-
+        lineTransform.setPosition(transform.getPosition());
 
         // Gets vector angle between mouse and player and sets current sprite rotation to match
         transform.rotation = (float)Math.atan2(mouseWorldCoordinates.y - transform.position.y, mouseWorldCoordinates.x - transform.position.x);
@@ -60,6 +71,9 @@ public class Player extends Component{
         if(Input.getMouseButtonPressed(KeyCode.MOUSE_BUTTON_1)){
             isGrappled = true;
             grapplePosition = mouseWorldCoordinates;
+            lineRenderer.setStartPosition(grapplePosition);
+            lineRenderer.setStartColor(new Color(new Vector4f(255, 0, 0, 1)));
+            lineRenderer.setEndColor(new Color(new Vector4f(255, 0, 0, 1)));
             
         }
         if(isGrappled){
@@ -83,13 +97,11 @@ public class Player extends Component{
             transform.position.x += deltaTime * Input.getAxis("horizontal") * 150;
             transform.position.y += deltaTime * Input.getAxis("vertical") * 150;
 
-            // move.addMass(10000);
-            // move.addForce(grappleForce);
-            // System.out.println(grappleForce);
-
             // If right click is released 
             if(Input.getMouseButtonReleased(KeyCode.MOUSE_BUTTON_1)){
                 isGrappled = false;
+                lineRenderer.setStartColor(new Color(new Vector4f(255, 0, 0, 0)));
+                lineRenderer.setEndColor(new Color(new Vector4f(255, 0, 0, 0)));
             }
         }
         else{
