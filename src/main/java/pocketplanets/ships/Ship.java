@@ -101,7 +101,7 @@ public abstract class Ship extends Component{
         velocity = new Vector3f((destination.x - transform.position.x), (destination.y - transform.position.y), (destination.z - transform.position.z));
         acceleration = new Vector3f(accelMagnitude, accelMagnitude, accelMagnitude);
         velocity = velocity.normalize().add(speed, speed, speed);
-        move.initialize(acceleration, velocity, new Vector3f(0,0,0));
+        //move.initialize(acceleration, velocity, new Vector3f(0,0,0));
     }
 
     // /*
