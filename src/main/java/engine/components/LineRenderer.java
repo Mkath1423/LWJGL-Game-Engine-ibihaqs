@@ -19,23 +19,15 @@ public class LineRenderer extends Renderable {
     /**
      * Position 
      */
-    private Vector3f startPosition;
-    private Vector3f endPosition;
+    private Vector2f line;
+    private Transform t;
 
-    public void setStartPosition(Vector3f newStartPosition){
-        startPosition = new Vector3f(newStartPosition);
+    public void setStartPosition(Vector2f newLine){
+        line = new Vector2f(newLine);
     }
 
-    public void setEndPosition(Vector3f newEndPosition){
-        endPosition = new Vector3f(newEndPosition);
-    }
-
-    public Vector3f getStartPosition(){
-        return new Vector3f(startPosition);
-    }
-
-    public Vector3f getEndPosition(){
-        return new Vector3f(endPosition);
+    public Vector2f getEndPosition(){
+        return new Vector2f(line);
     }
 
     /**
@@ -73,13 +65,12 @@ public class LineRenderer extends Renderable {
         return lineWidth;
     }
 
-    public LineRenderer(Vector3f startPosition, Vector3f endPosition,
+    public LineRenderer(Vector2f line,
                         float lineWidth,
                         Color startColor,       Color endColor){
         super(Shader.SPRITE, VAOFormat.SPRITE, EBOFormat.QUAD, 1, 0);
                             
-        this.startPosition = startPosition;
-        this.endPosition   = endPosition;
+        this.line = line;
 
         this.lineWidth     = lineWidth;
 
@@ -88,7 +79,24 @@ public class LineRenderer extends Renderable {
     }
 
     @Override
+    public void Awake(){
+        t = gameObject.getComponent(Transform.class);
+        super.Awake();
+    }
+
+    @Override
     public void loadVertexData(float[] buffer, int start) {
+        Vector3f startPosition = new Vector3f(t.position);
+
+        Vector3f tLine = new Vector3f(line.x, line.y, 0);
+        tLine.rotateZ(t.rotation);
+
+        Vector3f endPosition = new Vector3f(
+            startPosition.x + tLine.x,
+            startPosition.y  + tLine.y,
+            startPosition.z
+        );
+
         Vector3f length = new Vector3f();
             endPosition.sub(startPosition, length);
             
