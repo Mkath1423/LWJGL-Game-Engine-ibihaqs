@@ -10,6 +10,7 @@ import org.joml.Vector3f;
 import engine.AssetManager;
 import engine.Inputs.Input;
 import engine.Inputs.InputAxis;
+import engine.components.LineRenderer;
 import engine.components.SpriteRenderer;
 import engine.components.Transform;
 import engine.gameobjects.GameObject;
@@ -57,7 +58,7 @@ public class BatchingTestScene extends Scene{
         //                 new Vector2f(10, 10),
         //                 0
         //             ));
-        //             go.addComponent(new SpriteRenderer(sp, new Color(), 0));
+        //             go.addComponent(new SpriteRenderer(sp, 0));
 
         //         gameObjects.add(go);
         //         GameObject go2 = new GameObject();
@@ -66,7 +67,7 @@ public class BatchingTestScene extends Scene{
         //             new Vector2f(10, 10),
         //             0
         //         ));
-        //         go2.addComponent(new SpriteRenderer(sp2, new Color(), 0));
+        //         go2.addComponent(new SpriteRenderer(sp2, 0));
 
         //         gameObjects.add(go2);
         
@@ -75,14 +76,27 @@ public class BatchingTestScene extends Scene{
 
         GameObject funky = new GameObject();
             funky.addComponent(new Transform(
-                new Vector3f(100, 300, 0),
+                new Vector3f(100, 300, -9),
                 new Vector2f(100, 200),
                 0
             ));
-            funky.addComponent(new SpriteRenderer(sp, new Color(), 0));
+            funky.addComponent(new SpriteRenderer(sp, new Color(255, 255, 90, 255), 0));
             funky.addComponent(new SampleComponent());
 
         gameObjects.add(funky);
+    
+        GameObject line = new GameObject();
+            line.addComponent(
+                new LineRenderer(
+                    new Vector3f(100, 100, 0), 
+                    new Vector3f(400, 400, 0), 
+                    20, 
+                    new Color(0f, 125, 0f, 255), 
+                    new Color(255f, 125, 255f, 255)
+                )
+            );
+
+        gameObjects.add(line);
     }
 
     @Override

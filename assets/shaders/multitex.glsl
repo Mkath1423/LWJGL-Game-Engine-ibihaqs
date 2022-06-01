@@ -4,9 +4,7 @@ layout (location=0) in vec3 aPosition;
 layout (location=1) in vec4 aColor;
 layout (location=2) in vec2 aUV;
 layout (location=3) in float aTexID;
-
 layout (location=4) in float aSettings;
-
 
 uniform mat4 uProjection;
 uniform mat4 uView;
@@ -18,12 +16,19 @@ out float fSettings;
 
 void main()
 {
+    fColor = aColor;
     fTexCoords = aUV;
     fTexID = aTexID;
-    fColor = aColor;
     fSettings = aSettings;
-    
-    gl_Position = uProjection * uView * vec4(aPosition, 1);
+
+    bool useView = mod(aSettings, 4) >= 2;
+
+    if(useView){
+        gl_Position = uProjection * uView * vec4(aPosition, 1);
+    }
+    else{
+        gl_Position = uProjection * vec4(aPosition, 1);
+    }
     
 }
 
@@ -42,8 +47,13 @@ out vec4 color;
 
 void main()
 {
-    int id = int(fTexID);
-    
-    color = texture(uTextures[id], fTexCoords);
-    
+    bool useColor = mod(fSettings, 2) == 1;
+
+    if(useColor){
+        color = fColor;
+    }
+    else{
+        int id = int(fTexID);
+        color = texture(uTextures[id], fTexCoords);
+    }
 }

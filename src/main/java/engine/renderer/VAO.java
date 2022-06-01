@@ -14,12 +14,7 @@ import engine.renderer.VAO.VAOFormat.Attribute;
  * Defines the structure of a vertex
  */
 public class VAO {
-    /**
-     * useColor
-     * useView
-     * 
-     * 
-     */
+    
     public enum VAOFormat{
         SPRITE(new String[] {"aPosition", "aColor", "aUV", "aTexID", "aSettings"}, new int[] {3, 4, 2, 1, 1});
         // TINTED_SPRITE(new String[] {"aPosition", "aColor", "aUV"}, new int[] {3, 4, 2}),
@@ -93,10 +88,9 @@ public class VAO {
 
     public void enable(){
         List<Attribute> attributes = format.getAttributes();
-            System.out.println("enabling " + attributes.size() + " attribs");
+
         bind();
         for (int i = 0; i < attributes.size(); i++) {
-            System.out.println("enabling " + attributes.get(i).name + " " + attributes.get(i).size + " " + attributes.get(i).offset);
             GL20.glEnableVertexAttribArray(i);
         }
     }

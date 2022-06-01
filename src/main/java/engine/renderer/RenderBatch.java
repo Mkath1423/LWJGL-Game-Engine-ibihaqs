@@ -47,22 +47,24 @@ public class RenderBatch {
         for (Texture tex : textures) {
             if(tex.getTexId() == renderable.getTexture().getTexId()) return true;            
         }
-        // System.out.println(" enough textures?" + (texturesUsed < QuadRenderer.MAX_TEXTURES));
+        // System.out.println(" enough textures?" + (texturesUsed < Renderer.MAX_TEXTURES));
 
-        return texturesUsed < QuadRenderer.MAX_TEXTURES;
+        return texturesUsed < Renderer.MAX_TEXTURES;
     }
 
     public void addRenderable(Renderable renderable){
         if(!canAddRenderable(renderable)) return;
+
+        renderables.add(renderable);
+        quadsUsed += renderable.getNumberOfQuads();
+
+        if(renderable.getTexture() == null) return;
 
         boolean allocateTexture = true;
 
         for (Texture tex : textures) {
             if(tex.getTexId() == renderable.getTexture().getTexId()) allocateTexture = false;            
         }
-
-        renderables.add(renderable);
-        quadsUsed += renderable.getNumberOfQuads();
 
         if(allocateTexture){
             textures.add(renderable.getTexture());
@@ -105,23 +107,24 @@ public class RenderBatch {
     }
 
     public void render(){
-        float[] vertices = new float[QuadRenderer.MAX_BATCH_SIZE * EBOFormat.QUAD.getNumberOfVertices() * vaoFormat.getVaoSize()];
+        float[] vertices = new float[Renderer.MAX_BATCH_SIZE * EBOFormat.QUAD.getNumberOfVertices() * vaoFormat.getVaoSize()];
 
         int index = 0;
         for (Renderable r : renderables) {
+            System.out.println("loading renderable data");
             r.loadVertexData(vertices, index);
             index += r.numberQuads * eboFormat.getNumberOfVertices() * vaoFormat.getVaoSize();
         }
 
-        vbo.bufferData(vertices);
-        for (int i = 0; i < 4; i++) {
-            System.out.println(Arrays.toString(Arrays.copyOfRange(vertices, i*11, (i+1) * 11)));
+        System.out.println(vertices.length);
+        System.out.println("----------------");
+        for(int i = 0; i < vertices.length / vaoFormat.getVaoSize(); i++){
+            System.out.println(Arrays.toString(Arrays.copyOfRange(vertices, i*vaoFormat.getVaoSize(), (i + 1) * vaoFormat.getVaoSize())));
         }
-        // System.out.println(vertices.length);
-        // System.out.println("----------------");
-        // for(int i = 0; i < vertices.length / get().vao.vaoSize; i++){
-        //     System.out.println(Arrays.toString(Arrays.copyOfRange(vertices, i, i + get().vao.vaoSize)));
-        // }
+
+        vbo.bufferData(vertices);
+
+        
 
         for (int i = 0; i < textures.size(); i ++) {
             GL20.glActiveTexture(GL20.GL_TEXTURE0 + i);

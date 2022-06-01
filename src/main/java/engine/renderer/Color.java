@@ -1,7 +1,5 @@
 package engine.renderer;
 
-import javax.swing.event.SwingPropertyChangeSupport;
-
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
@@ -9,19 +7,19 @@ public class Color {
     private Vector4f color;
 
     public float getRed(){
-        return color.x;
+        return color.x / 255;
     }
 
     public float getGreen(){
-        return color.y;
+        return color.y / 255;
     }
 
     public float getBlue(){
-        return color.z;
+        return color.z / 255;
     }
 
     public float getAlpha(){
-        return color.w;
+        return color.w / 255;
     }
 
     public Color(Vector4f color){
@@ -34,6 +32,10 @@ public class Color {
 
     public Color(){
         this(new Vector4f());
+    }
+
+    public Color(Color copy){
+        this(new Vector4f(copy.color));
     }
 
     public Color CreateHSVColor(float hue, float saturation, float value){
