@@ -37,7 +37,6 @@ public class Player extends Component{
 
     @Override
     public void Awake() {
-        inputForce = new Vector3f();
         grappleForce = new Vector3f();
         grapplePosition = new Vector2f();
         grappleVector = new Vector2f();
