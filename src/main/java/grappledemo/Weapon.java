@@ -1,4 +1,4 @@
-package nebula;
+package grappledemo;
 
 import org.joml.Vector2f;
 

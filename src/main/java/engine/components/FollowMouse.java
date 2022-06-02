@@ -1,12 +1,10 @@
-package nebula;
+package engine.components;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import engine.Inputs.Input;
 import engine.Inputs.Input.KeyCode;
-import engine.components.Component;
-import engine.components.Transform;
 import engine.scenes.Scene;
 import engine.scenes.SceneManager;
 

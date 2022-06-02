@@ -4,7 +4,7 @@ import org.lwjgl.opengl.GL20;
 
 import engine.scenes.Scene;
 import engine.scenes.SceneManager;
-import nebula.MainGameScene;
+import grappledemo.GrapplingGameScene;
 import pocketplanets.testing.BatchingTestScene;
 
 
@@ -15,7 +15,7 @@ public class Main {
         window.init();
 
 
-        SceneManager.addScene("MainGameScene", new MainGameScene());
+        SceneManager.addScene("MainGameScene", new GrapplingGameScene());
 
         SceneManager.swapScene("MainGameScene");
         

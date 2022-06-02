@@ -1,4 +1,4 @@
-package nebula;
+package grappledemo;
 
 import java.util.ArrayList;
 
@@ -9,6 +9,7 @@ import org.joml.Vector4f;
 import engine.AssetManager;
 import engine.Inputs.Input;
 import engine.Inputs.InputAxis;
+import engine.components.FollowMouse;
 import engine.components.LineRenderer;
 import engine.components.SpriteRenderer;
 import engine.components.Transform;
@@ -22,9 +23,9 @@ import engine.renderer.Texture;
 import engine.renderer.Texture.Format;
 import engine.scenes.Scene;
 
-public class MainGameScene extends Scene{
+public class GrapplingGameScene extends Scene{
 
-    public MainGameScene(){
+    public GrapplingGameScene(){
         mainCamera = new GameObject(); // camera will be changed soon
             mainCamera.addComponent(new Transform(
                 new Vector3f(0, 0, 0),
@@ -70,17 +71,13 @@ public class MainGameScene extends Scene{
             backgroundObject.getComponent(SpriteRenderer.class).setIsUI(true);
 
         GameObject grapplingLine = new GameObject();
-            grapplingLine.addComponent(new Transform(
-            new Vector3f(0, 0, -10),
-            new Vector2f(100, 100),
-            0
-            )); 
-
+            
             grapplingLine.addComponent(new LineRenderer(
-            new Vector2f(0,0),
-            0,
-            new Color(new Vector4f(255, 0, 0, 0)), 
-            new Color(new Vector4f(255, 0, 0, 0))
+                new Vector3f(0,0,0), 
+                new Vector3f(0,0,0), 
+                0,
+                new Color(255, 0, 0, 255), 
+                new Color(255, 0, 0, 255)
             ));
 
         // Player game object
@@ -144,9 +141,11 @@ public class MainGameScene extends Scene{
     
         gameObjects.add(backgroundObject);
         gameObjects.add(planetObject);
+        
+        
+        gameObjects.add(grapplingLine);
         gameObjects.add(playerObject);
         gameObjects.add(swordObject);
-        gameObjects.add(grapplingLine);
         gameObjects.add(reticleObject);
         
         

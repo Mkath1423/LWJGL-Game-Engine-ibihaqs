@@ -1,4 +1,4 @@
-package nebula;
+package grappledemo;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -18,7 +18,6 @@ public class Player extends Component{
 
     private GameObject grapplingLine;
     public Transform transform;
-    public Transform lineTransform;
     public LineRenderer lineRenderer;
     public Move move;
 
@@ -44,7 +43,6 @@ public class Player extends Component{
         transform = gameObject.getComponent(Transform.class);
         move = gameObject.getComponent(Move.class);
 
-        lineTransform = grapplingLine.getComponent(Transform.class);
         lineRenderer = grapplingLine.getComponent(LineRenderer.class);
 
 
@@ -60,11 +58,7 @@ public class Player extends Component{
         if(transform == null) return;
         
         // Convert mouse coordinates to world coordinates
-        Vector2f mouseWorldCoordinates = SceneManager.getActiveMainCamera().screenToWorldCoordinate(Input.getMousePosition());
-
-        lineRenderer.setStartPosition(new Vector2f(-grappleVector.x, -grappleVector.y));
-        //lineTransform.setPosition(transform.getPosition());
-        
+        Vector2f mouseWorldCoordinates = SceneManager.getActiveMainCamera().screenToWorldCoordinate(Input.getMousePosition());        
 
         // Gets vector angle between mouse and player and sets current sprite rotation to match
         transform.rotation = (float)Math.atan2(mouseWorldCoordinates.y - transform.position.y, mouseWorldCoordinates.x - transform.position.x);
@@ -73,21 +67,16 @@ public class Player extends Component{
         if(Input.getMouseButtonPressed(KeyCode.MOUSE_BUTTON_1)){
             isGrappled = true;
             grapplePosition = mouseWorldCoordinates;
-            lineTransform.setPosition(new Vector3f(grapplePosition, 0));
-            //lineTransform.setPosition(new Vector3f(grappleVector, 0));
+            lineRenderer.setEndPosition(new Vector3f(grapplePosition, 0));
             lineRenderer.setLineWidth(10);
             
         }
         if(isGrappled){
-            
+            lineRenderer.setStartPosition(transform.getPosition());
             // Get vector between Player and Mouse
             grappleVector = new Vector2f(grapplePosition.x - transform.position.x, grapplePosition.y - transform.position.y);
-      ;
             // Find deltaX for use in hooke's law equation
-            Float deltaX = Math.max(grappleVector.length(), 0);
-
-
-
+            Float deltaX = Math.max(grappleVector.length()-100, 0);
             
             // Set the force vector components
             grappleForce.set(new Vector3f(grappleVector.normalize().mul(deltaX * 0.8f ), 0));

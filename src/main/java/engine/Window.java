@@ -61,7 +61,7 @@ public class Window {
     private Window(){
         this.width = 1920;
         this.height = 1080;
-        this.title = "Nebula";
+        this.title = "Grapple Demo";
     }
 
     public static Window get(){
@@ -195,4 +195,9 @@ public class Window {
             beginTime = endTime;
         }
     }
+
+    public void setWindowTitle(String windowTitle){
+        this.title = windowTitle;
+    }
+    
 }
