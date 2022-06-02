@@ -62,7 +62,9 @@ public class Player extends Component{
         // Convert mouse coordinates to world coordinates
         Vector2f mouseWorldCoordinates = SceneManager.getActiveMainCamera().screenToWorldCoordinate(Input.getMousePosition());
 
-        lineTransform.setPosition(transform.getPosition());
+        lineRenderer.setStartPosition(new Vector2f(-grappleVector.x, -grappleVector.y));
+        //lineTransform.setPosition(transform.getPosition());
+        
 
         // Gets vector angle between mouse and player and sets current sprite rotation to match
         transform.rotation = (float)Math.atan2(mouseWorldCoordinates.y - transform.position.y, mouseWorldCoordinates.x - transform.position.x);
@@ -71,17 +73,18 @@ public class Player extends Component{
         if(Input.getMouseButtonPressed(KeyCode.MOUSE_BUTTON_1)){
             isGrappled = true;
             grapplePosition = mouseWorldCoordinates;
-            lineRenderer.setStartPosition(grapplePosition);
-            lineRenderer.setStartColor(new Color(new Vector4f(255, 0, 0, 1)));
-            lineRenderer.setEndColor(new Color(new Vector4f(255, 0, 0, 1)));
+            lineTransform.setPosition(new Vector3f(grapplePosition, 0));
+            //lineTransform.setPosition(new Vector3f(grappleVector, 0));
+            lineRenderer.setLineWidth(10);
             
         }
         if(isGrappled){
+            
             // Get vector between Player and Mouse
             grappleVector = new Vector2f(grapplePosition.x - transform.position.x, grapplePosition.y - transform.position.y);
-
+            
             // Find deltaX for use in hooke's law equation
-            Float deltaX = Math.max(grappleVector.length() - 300, 0);
+            Float deltaX = Math.max(grappleVector.length(), 0);
 
 
 
@@ -100,8 +103,8 @@ public class Player extends Component{
             // If right click is released 
             if(Input.getMouseButtonReleased(KeyCode.MOUSE_BUTTON_1)){
                 isGrappled = false;
-                lineRenderer.setStartColor(new Color(new Vector4f(255, 0, 0, 0)));
-                lineRenderer.setEndColor(new Color(new Vector4f(255, 0, 0, 0)));
+                lineRenderer.setLineWidth(0);
+    
             }
         }
         else{

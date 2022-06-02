@@ -78,7 +78,7 @@ public class MainGameScene extends Scene{
 
             grapplingLine.addComponent(new LineRenderer(
             new Vector2f(0,0),
-            20,
+            0,
             new Color(new Vector4f(255, 0, 0, 0)), 
             new Color(new Vector4f(255, 0, 0, 0))
             ));
