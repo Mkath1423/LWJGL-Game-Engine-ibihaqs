@@ -14,7 +14,7 @@ import engine.scenes.SceneManager;
 import engine.util.Time;
 
 public class Renderer {
-    static final int MAX_BATCH_SIZE = 1;
+    static final int MAX_BATCH_SIZE = 1000;
     static final int MAX_TEXTURES = 8;
 
     public enum RenderType{
@@ -60,8 +60,6 @@ public class Renderer {
     }
 
     public static void draw(){
-        System.out.println("----------------------------");
-        System.out.println("number of layers: " +get().layers.keySet().size() );
         for (Layer layer : get().layers.values()) {
             layer.draw();
         }

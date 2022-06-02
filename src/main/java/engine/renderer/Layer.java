@@ -49,10 +49,8 @@ public class Layer {
                 
         //         rb.start();
         // }
-        System.out.println("number of batches: " + batches.size());
         for (RenderBatch renderBatch : batches) {
             renderBatch.render();
-            System.out.println(renderBatch.renderables.size());
         }
     }
 }

@@ -166,6 +166,30 @@ public class Transform extends Component{
         return centerOfRotation;
     }
 
+    public Vector3f getWorldPosition(){
+        if(gameObject.getParent() == null ||
+          gameObject.getParent().getComponent(Transform.class) == null
+        ){
+            return getPosition();
+        } 
+        else{
+            Transform parentTransform = gameObject.getParent().getComponent(Transform.class);
+
+            Vector3f parentCoR = parentTransform.getCenterOfRotation();
+
+            Matrix3f rotationMatrix = new Matrix3f();
+                rotationMatrix.rotate(parentTransform.getRotation(), new Vector3f(0, 0, 1));
+
+            Vector3f out = getPosition();
+                out.mul(rotationMatrix);
+                out.add(new Vector3f(parentCoR.x, parentCoR.y, 0));
+
+            return out; 
+        } 
+    }
+
+
+
     public Transform(){
         this(new Vector3f(), new Vector2f(), 0f);
     }
