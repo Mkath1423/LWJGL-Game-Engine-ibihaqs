@@ -53,6 +53,7 @@ public class PongGameScene extends Scene{
     @Override
     public void Awake(){
         System.out.println("Awake");
+        super.Awake();
     }
 
     @Override
@@ -62,10 +63,12 @@ public class PongGameScene extends Scene{
 
     @Override
     public void Update(double deltaTime){
+        super.Update(deltaTime);
     }
 
     @Override
     public void End(){
+        super.End();
         System.out.println("End");
     }
 }
