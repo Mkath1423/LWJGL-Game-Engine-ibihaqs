@@ -83,6 +83,7 @@ public class Collision extends Component {
 
         }
 
+        // Emergency fail-safe
         return false;
     }
 
