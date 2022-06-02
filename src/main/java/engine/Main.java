@@ -15,7 +15,7 @@ public class Main {
         window.init();
 
 
-        SceneManager.addScene("MainGameScene", new MainGameScene());
+        SceneManager.addScene("MainGameScene", new BatchingTestScene());
 
         SceneManager.swapScene("MainGameScene");
         

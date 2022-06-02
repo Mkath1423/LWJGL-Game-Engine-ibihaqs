@@ -92,7 +92,6 @@ public class RenderBatch {
         vao.bind();
 
         vbo = new VBO(Renderer.MAX_BATCH_SIZE * EBOFormat.QUAD.getNumberOfVertices() * vaoFormat.getVaoSize() * Float.BYTES);
-        System.out.println(Renderer.MAX_BATCH_SIZE * EBOFormat.QUAD.getNumberOfVertices() * vaoFormat.getVaoSize() * Float.BYTES);
         // create indices and upload
         int[] elementArray = EBOFormat.generateIndices(EBOFormat.QUAD, Renderer.MAX_BATCH_SIZE);
         IntBuffer elementBuffer = BufferUtils.createIntBuffer(elementArray.length);
@@ -111,20 +110,11 @@ public class RenderBatch {
 
         int index = 0;
         for (Renderable r : renderables) {
-            System.out.println("loading renderable data");
             r.loadVertexData(vertices, index);
             index += r.numberQuads * eboFormat.getNumberOfVertices() * vaoFormat.getVaoSize();
         }
 
-        System.out.println(vertices.length);
-        System.out.println("----------------");
-        for(int i = 0; i < vertices.length / vaoFormat.getVaoSize(); i++){
-            System.out.println(Arrays.toString(Arrays.copyOfRange(vertices, i*vaoFormat.getVaoSize(), (i + 1) * vaoFormat.getVaoSize())));
-        }
-
         vbo.bufferData(vertices);
-
-        
 
         for (int i = 0; i < textures.size(); i ++) {
             GL20.glActiveTexture(GL20.GL_TEXTURE0 + i);
