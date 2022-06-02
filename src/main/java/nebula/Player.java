@@ -22,11 +22,11 @@ public class Player extends Component{
     public LineRenderer lineRenderer;
     public Move move;
 
-    private Vector3f inputForce;
     private boolean isGrappled;
     private Vector3f grappleForce;
     private Vector2f grapplePosition;
     private Vector2f grappleVector;
+
 
     public int playerHealth = 3;
 
@@ -41,6 +41,7 @@ public class Player extends Component{
         grappleForce = new Vector3f();
         grapplePosition = new Vector2f();
         grappleVector = new Vector2f();
+
         transform = gameObject.getComponent(Transform.class);
         move = gameObject.getComponent(Move.class);
 
@@ -82,7 +83,7 @@ public class Player extends Component{
             
             // Get vector between Player and Mouse
             grappleVector = new Vector2f(grapplePosition.x - transform.position.x, grapplePosition.y - transform.position.y);
-            
+      ;
             // Find deltaX for use in hooke's law equation
             Float deltaX = Math.max(grappleVector.length(), 0);
 
