@@ -18,9 +18,10 @@ import engine.renderer.SpriteMap;
 import engine.renderer.Texture;
 import engine.renderer.VAO;
 import engine.renderer.Renderer.RenderType;
+import engine.renderer.VAO.VAOFormat;
 import engine.scenes.SceneManager;
 
-public class PanelRenderer extends QuadRenderable{
+public class PanelRenderer extends Renderable{
 
     public int leftBoarder;
     public int rightBoarder;
@@ -33,15 +34,15 @@ public class PanelRenderer extends QuadRenderable{
 
     float[] xOffsets, yOffsets;
 
-    public PanelRenderer(Texture baseTexture, int leftBoarder, int rightBoarder, int topBoarder, int bottomBoarder){
-        super(4*9, 0);
+    public PanelRenderer(SpriteMap spriteMap, int leftBoarder, int rightBoarder, int topBoarder, int bottomBoarder){
+        super(Shader.SPRITE, VAOFormat.SPRITE, EBOFormat.QUAD, 9, 1);
+
+        this.spriteMap = spriteMap;
 
         this.leftBoarder = leftBoarder;
         this.rightBoarder = rightBoarder;
         this.topBoarder = topBoarder;
         this.bottomBoarder = bottomBoarder;
-
-        
     }
 
     public void Awake(){

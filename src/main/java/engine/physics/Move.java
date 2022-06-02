@@ -68,6 +68,15 @@ public class Move extends Component {
 
         force = f;
     }
+
+
+    /**
+     * Immediately ceases all motion in the given object
+     */
+    public void stop() {
+
+        reset();
+    }
     
     
     /**

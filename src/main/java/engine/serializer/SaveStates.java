@@ -9,8 +9,6 @@ import java.io.PrintWriter;
 import java.nio.channels.SelectableChannel;
 import java.util.List;
 
-import engine.gameobjects.GameObject;
-
 // References: 
 //  https://stackabuse.com/reading-and-writing-files-in-java/
 //  https://youtu.be/BbI8FdQOKNs
@@ -24,7 +22,6 @@ public class SaveStates {
 
     
     private static List<Character> result;          // Array of chars for reading file
-    private static List<GameObject> objects;        // A list of all active GameObjects
     
     private static FileReader reader;               // Class for reading from save file
     
@@ -53,12 +50,13 @@ public class SaveStates {
 
         file = fp.getAbsolutePath();
     }
+
     
     /**
      * Read the information from the selected file
-     * @param slot
-     * @return
-     */
+     * 
+     * @param   slot (int) The slot which we are reading from
+     */ 
     private static List<Character> read(int slot) {
 
         selectFile(slot);
@@ -71,6 +69,8 @@ public class SaveStates {
             while(ch != -1) {
 
                 System.out.print((char)ch);
+                result.add((char)ch);
+                System.out.println("done reading");
                 reader.close();
             }
 
@@ -80,6 +80,7 @@ public class SaveStates {
 
         }
 
+        System.out.println(result);
         return(result);
 
     }
@@ -94,7 +95,6 @@ public class SaveStates {
             
             writer = new BufferedWriter(new FileWriter(file));
             writer.write("test lmao");
-            System.out.println("test lmao");
             writer.close();
         
         } catch (IOException e) {
@@ -112,7 +112,8 @@ public class SaveStates {
 
     public static void main(String[] args) {
 
-        write(1);        
+        write(1);      
+        read(1);  
     }
     
 

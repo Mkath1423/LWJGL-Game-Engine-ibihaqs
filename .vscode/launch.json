@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Demo",
+            "request": "launch",
+            "mainClass": "demo.Demo",
+            "projectName": "hellofx"
+        },
+        {
+            "type": "java",
             "name": "Launch SaveStates",
             "request": "launch",
             "mainClass": "engine.serializer.SaveStates",
