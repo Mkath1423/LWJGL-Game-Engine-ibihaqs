@@ -39,15 +39,15 @@ public class RenderBatch {
            (renderable.getVAOFormat() != vaoFormat) || 
            (renderable.getEBOFormat() != eboFormat)) 
            return false;
-        // System.out.println("checking renderable");
-        // System.out.println(" same type");
+        
         if(quadsUsed + renderable.numberQuads > Renderer.MAX_BATCH_SIZE) return false;
 
-        // System.out.println(" enough space");
-        for (Texture tex : textures) {
-            if(tex.getTexId() == renderable.getTexture().getTexId()) return true;            
+        if(renderable.getTexture() != null)
+        {
+            for (Texture tex : textures) {
+                if(tex.getTexId() == renderable.getTexture().getTexId()) return true;            
+            }
         }
-        // System.out.println(" enough textures?" + (texturesUsed < Renderer.MAX_TEXTURES));
 
         return texturesUsed < Renderer.MAX_TEXTURES;
     }
@@ -57,7 +57,7 @@ public class RenderBatch {
 
         renderables.add(renderable);
         quadsUsed += renderable.getNumberOfQuads();
-
+        System.out.println(renderable.getTexture());
         if(renderable.getTexture() == null) return;
 
         boolean allocateTexture = true;
