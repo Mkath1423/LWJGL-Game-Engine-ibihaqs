@@ -1,11 +1,90 @@
 package engine.physics;
 
 import engine.geometry.Quad;
+import engine.components.Component;
 import engine.geometry.Circle;
 
 import org.joml.Vector3f;
 
-public class Collision {
+public class Collision extends Component {
+
+
+
+    // INITIALIZATION
+
+
+
+    private CollisionType collisionType;    // Enum storing types of borders
+    public enum CollisionType {
+
+        RECTANGLE, 
+        CIRCLE;
+    }
+
+    private Quad quad;                      // Quad-type border
+    private Circle circle;                  // Circle-type border
+    
+    
+    /**
+     * Constructor for rectangle
+     * 
+     * @param q     (Quad) Quad-type border
+     */
+    public Collision(Quad q) {
+
+        quad = q;
+    }
+
+    /**
+     * Constructor for circle
+     * 
+     * @param c     (Circle) Circle-type border
+     */
+    public Collision(Circle c) {
+
+        circle = c;
+    }
+
+
+    /**
+     * Check to see if the current gameObject and another specified one are colliding
+     * 
+     * @param other    (Collision) The collision component of the other gameObject we are checking
+     * 
+     * @return         (Boolean) Are they colliding?
+     */
+    public boolean isColliding(Collision other) {
+
+        // Two circles colliding
+        if(this.collisionType == CollisionType.CIRCLE && other.collisionType == CollisionType.CIRCLE) {
+
+            // Get the origin of the other circle as a vector, and the radius as a double
+            Vector3f OC = new Vector3f(other.circle.getX(), other.circle.getY(), 0);
+            double radius = other.circle.getRadius();
+        
+            // Perform operation
+            return circlePoint(this.circle, OC, radius);
+
+        // Two rectangles colliding
+        } else if(this.collisionType == CollisionType.RECTANGLE && other.collisionType == CollisionType.RECTANGLE) {
+
+            // Perform operation
+            return rectRect(this.quad, other.quad, 0);
+
+        } else if(this.collisionType == CollisionType.CIRCLE && other.collisionType == CollisionType.RECTANGLE) {
+
+            // Perform operation
+            return rectCircle(other.quad, this.circle, 0);
+
+        } else if(this.collisionType == CollisionType.RECTANGLE && other.collisionType == CollisionType.CIRCLE) {
+
+            // Perform operation
+            return rectCircle(this.quad, other.circle, 0);
+
+        }
+
+        return false;
+    }
 
 
 
@@ -16,19 +95,23 @@ public class Collision {
     /**
      * Given a circle and coordinates, return true if the coordinates exist within the
      * boundaries of the circle
+     * If you offset by the radius of the second circle, this method serves as a collision
+     * detector between two circles
      * 
      * @param circle    (Circle) The circle in question
      * @param point     (Vector3f) The coordinates of the point
+     * @param offset    (double) Value to offset by
+     * 
      * @return          (boolean) Is the point within the circle?
      */
-    public static boolean circlePoint(Circle circle, Vector3f point) {
+    public static boolean circlePoint(Circle circle, Vector3f point, double offset) {
 
         // The coordinates of the center of the circle
         double cX = circle.getX();
         double cY = circle.getY();
 
         // The radius of the circle
-        double radius = circle.getRadius();
+        double radius = circle.getRadius() + offset;
 
         // The coordinates of the point
         double x = point.x;
@@ -139,7 +222,7 @@ public class Collision {
     }
 
 
-     /**
+    /**
      * Given a rectangle and coordinates, return true if the coordinates exist within the
      * boundaries of the rectangle
      * 
