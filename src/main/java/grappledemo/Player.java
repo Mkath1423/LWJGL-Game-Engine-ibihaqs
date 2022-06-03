@@ -2,7 +2,6 @@ package grappledemo;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 
 import engine.Inputs.Input;
 import engine.Inputs.Input.KeyCode;
@@ -10,8 +9,6 @@ import engine.components.Component;
 import engine.components.LineRenderer;
 import engine.components.Transform;
 import engine.gameobjects.GameObject;
-import engine.physics.Move;
-import engine.renderer.Color;
 import engine.scenes.SceneManager;
 
 public class Player extends Component{
@@ -19,7 +16,6 @@ public class Player extends Component{
     private GameObject grapplingLine;
     public Transform transform;
     public LineRenderer lineRenderer;
-    public Move move;
 
     private boolean isGrappled;
     private Vector3f grappleForce;
@@ -41,8 +37,6 @@ public class Player extends Component{
         grappleVector = new Vector2f();
 
         transform = gameObject.getComponent(Transform.class);
-        move = gameObject.getComponent(Move.class);
-
         lineRenderer = grapplingLine.getComponent(LineRenderer.class);
 
 
@@ -86,8 +80,7 @@ public class Player extends Component{
             transform.position.x += grappleForce.x;
             transform.position.y += grappleForce.y;
             
-            transform.position.x += deltaTime * Input.getAxis("horizontal") * 150;
-            transform.position.y += deltaTime * Input.getAxis("vertical") * 150;
+            moveFromWASD(150, deltaTime);
 
             // If right click is released 
             if(Input.getMouseButtonReleased(KeyCode.MOUSE_BUTTON_1)){
@@ -97,8 +90,7 @@ public class Player extends Component{
             }
         }
         else{
-            transform.position.x += deltaTime * Input.getAxis("horizontal") * 80;
-            transform.position.y += deltaTime * Input.getAxis("vertical") * 80;
+            moveFromWASD(80, deltaTime);
         }
           
     };
@@ -107,5 +99,10 @@ public class Player extends Component{
     public void End() {
 
     };
+
+    private void moveFromWASD(int speed, double deltaTime){
+        transform.position.x += deltaTime * Input.getAxis("horizontal") * speed;
+        transform.position.y += deltaTime * Input.getAxis("vertical") * speed;
+    }
     
 }

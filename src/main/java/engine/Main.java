@@ -6,6 +6,7 @@ import engine.scenes.Scene;
 import engine.scenes.SceneManager;
 import grappledemo.GrapplingGameScene;
 import pocketplanets.testing.BatchingTestScene;
+import pong.PongGameScene;
 
 
 public class Main {
@@ -15,9 +16,9 @@ public class Main {
         window.init();
 
 
-        SceneManager.addScene("MainGameScene", new GrapplingGameScene());
+        SceneManager.addScene("GrapplingGameScene", new PongGameScene());
 
-        SceneManager.swapScene("MainGameScene");
+        SceneManager.swapScene("GrapplingGameScene");
         
         window.run();
     }

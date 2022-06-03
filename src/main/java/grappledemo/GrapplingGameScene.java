@@ -44,8 +44,11 @@ public class GrapplingGameScene extends Scene{
 
         // get textures (and other assets later)
         Texture playerTexture = AssetManager.getTexture("assets/textures/smiley.png");
+        
         Texture reticleTexture = AssetManager.getTexture("assets/textures/reticle.png");
+        
         Texture planetTexture = AssetManager.getTexture("assets/textures/whitePlanet.png");
+        
         Texture backgroundTexture = AssetManager.getTexture("assets/textures/background.png", Format.RGB);
 
         // Player tool textures 
