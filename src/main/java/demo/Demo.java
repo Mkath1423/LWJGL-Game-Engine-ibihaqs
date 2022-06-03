@@ -15,8 +15,8 @@ public class Demo {
     public static void main(String[] args){
         Window window = Window.get(); 
         
-        Window.setColor(new Color(55, 155, 0, 155));
-        Window.setTitle("demo window epic funny title");
+        Window.setColor(new Color(255, 255, 255, 255));
+        Window.setTitle("Final Project Tech Demonstration");
         Window.setResizable(false);
         Window.setShowCursor(false);
 

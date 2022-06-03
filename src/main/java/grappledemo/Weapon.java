@@ -1,18 +1,21 @@
 package grappledemo;
 
 import org.joml.Vector2f;
-
+import org.joml.Vector3f;
 
 import engine.Inputs.Input;
 import engine.Inputs.Input.KeyCode;
 import engine.components.Component;
 import engine.components.Transform;
+import engine.physics.Collision;
 import engine.physics.Move;
 import engine.scenes.SceneManager;
 
 public class Weapon extends Component{
     public Transform transform;
     public Transform playerTransform;
+    public Collision collision;
+    public Collision planetCollision;
     public Move move;
     private boolean isAttacking = false;
     private float weaponDisplacement;
@@ -20,14 +23,16 @@ public class Weapon extends Component{
     private float weaponRange = 100;
 
 
-    public Weapon(Transform player){
+    public Weapon(Transform player, Collision planet){
         playerTransform = player;
+        planetCollision = planet;
     }
 
     @Override
     public void Awake() {
         transform = gameObject.getComponent(Transform.class);
         move = gameObject.getComponent(Move.class);
+        collision = gameObject.getComponent(Collision.class);
     };
 
     @Override
@@ -38,25 +43,24 @@ public class Weapon extends Component{
     @Override
     public void Update(double deltaTime) {
         if(transform == null) return;
-        
-        // Convert mouse coordinates to world coordinates
-        //Vector2f mouseWorldCoordinates = SceneManager.getActiveMainCamera().screenToWorldCoordinate(Input.getMousePosition());
 
         // Sets position to constantly update to players position
-        transform.position = playerTransform.getPosition();
+        transform.position = new Vector3f(playerTransform.position.x, playerTransform.position.y, 0);
 
         // Gets vector angle between mouse and sword and sets current sprite rotation to match
         transform.rotation = playerTransform.getRotation();
 
 
-
+        if(collision.isColliding(planetCollision)){
+            System.out.println("WOOOOOO");
+        }
+        System.out.println("Awww");
+        
         if(Input.getMouseButtonPressed(KeyCode.MOUSE_BUTTON_0)){
             isAttacking = true;
         }
 
         if(isAttacking){
-            //transform.position.x = (float) ((Math.cos(Player.transform.rotation) * (150+weaponDisplacement) + Player.transform.position.x));
-            //transform.position.y = (float) ((Math.sin(Player.transform.rotation) * (150+weaponDisplacement) + Player.transform.position.y));
             transform.position.x = (float) ((Math.cos(transform.rotation) * (150+weaponDisplacement) + transform.position.x));
             transform.position.y = (float) ((Math.sin(transform.rotation) * (150+weaponDisplacement) + transform.position.y));
             if(weaponDisplacement <= weaponRange && extendingAnimation){

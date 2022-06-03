@@ -39,12 +39,12 @@ public class RobinhoodGameScene extends Scene{
         Input.addAxis("vertical", new InputAxis(-1, 1, 20, 20, Input.KeyCode.W, Input.KeyCode.S));
 
         // get textures (and other assets later)
-        Texture paddleTexture = AssetManager.getTexture("assets/textures/pongPaddle.png");
+        Texture bowTexture = AssetManager.getTexture("assets/textures/bow.png");
 
-        Texture ballTexture = AssetManager.getTexture("assets/textures/pongBall.png", Format.RGB);
+        Texture arrowTexture = AssetManager.getTexture("assets/textures/arrow.png", Format.RGB);
 
         // // create gameobject 
-        SpriteMap paddleSprite = new SpriteMap(paddleTexture, 1, 1);        
+        SpriteMap bowSprite = new SpriteMap(bowTexture, 1, 1);        
 
     }
 
