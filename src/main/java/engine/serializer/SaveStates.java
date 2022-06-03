@@ -1,17 +1,19 @@
 package engine.serializer;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.nio.channels.SelectableChannel;
-import java.util.List;
+
+import org.joml.Vector3f;
+
 
 // References: 
 //  https://stackabuse.com/reading-and-writing-files-in-java/
 //  https://youtu.be/BbI8FdQOKNs
+//  https://www.geeksforgeeks.org/different-ways-reading-text-file-java/
 
 public class SaveStates {
 
@@ -21,13 +23,102 @@ public class SaveStates {
 
 
     
-    private static List<Character> result;          // Array of chars for reading file
+    private static FileReader r;               // Class for reading from save file
     
-    private static FileReader reader;               // Class for reading from save file
-    
-    private static BufferedWriter writer;           // Class for writing to save file
+    private static BufferedWriter writer;      // Class for writing to save file
                    
-    private static String file;                     // The file we are reading and writing to
+    private static String file;                // The file we are reading and writing to
+    private static String result;              // The result of the reading
+
+
+
+    // EXTERNAL METHODS
+
+
+
+    /**
+     * Load and return gameObject's position from a given slot
+     * 
+     * @param slot  (int) The save slot to read
+     * @return      (Vector3f) The position vector of the gameObject
+     */
+    public static Vector3f loadPosition(int slot) {
+
+        // Get the text from the save slot in the result variable
+        read(slot);
+
+        // Variables that will be useful later
+        int count = 0;
+        int border = 0;
+        float x = 0;
+        float y = 0;
+        float z = 0;
+
+        // Convert from a string into floats
+        for(int i = 0; i < result.length(); i++) {
+
+            switch(count) {
+
+                case 0:
+
+                    if(result.charAt(i) == ',') {
+
+                        x = Float.parseFloat(result.substring(border, i));
+                        count++;
+                        border = i+1;
+                    }
+
+                    break;
+                
+                case 1:
+
+                    if(result.charAt(i) == ',') {
+
+                        y = Float.parseFloat(result.substring(border, i));
+                        count++;
+                        border = i+1;
+                    }
+
+                    break;
+
+                case 2:
+
+                    if(result.charAt(i) == ',') {
+
+                        z = Float.parseFloat(result.substring(border, i));
+                        count++;
+                    }
+
+                    break;
+                
+                default:
+
+                    break;
+
+            }
+        }
+
+        return new Vector3f(x, y, z);
+    }
+    
+    
+    /**
+     * Saves the current gameObject's position
+     * 
+     * @param slot  (int) The save slot to save to
+     * @param pos   (Vector3f) The position of the object
+     */
+    public static void savePosition(int slot, Vector3f pos) {
+
+        // The vector pos to store as a String
+        String codedPos =   
+        
+        Float.toString(pos.x) + "," + 
+        Float.toString(pos.y) + "," + 
+        Float.toString(pos.z) + ",";
+
+        write(slot, codedPos);
+    }
 
 
 
@@ -53,40 +144,43 @@ public class SaveStates {
 
     
     /**
-     * Read the information from the selected file
+     * Read the information from a save slot, storing it in result
      * 
      * @param   slot (int) The slot which we are reading from
      */ 
-    private static List<Character> read(int slot) {
+    private static void read(int slot) {
 
         selectFile(slot);
 
         try {
 
-            reader = new FileReader(file);
-            int ch = reader.read();
+            // Deriving a BufferedReader from the FileReader r
+            r = new FileReader(file);
+            BufferedReader reader = new BufferedReader(r);
+            String st;
             
-            while(ch != -1) {
+            // As long as there is something, read
+            while((st = reader.readLine()) != null) {
 
-                System.out.print((char)ch);
-                result.add((char)ch);
-                System.out.println("done reading");
-                reader.close();
+                result = st;
             }
 
+        // Error catching necessary in using these classes
         } catch (IOException e) {
 
             e.printStackTrace();
 
         }
-
-        System.out.println(result);
-        return(result);
-
     }
     
     
-    private static void write(int slot) {
+    /**
+     * Writes to a save slot
+     * 
+     * @param slot  (int) The slot which we are writing to
+     * @param text  (String) The text to be written
+     */
+    private static void write(int slot, String text) {
 
         selectFile(slot);
 
@@ -94,9 +188,10 @@ public class SaveStates {
         try {
             
             writer = new BufferedWriter(new FileWriter(file));
-            writer.write("test lmao");
+            writer.write(text);
             writer.close();
         
+        // Error catching necessary in using these classes
         } catch (IOException e) {
             
             e.printStackTrace();
@@ -112,8 +207,8 @@ public class SaveStates {
 
     public static void main(String[] args) {
 
-        write(1);      
-        read(1);  
+        savePosition(1, new Vector3f(4, 5, 6));
+        System.out.println(loadPosition(1));
     }
     
 

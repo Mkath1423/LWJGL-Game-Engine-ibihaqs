@@ -49,7 +49,7 @@ public class Circle {
      * 
      * @return  (float) The radius of the circle
      */
-    public float getRadius() {
+    public double getRadius() {
 
         return radius;
     }

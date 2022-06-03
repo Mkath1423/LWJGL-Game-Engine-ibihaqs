@@ -11,8 +11,16 @@ import org.lwjgl.stb.STBImage;
 
 /**
  * A Texture for openGL
+ * 
+ * Slightly adapted from tutorial by GamesWithGabe
  */
 public class Texture {
+
+    /**
+     * The format of the Texture
+     * 
+     * Either RGB or RGBA
+     */
     public enum Format{
         RGB(GL11.GL_RGB),
         RGBA(GL11.GL_RGBA);
@@ -23,6 +31,11 @@ public class Texture {
             this.format = format;
         }
 
+        /**
+         * Gets the OpenGL constant for the texture format
+         * 
+         * @return the GL format
+         */
         public int get(){
             return format;
         }
@@ -49,14 +62,32 @@ public class Texture {
     public int getWidth(){return texWidth;}
     public int getHeight(){return texHeight;}
 
+    /**
+     * Normalizes a position in the texture
+     * 
+     * @param pos the position in the texture
+     * @return the normalized position
+     */
     public Vector2f toNDC(Vector2f pos){
         return new Vector2f(pos.x / getWidth(), pos.y/getWidth());
     }
 
+    /**
+     * Normalizes the y value in the texture
+     * 
+     * @param pos the y pos in the texture
+     * @return the normalized position
+     */
     public float toNDCHeight(float pos){
         return pos / getHeight();
     }
 
+    /**
+     * Normalizes the x value in the texture
+     * 
+     * @param pos the x pos in the texture
+     * @return the normalized position
+     */
     public float toNDCWidth(float pos){
         return pos / getWidth();
     }

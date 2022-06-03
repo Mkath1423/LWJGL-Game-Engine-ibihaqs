@@ -60,7 +60,7 @@ public class Collision extends Component {
 
             // Get the origin of the other circle as a vector, and the radius as a double
             Vector3f OC = new Vector3f(other.circle.getX(), other.circle.getY(), 0);
-            double radius = other.circle.getRadius();
+            double radius = (double)other.circle.getRadius();
         
             // Perform operation
             return circlePoint(this.circle, OC, radius);
