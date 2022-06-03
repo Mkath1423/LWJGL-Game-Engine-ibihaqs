@@ -33,8 +33,19 @@ public class SingleScene extends Scene{
         gameObjects = new ArrayList<>();
 
         Texture texture = AssetManager.getTexture("assets/textures/smiley.png", Format.RGBA);
+        Texture texture2 = AssetManager.getTexture("assets/textures/whitePlanet.png", Format.RGBA);
         SpriteMap spriteMap = new SpriteMap(texture, 1, 1);
+        SpriteMap spriteMap2 = new SpriteMap(texture2, 1, 1);
 
+        GameObject doubleObject = new GameObject();
+        doubleObject.addComponent(new Transform(
+            new Vector3f(500, 500, 0),
+            new Vector2f(100, 100),
+            0f
+        ));
+        doubleObject.addComponent(new SpriteRenderer(spriteMap2, new Color(), 1));
+
+        gameObjects.add(doubleObject);
 
         GameObject singlGameObject = new GameObject();
             singlGameObject.addComponent(new Transform(
@@ -42,7 +53,7 @@ public class SingleScene extends Scene{
                 new Vector2f(100, 100),
                 0f
             ));
-            singlGameObject.addComponent(new SpriteRenderer(spriteMap, new Color(), 0));
+            singlGameObject.addComponent(new SpriteRenderer(spriteMap, new Color(), 2));
             singlGameObject.addComponent(new KeyMover(100, 50));
     
         gameObjects.add(singlGameObject);

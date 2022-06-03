@@ -85,8 +85,9 @@ public class GrapplingGameScene extends Scene{
                 new Vector3f(0,0,0), 
                 0,
                 new Color(255, 0, 0, 255), 
-                new Color(255, 0, 0, 255)
-            ));
+                new Color(255, 0, 0, 255),
+                0
+                ));
 
         // Player game object
         GameObject playerObject = new GameObject();

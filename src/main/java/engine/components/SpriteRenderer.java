@@ -41,8 +41,8 @@ public class SpriteRenderer extends Renderable{
     private boolean isUI;
     public void setUseColor(boolean useColor){ this.useColor = useColor;}
 
-    public SpriteRenderer(SpriteMap spriteMap, Color color, int layer){
-        super(Shader.SPRITE, VAOFormat.SPRITE, EBOFormat.QUAD, 1, layer);
+    public SpriteRenderer(SpriteMap spriteMap, Color color, int layerID){
+        super(Shader.SPRITE, VAOFormat.SPRITE, EBOFormat.QUAD, 1, layerID);
 
         this.spriteMap = spriteMap;
         this.color = color;

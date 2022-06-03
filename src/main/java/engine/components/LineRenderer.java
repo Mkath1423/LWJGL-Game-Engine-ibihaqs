@@ -131,8 +131,8 @@ public class LineRenderer extends Renderable {
 
     public LineRenderer(Vector3f startPosition, Vector3f endPosition,
                         float lineWidth,
-                        Color startColor,       Color endColor){
-        super(Shader.SPRITE, VAOFormat.SPRITE, EBOFormat.QUAD, 1, 0);
+                        Color startColor,       Color endColor, int layerID){
+        super(Shader.SPRITE, VAOFormat.SPRITE, EBOFormat.QUAD, 1, layerID);
                             
         this.startPosition = startPosition;
         this.endPosition   = endPosition;

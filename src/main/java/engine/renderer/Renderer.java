@@ -80,11 +80,21 @@ public class Renderer {
     /**
      * Draws all the layers in order
      * 
-     * TODO: sort the layer to ensure order
+     * Lowest number get drawn on the bottom
      */
     public static void draw(){
-        for (Layer layer : get().layers.values()) {
-            layer.draw();
+
+        // sort the layers 
+        Object[] layerIDs = get().layers.keySet().toArray(); 
+
+        // draw each layer
+        for (Object object : layerIDs) {
+            try {
+                Integer key = (Integer)object;
+                get().layers.get(key).draw();
+            } catch (ClassCastException e) {
+                assert false : "key could not cast. layer was not rendered.";
+            }
         }
     }
 
