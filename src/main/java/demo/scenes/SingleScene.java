@@ -9,7 +9,6 @@ import demo.components.KeyMover;
 import engine.AssetManager;
 import engine.Inputs.Input;
 import engine.Inputs.Input.KeyCode;
-import engine.components.PanelRenderer;
 import engine.components.SpriteRenderer;
 import engine.components.Transform;
 import engine.gameobjects.GameObject;

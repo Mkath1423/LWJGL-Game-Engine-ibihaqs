@@ -10,7 +10,7 @@ import engine.components.Component;
  * 
  * behavior of that object is defined by its components
  */
-public class GameObject {
+public final class GameObject {
 
     /**
      * Enabled gameobjects will receive callbacks (TODO: this)
@@ -24,15 +24,36 @@ public class GameObject {
      */
     private List<Component> components;
 
+    /**
+     * The parent of this gameobject
+     */
     private GameObject parent;
 
+    /**
+     * Gets this gameobject's parent
+     * 
+     * @return the parent gameobject
+     */
     public GameObject getParent(){
         return parent;
     }
 
+    /**
+     * Sets the gameobjec'st parent
+     * 
+     * @param parent the new parent 
+     */
     public void setParent(GameObject parent){
         this.parent = parent; 
     }
+
+    /**
+     * The following method are adapted from tutorial:
+     *      https://github.com/codingminecraft/MarioYoutube/tree/master
+     *  - getComponent
+     *  - addComponent
+     *  - removeComponent
+     */
 
     /**
      * Gets and returns a component 
@@ -123,6 +144,11 @@ public class GameObject {
         }
     }
 
+    /**
+     * Called before all GOs are updated
+     * 
+     * @param deltaTime the time elapsed between frames
+     */
     public void EarlyUpdate(double deltaTime){
         for (Component component : components) {
             component.EarlyUpdate(deltaTime);
@@ -141,8 +167,18 @@ public class GameObject {
     }
 
     /**
-     * Called when swapping off this scene
+     * Called after all game objects have been updated
      * 
+     * @param deltaTime time elapsed between frames
+     */
+    public void LateUpdate(double deltaTime){
+        for (Component component : components) {
+            component.LateUpdate(deltaTime);
+        }
+    }
+
+    /**
+     * Called when swapping off this scene
      */
     public void End(){
         for (Component component : components) {
@@ -150,9 +186,4 @@ public class GameObject {
         }
     }
 
-    public void LateUpdate(double deltaTime){
-        for (Component component : components) {
-            component.LateUpdate(deltaTime);
-        }
-    }
 }

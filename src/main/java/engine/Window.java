@@ -1,46 +1,78 @@
 package engine;
 
-import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.joml.Vector2f;
-import org.joml.Vector3f;
+
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.Callbacks;
+
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.opengl.ARBVertexArrayObject;
+
 import org.lwjgl.opengl.GL;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
+
 import org.lwjgl.system.MemoryUtil;
 
 import engine.Inputs.Input;
 import engine.Inputs.KeyListener;
 import engine.Inputs.MouseListener;
-import engine.components.SpriteRenderer;
-import engine.components.Transform;
-import engine.gameobjects.GameObject;
-import engine.renderer.DummyBatch;
-import engine.renderer.EBOFormat;
-import engine.renderer.QuadRenderer;
-import engine.renderer.RenderBatch;
+
 import engine.renderer.Renderer;
 import engine.renderer.Shader;
-import engine.renderer.SpriteMap;
-import engine.renderer.Texture;
-import engine.renderer.Texture.Format;
-import engine.renderer.VAO.VAOFormat;
+
 import engine.scenes.SceneManager;
+
 import engine.util.Time;
 
+/**
+ * The window itself
+ */
 public class Window {
+
+
+
+    // Image thumbnail
+
+
+    /**
+     * Singleton instance
+     */
+    private static Window window = null;
+    private long glfwWindow;
+
+    private Window(){
+        this.width = 1920;
+        this.height = 1080;
+        this.title = "Skrunk Game Engine";
+    }
+
+    /**
+     * window properties
+     */
+    private boolean isResizable;
+    private boolean isMaximized;
+    private boolean showCursor;
+    private boolean doMultiSampling;
+    
+    /**
+     * the tile of the window
+     */
+    private String title;
+
+        /**
+     * The size of the window
+     */
     private int width, height;
 
+    /**
+     * Gets the size of the widow
+     * 
+     * @return the width and height
+     */
     public static Vector2f getSize(){
         IntBuffer w = BufferUtils.createIntBuffer(1);
         IntBuffer h = BufferUtils.createIntBuffer(1);
@@ -48,20 +80,6 @@ public class Window {
         GLFW.glfwGetWindowSize(get().glfwWindow, w, h);
 
         return new Vector2f(w.get(0), h.get(0));
-    }
-
-    private String title;
-    // Image thumbnail
-
-    private long glfwWindow;
-
-    private static Window window = null;
-
-
-    private Window(){
-        this.width = 1920;
-        this.height = 1080;
-        this.title = "Grapple Demo";
     }
 
     public static Window get(){
@@ -72,6 +90,9 @@ public class Window {
         return Window.window;
     }
 
+    /**
+     * runs the loop and frees memory when done
+     */
     public void run(){
         System.out.println(Version.getVersion());
 
@@ -87,6 +108,9 @@ public class Window {
         GLFW.glfwSetErrorCallback(null).free();
     }
 
+    /**
+     * Initializes the window
+     */
     public void init(){
         // Setup error callback
         GLFWErrorCallback.createPrint(System.err).set();
@@ -129,6 +153,7 @@ public class Window {
         
         GLFW.glfwSetInputMode(glfwWindow, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
 
+        // compinle all shaders
         for (Shader s : Shader.values()) {
             s.compile();
         }
@@ -143,34 +168,12 @@ public class Window {
 
     }
     
-    private float[] vertexArray = {
-        // position               // color
-        0f, 0f, 0.0f,         0.0f, 0.0f, 0.0f,
-        500f,  0f, 0.0f,      1.0f, 0.0f, 0.0f,
-        0f,  500f, 0.0f ,     0.0f, 1.0f, 0.0f, 
-        500f, 500f, 0.0f,     1.0f, 1.0f, 0.0f, 
-    };
-
-    private float[] vertexArray2 = {
-        // position               // color
-        300f, 300f, 0.0f,         0.0f, 0.0f, 0.0f,
-        800f,  300f, 0.0f,      1.0f, 0.0f, 0.0f,
-        300f,  800f, 0.0f ,     0.0f, 1.0f, 0.0f, 
-        800f, 800f, 0.0f,     1.0f, 1.0f, 0.0f, 
-    };
-
-    // IMPORTANT: Must be in counter-clockwise order
-    private int[] elementArray = {
-            0, 2, 1,      // Top right triangle tr-tl-br
-            1, 2, 3   // bottom left triangle br-tl-bl
-    };
-
-    int vaoID, vboID, eboID;
-    int vaoID2, vboID2, eboID2;
-
+    /**
+     * Handle the main game loop
+     */
     public void loop(){
 
-        System.out.println(GL20.glGetInteger(GL20.GL_MAX_TEXTURE_IMAGE_UNITS));
+        // track the time between frames
         double beginTime = Time.getTime();
         double endTime = Time.getTime();
         double deltaTime = -1;
@@ -180,16 +183,19 @@ public class Window {
             GLFW.glfwPollEvents();
             Input.Update(0.2f);
 
+            // update the gameobjects
             SceneManager.Update(deltaTime);
 
-            // background
-            GL11.glClearColor(1f, 0.98f, 0.84f, 0);
+            // clear the background
+            GL11.glClearColor(1f, 1f, 1f, 0);
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
+            // render the renderables
             Renderer.draw();
 
             GLFW.glfwSwapBuffers(glfwWindow);
 
+            // update thetime between frames
             endTime = Time.getTime();
             deltaTime = endTime - beginTime;
             beginTime = endTime;

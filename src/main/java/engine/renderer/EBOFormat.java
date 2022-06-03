@@ -2,6 +2,11 @@ package engine.renderer;
 
 import java.util.Arrays;
 
+/**
+ * Holds the values for an EBO
+ * 
+ * @author Lex Stapleton
+ */
 public enum EBOFormat {
     QUAD(new int[] {0, 2, 1,      // Top right triangle tr-tl-br
                     1, 2, 3 }),   // bottom left triangle br-tl-bl
@@ -19,7 +24,14 @@ public enum EBOFormat {
         15, 12, 11, 15, 16, 12
     });
 
+    /**
+     * The values of 1 repitition of the EBO
+     */
     private int[] indices;
+
+    /**
+     * The amount of verticies one repition of the EBO expects
+     */
     private int numberVertices;
 
     private EBOFormat(int[] indices){
@@ -29,30 +41,54 @@ public enum EBOFormat {
         this.numberVertices = (int)Arrays.stream(indices).distinct().count();
     }
 
+    /**
+     * Gets the indicies of the EBO
+     * 
+     * @return the indicies
+     */
     public int[] getIndices(){
         return indices;
     }
 
+    /**
+     * Gets the amount of values in one repitition of the EBO
+     * 
+     * @return the mount of values
+     */
     public int getLength(){
         return indices.length;
     }
     
+    /**
+     * Gets the amount of verticies in the EBO
+     * 
+     * @return the amount of verticies
+     */
     public int getNumberOfVertices(){
         return numberVertices;
     }
 
+    /**
+     * Generates the indicies of an EBO
+     * 
+     * @param format the format/pattern to follow
+     * @param numElements the amount of times to repeat the pattern
+     * @return the full array of indicies
+     */
     public static int[] generateIndices(EBOFormat format, int numElements){
         int[] indices = new int[format.getLength() * numElements];
 
         for(int i = 0; i < numElements; i++){
-            int offsetArrayIndex = format.getLength() * i;
-            int offset = format.getNumberOfVertices() * i;
-            // System.out.println(offsetArrayIndex);
-            // System.out.println(offset);
+            // calculate the offset from the start of the buffer
+            int positionOffset = format.getLength() * i;
 
+            // calculate the offset of each value in this repitition
+            int valueOffset = format.getNumberOfVertices() * i;
+            
+            // add the values for this iteration of the pattern
             int[] eboIndices = format.getIndices();
             for (int j = 0; j < eboIndices.length; j++) {
-                indices[offsetArrayIndex + j] = offset + eboIndices[j];
+                indices[positionOffset + j] = valueOffset + eboIndices[j];
             }
         }
 

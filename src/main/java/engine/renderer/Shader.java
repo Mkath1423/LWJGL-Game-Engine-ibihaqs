@@ -13,6 +13,13 @@ import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 
+/**
+ * Represent a shader
+ * 
+ * from tutorial: https://github.com/codingminecraft/MarioYoutube/tree/master
+ * 
+ * @author GamesWithGabe
+ */
 public enum Shader {
     SPRITE_RGB("assets/shaders/default.glsl"),
     SPRITE("assets/shaders/multitex.glsl"),
@@ -87,6 +94,9 @@ public enum Shader {
 
     }
 
+    /**
+     * Compiles and uploads the shader to the gpu
+     */
     public void compile(){
         int vertexID;
         int fragmentID;
@@ -138,6 +148,9 @@ public enum Shader {
         }
     }
 
+    /**
+     * Tells the gpu to use this shader if not already
+     */
     public void use(){
         if(!beingUsed){
             GL20.glUseProgram(shaderProgramID);
@@ -145,13 +158,22 @@ public enum Shader {
         }
     }
 
+    /**
+     * Tells the gpu to stop using this shader
+     */
     public void detach(){
         GL20.glUseProgram(0);
         beingUsed = false;
     }
 
-    // UNIFORM UPLOADS
+    // SECTION: UNIFORM UPLOADS
 
+    /**
+     * Uploads a Matrix4f
+     * 
+     * @param varName the name of the uniform
+     * @param mat4 the data to pass in
+     */
     public void uploadMat4f(String varName, Matrix4f mat4){
         int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
         use();
@@ -161,6 +183,13 @@ public enum Shader {
         GL20.glUniformMatrix4fv(varLocation, false, matBuffer);
     }
 
+    
+    /**
+     * Uploads a Matrix3f
+     * 
+     * @param varName the name of the uniform
+     * @param mat3 the data to pass in
+     */
     public void uploadMat3f(String varName, Matrix3f mat3){
         int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
         use();
@@ -170,30 +199,60 @@ public enum Shader {
         GL20.glUniformMatrix3fv(varLocation, false, matBuffer);
     }
 
+    /**
+     * Uploads a Vector4f
+     * 
+     * @param varName the name of the uniform
+     * @param vec4f the data to pass in
+     */
     public void uploadVec4f(String varName, Vector4f vec4f){
         int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
         use();
         GL20.glUniform4f(varLocation, vec4f.x, vec4f.y, vec4f.z, vec4f.w);
     }
 
+    /**
+     * Uploads a Vector2f
+     * 
+     * @param varName the name of the uniform
+     * @param vec2f the data to pass in
+     */
     public void uploadVec2f(String varName, Vector2f vec2f){
         int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
         use();
         GL20.glUniform2f(varLocation, vec2f.x, vec2f.y);
     }
 
+    /**
+     * Uploads a float
+     * 
+     * @param varName the name of the uniform
+     * @param val the data to pass in
+     */
     public void uploadFloat(String varName, Float val){
         int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
         use();
         GL20.glUniform1f(varLocation, val);
     }
 
+    /**
+     * Uploads an int
+     * 
+     * @param varName the name of the uniform
+     * @param val the data to pass in
+     */
     public void uploadInt(String varName, int val){
         int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
         use();
         GL20.glUniform1f(varLocation, val);
     }
 
+    /**
+     * Uploads an array of ints
+     * 
+     * @param varName the name of the uniform
+     * @param array the data to pass in
+     */
     public void uploadIntArray(String varName, int[] array) {
         int varLocation = GL20.glGetUniformLocation(shaderProgramID, varName);
         use();

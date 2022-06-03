@@ -11,6 +11,9 @@ import engine.geometry.Quad;
 
 public class Transform extends Component{
 
+    /**
+     * Where the transform's origin is
+     */
     public enum PositionMode{
         TOP_LEFT     (0f,   -0f),
         TOP_MIDDLE   (0.5f, -0f),
@@ -34,14 +37,16 @@ public class Transform extends Component{
         }
     }
 
+    /**
+     * Extra parameters for locking certain attributes
+     */
     public enum Parameters{
         LOCK_ROTATION,
         LOCK_X_SCALE,
         LOCK_Y_SCALE,
         LOCK_X_POSITION,
         LOCK_Y_POSITION,
-        LOCK_Z_POSITION;
-        
+        LOCK_Z_POSITION; 
     }
 
     /** 
@@ -129,7 +134,11 @@ public class Transform extends Component{
         return new Vector2f(scale);
     }
 
-    
+    /**
+     * Sets the scale by component
+     * 
+     * @param newScale the new value for the scale
+     */
     public void setScale(Vector2f newScale){
         if(!lockXScale) scale.x = newScale.x;
         if(!lockYScale) scale.y = newScale.y;
@@ -144,10 +153,20 @@ public class Transform extends Component{
         return rotation;
     }
 
+    /**
+     * Sets the value of the rotation
+     * 
+     * @param newRotation the new rotation
+     */
     public void setRotation(float newRotation){
         if(!lockRotation) rotation = newRotation;
     }
 
+    /**
+     * Gets the top left position of the transform
+     * 
+     * @return the coordinates of the top left relative to the position origin
+     */
     private Vector3f getTopLeft(){
         Vector3f topLeft = new Vector3f(position.x, position.y, position.z);
             topLeft.x = topLeft.x - scale.x * positionOrigin.getXShift();
@@ -156,6 +175,11 @@ public class Transform extends Component{
         return topLeft;
     }
 
+    /**
+     * Gets the position of the center of rotation
+     * 
+     * @return the position of the center of rotation
+     */
     private Vector3f getCenterOfRotation(){
         Vector3f topLeft = getTopLeft();
 
@@ -166,6 +190,11 @@ public class Transform extends Component{
         return centerOfRotation;
     }
 
+    /**
+     * Gets the transform's position is world coordinates
+     * 
+     * @return the transform's position in world coordinates
+     */
     public Vector3f getWorldPosition(){
         if(gameObject.getParent() == null ||
           gameObject.getParent().getComponent(Transform.class) == null
@@ -189,7 +218,6 @@ public class Transform extends Component{
     }
 
 
-
     public Transform(){
         this(new Vector3f(), new Vector2f(), 0f);
     }
@@ -202,6 +230,9 @@ public class Transform extends Component{
         this.positionOrigin = PositionMode.TOP_LEFT;
         this.rotationOrigin = PositionMode.CENTER_MIDDLE;
 
+        /**
+         * Lock attributes based on parameters
+         */
         for (Parameters param : params) {
             switch(param){
                 case LOCK_ROTATION:
@@ -231,6 +262,11 @@ public class Transform extends Component{
         }
     }
 
+    /**
+     * Gets the bounding bot of the transform
+     * 
+     * @return A rectangle with top left position of this tranform and side lengths corosponding to the scale
+     */
     public Quad getQuad(){
         // get top left vector in world space
         Vector3f topLeft = getTopLeft();
