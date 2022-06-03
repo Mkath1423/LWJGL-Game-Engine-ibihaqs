@@ -3,7 +3,7 @@ package engine;
 import java.nio.IntBuffer;
 
 import org.joml.Vector2f;
-
+import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.Callbacks;
@@ -20,7 +20,7 @@ import org.lwjgl.system.MemoryUtil;
 import engine.Inputs.Input;
 import engine.Inputs.KeyListener;
 import engine.Inputs.MouseListener;
-
+import engine.renderer.Color;
 import engine.renderer.Renderer;
 import engine.renderer.Shader;
 
@@ -33,11 +33,6 @@ import engine.util.Time;
  */
 public class Window {
 
-
-
-    // Image thumbnail
-
-
     /**
      * Singleton instance
      */
@@ -48,25 +43,53 @@ public class Window {
         this.width = 1920;
         this.height = 1080;
         this.title = "Skrunk Game Engine";
+
+        this.backgroundColor = new Color(255, 255, 255, 255);
+
+        this.doMultiSampling = true;
+        this.isMaximized = true;
+        this.isResizable = false;
+        this.showCursor = true;
+    }
+
+    public static Window get(){
+        if(Window.window == null){
+            window = new Window();
+        }
+
+        return Window.window;
     }
 
     /**
      * window properties
      */
     private boolean isResizable;
+    public static void setResizable(boolean isResizable) {get().isResizable = isResizable;}
+
     private boolean isMaximized;
+    public static void setMaximized(boolean isMaximized) {get().isMaximized = isMaximized;}
+
     private boolean showCursor;
+    public static void setShowCursor(boolean showCursor) {get().showCursor = showCursor;}
+
     private boolean doMultiSampling;
-    
+    public static void setDoMultiSampling(boolean doMultiSampling) {get().doMultiSampling = doMultiSampling;}
+
     /**
      * the tile of the window
      */
     private String title;
+    public static void setTitle(String title){
+        if(title == null) return;
+        get().title = title;
+    }
 
         /**
      * The size of the window
      */
     private int width, height;
+    public static void setWidth(int width){get().width = width;}
+    public static void setHeight(int height){get().height = height;}
 
     /**
      * Gets the size of the widow
@@ -82,13 +105,16 @@ public class Window {
         return new Vector2f(w.get(0), h.get(0));
     }
 
-    public static Window get(){
-        if(Window.window == null){
-            window = new Window();
-        }
-
-        return Window.window;
+    /**
+     * Clear color
+     */
+    private Color backgroundColor;
+    public static void setColor(Color backgroundColor){
+        if(backgroundColor == null) return;
+        get().backgroundColor = new Color(backgroundColor);
     }
+
+
 
     /**
      * runs the loop and frees memory when done
@@ -122,8 +148,8 @@ public class Window {
         // configure window
         GLFW.glfwDefaultWindowHints();
         GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE,   GLFW.GLFW_FALSE);
-        GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_TRUE);
-        GLFW.glfwWindowHint(GLFW.GLFW_MAXIMIZED, GLFW.GLFW_TRUE);
+        GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, (get().isResizable) ? GLFW.GLFW_TRUE : GLFW.GLFW_FALSE);
+        GLFW.glfwWindowHint(GLFW.GLFW_MAXIMIZED, (get().isMaximized) ? GLFW.GLFW_TRUE : GLFW.GLFW_FALSE);
 
 
         // create window
@@ -151,7 +177,9 @@ public class Window {
         // init caps
         GL.createCapabilities();
         
-        GLFW.glfwSetInputMode(glfwWindow, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
+        if(!showCursor){
+            GLFW.glfwSetInputMode(glfwWindow, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_HIDDEN);
+        }
 
         // compinle all shaders
         for (Shader s : Shader.values()) {
@@ -162,9 +190,11 @@ public class Window {
         GL20.glEnable(GL20.GL_BLEND);
         GL20.glBlendFunc(GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA);
         
-        // enable antialiasing 
-        GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 16);
-        GL20.glEnable(GL20.GL_MULTISAMPLE); 
+        if(doMultiSampling){
+            // enable antialiasing 
+            GLFW.glfwWindowHint(GLFW.GLFW_SAMPLES, 16);
+            GL20.glEnable(GL20.GL_MULTISAMPLE);
+        }
 
     }
     
@@ -187,7 +217,10 @@ public class Window {
             SceneManager.Update(deltaTime);
 
             // clear the background
-            GL11.glClearColor(1f, 1f, 1f, 0);
+            GL11.glClearColor(backgroundColor.getRed(), 
+                              backgroundColor.getGreen(), 
+                              backgroundColor.getBlue(), 
+                              backgroundColor.getAlpha());
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 
             // render the renderables
