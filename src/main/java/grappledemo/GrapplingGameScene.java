@@ -16,6 +16,9 @@ import engine.components.SpriteRenderer;
 import engine.components.Transform;
 import engine.components.Transform.PositionMode;
 import engine.gameobjects.GameObject;
+import engine.geometry.Circle;
+import engine.geometry.Quad;
+import engine.physics.Collision;
 import engine.physics.Move;
 import engine.renderer.Camera;
 import engine.renderer.Color;
@@ -117,14 +120,18 @@ public class GrapplingGameScene extends Scene{
         SpriteMap planetSprite = new SpriteMap(planetTexture, 1, 1);
 
         GameObject planetObject = new GameObject();
-            planetObject.addComponent(new Transform(
+            Transform planetTransform = new Transform(
                 new Vector3f(600, 400, -10),
                 new Vector2f(200, 200),
                 0
-            ));
+            );
+
+            planetTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
+            planetObject.addComponent(planetTransform);
 
             planetObject.addComponent(new SpriteRenderer(planetSprite, new Color(new Vector4f(255, 0, 0, 1)), 0));
-  
+            Collision planetCollision = new Collision(new Circle(planetTransform.getPosition(), 100));
+            planetObject.addComponent(planetCollision);
 
         SpriteMap swordSprite = new SpriteMap(swordTexture, 1, 1);
         
@@ -139,10 +146,13 @@ public class GrapplingGameScene extends Scene{
             swordObject.addComponent(swordTransform);
 
             swordObject.addComponent(new SpriteRenderer(swordSprite, new Color(new Vector4f(255, 0, 0, 1)), 0));
-            swordObject.addComponent(new Weapon(playerTransform));
-        
-        
-        
+            swordObject.addComponent(new Weapon(playerTransform, planetCollision));
+            Collision swordCollision = new Collision(Quad.Rect(
+                new Vector3f(swordTransform.position.x - swordTransform.scale.x/2, swordTransform.position.y - swordTransform.scale.y/2, 0),
+                300, 
+                100
+            ));
+            swordObject.addComponent(swordCollision);
     
         gameObjects.add(backgroundObject);
         gameObjects.add(planetObject);

@@ -46,8 +46,8 @@ public class Ball extends Component{
 
     @Override
     public void Update(double deltaTime) {
-        transform.position.x += xSpeed*1.5;
-        transform.position.y += ySpeed*1.5;
+        transform.position.x += xSpeed*100*deltaTime;
+        transform.position.y += ySpeed*100*deltaTime;
 
         if(transform.position.x <= 0){
             System.out.println("Player 2 scored!");

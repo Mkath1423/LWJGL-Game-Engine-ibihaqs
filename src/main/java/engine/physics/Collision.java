@@ -2,6 +2,7 @@ package engine.physics;
 
 import engine.geometry.Quad;
 import engine.components.Component;
+import engine.components.Transform;
 import engine.geometry.Circle;
 
 import org.joml.Vector3f;
@@ -23,6 +24,7 @@ public class Collision extends Component {
 
     private Quad quad;                      // Quad-type border
     private Circle circle;                  // Circle-type border
+    private Transform transform;            // Stores transform of gameObject
     
     
     /**
@@ -308,6 +310,21 @@ public class Collision extends Component {
             (rY1 + rHeight1) >= (bY) &&
             (rY1) <= (bY + bHeight)
         );
+    }
+
+    @Override
+    public void Awake(){
+        transform = gameObject.getComponent(Transform.class);
+    }
+
+    @Override
+    public void Update(double deltaTime){
+       if(quad != null){
+           quad = Quad.Rect(transform.getTopLeft(), quad.getWidth(), quad.getHeight());
+       }
+       else if(circle != null){
+           circle = new Circle(transform.getPosition(), circle.radius);
+       }
     }
 
 

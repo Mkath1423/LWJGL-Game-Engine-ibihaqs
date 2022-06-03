@@ -167,7 +167,7 @@ public class Transform extends Component{
      * 
      * @return the coordinates of the top left relative to the position origin
      */
-    private Vector3f getTopLeft(){
+    public Vector3f getTopLeft(){
         Vector3f topLeft = new Vector3f(position.x, position.y, position.z);
             topLeft.x = topLeft.x - scale.x * positionOrigin.getXShift();
             topLeft.y = topLeft.y - scale.y * positionOrigin.getYShift();
