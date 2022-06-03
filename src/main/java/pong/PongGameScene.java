@@ -9,6 +9,7 @@ import org.joml.Vector4f;
 import engine.AssetManager;
 import engine.Inputs.Input;
 import engine.Inputs.InputAxis;
+import engine.Inputs.Input.KeyCode;
 import engine.components.SpriteRenderer;
 import engine.components.Transform;
 import engine.components.Transform.PositionMode;
@@ -19,6 +20,7 @@ import engine.renderer.SpriteMap;
 import engine.renderer.Texture;
 import engine.renderer.Texture.Format;
 import engine.scenes.Scene;
+import engine.scenes.SceneManager;
 
 public class PongGameScene extends Scene{
 
@@ -110,6 +112,12 @@ public class PongGameScene extends Scene{
     @Override
     public void Update(double deltaTime){
         super.Update(deltaTime);
+        if(Input.getKeyboardButtonPressed(KeyCode.M)){
+            SceneManager.swapScene("MultipleBatches");
+        }
+        if(Input.getKeyboardButtonPressed(KeyCode.N)){
+            SceneManager.swapScene("GrappleGameScene");
+        }   
     }
 
     @Override

@@ -52,7 +52,10 @@ public class SingleScene extends Scene{
     @ Override
     public void Update(double deltaTime){
         if(Input.getKeyboardButtonPressed(KeyCode.M)){
-            SceneManager.swapScene("MultipleBatches");
+            SceneManager.swapScene("GrappleGameScene");
         }
+        if(Input.getKeyboardButtonPressed(KeyCode.N)){
+            SceneManager.swapScene("MultipleBatches");
+        }        
     }
 }

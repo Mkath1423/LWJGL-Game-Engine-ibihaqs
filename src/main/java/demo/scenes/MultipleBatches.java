@@ -70,8 +70,11 @@ public class MultipleBatches extends Scene{
 
     @ Override
     public void Update(double deltaTime){
-        if(Input.getKeyboardButtonPressed(KeyCode.N)){
+        if(Input.getKeyboardButtonPressed(KeyCode.M)){
             SceneManager.swapScene("Single");
         }
+        if(Input.getKeyboardButtonPressed(KeyCode.N)){
+            SceneManager.swapScene("PongGameScene");
+        }   
     }
 }

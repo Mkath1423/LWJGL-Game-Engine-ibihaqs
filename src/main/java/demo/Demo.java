@@ -7,6 +7,8 @@ import engine.Window;
 import engine.Inputs.Input;
 import engine.Inputs.InputAxis;
 import engine.scenes.SceneManager;
+import grappledemo.GrapplingGameScene;
+import pong.PongGameScene;
 
 public class Demo {
     public static void main(String[] args){
@@ -19,6 +21,8 @@ public class Demo {
 
         SceneManager.addScene("Single", new SingleScene());
         SceneManager.addScene("MultipleBatches", new MultipleBatches());
+        SceneManager.addScene("PongGameScene", new PongGameScene());
+        SceneManager.addScene("GrappleGameScene", new GrapplingGameScene());
         // SceneManager.addScene("MultipleRenderTypes", new MultipleRenderTypes());
 
         SceneManager.swapScene("Single");
