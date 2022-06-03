@@ -33,6 +33,7 @@ public class Collision extends Component {
     public Collision(Quad q) {
 
         quad = q;
+        collisionType = CollisionType.RECTANGLE;
     }
 
     /**
@@ -43,6 +44,7 @@ public class Collision extends Component {
     public Collision(Circle c) {
 
         circle = c;
+        collisionType = CollisionType.CIRCLE;
     }
 
 
