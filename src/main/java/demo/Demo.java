@@ -6,6 +6,7 @@ import demo.scenes.SingleScene;
 import engine.Window;
 import engine.Inputs.Input;
 import engine.Inputs.InputAxis;
+import engine.renderer.Color;
 import engine.scenes.SceneManager;
 import grappledemo.GrapplingGameScene;
 import pong.PongGameScene;
@@ -13,6 +14,12 @@ import pong.PongGameScene;
 public class Demo {
     public static void main(String[] args){
         Window window = Window.get(); 
+        
+        Window.setColor(new Color(55, 155, 0, 155));
+        Window.setTitle("demo window epic funny title");
+        Window.setResizable(false);
+        Window.setShowCursor(false);
+
         window.init();
         
         Input.addAxis("rotation", new InputAxis(-1, 1, 20, 20, Input.KeyCode.Q, Input.KeyCode.E));
