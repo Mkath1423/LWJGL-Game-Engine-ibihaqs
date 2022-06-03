@@ -6,6 +6,7 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import demo.components.KeyMover;
+import demo.components.RandomMovement;
 import engine.AssetManager;
 import engine.Inputs.Input;
 import engine.Inputs.Input.KeyCode;
@@ -48,7 +49,7 @@ public class MultipleBatches extends Scene{
                         0
                     ));
                     go.addComponent(new SpriteRenderer(sprmap_smile, new Color(), 0));
-
+                    go.addComponent(new RandomMovement());
                 gameObjects.add(go);
                 GameObject go2 = new GameObject();
                 go2.addComponent(new Transform(
@@ -57,7 +58,7 @@ public class MultipleBatches extends Scene{
                     0
                 ));
                 go2.addComponent(new SpriteRenderer(sprmap_planet, new Color(), 0));
-
+                go2.addComponent(new RandomMovement());
                 gameObjects.add(go2);
 
         
