@@ -48,6 +48,11 @@ public class Collision extends Component {
     }
 
 
+
+    // EXTERNAL METHODS
+
+
+
     /**
      * Check to see if the current gameObject and another specified one are colliding
      * 
@@ -91,7 +96,7 @@ public class Collision extends Component {
 
 
 
-    // EXTERNAL METHODS
+    // INTERNAL METHODS
 
 
 

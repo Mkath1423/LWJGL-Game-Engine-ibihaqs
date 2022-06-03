@@ -10,6 +10,7 @@ import engine.components.LineRenderer;
 import engine.components.Transform;
 import engine.gameobjects.GameObject;
 import engine.scenes.SceneManager;
+import engine.serializer.SaveStates;
 
 public class Player extends Component{
 
@@ -57,6 +58,57 @@ public class Player extends Component{
         // Gets vector angle between mouse and player and sets current sprite rotation to match
         transform.rotation = (float)Math.atan2(mouseWorldCoordinates.y - transform.position.y, mouseWorldCoordinates.x - transform.position.x);
 
+
+        // Saving and loading hotkeys
+        
+        // Select slot 1
+        if(Input.getKeyboardButtonPressed(KeyCode.ONE)) {
+            
+            // Load slot 1 if L is pressed
+            if(Input.getKeyboardButtonPressed(KeyCode.L)) {
+
+                transform.position = SaveStates.loadPosition(1);
+            
+            // Otherwise, save to slot 1
+            } else {
+
+                SaveStates.savePosition(1, transform.position);
+
+            }
+
+        // Select slot 2
+        } else if(Input.getKeyboardButtonPressed(KeyCode.TWO)) {
+
+            // Load slot 2 if L is pressed
+            if(Input.getKeyboardButtonPressed(KeyCode.L)) {
+
+                transform.position = SaveStates.loadPosition(2);
+
+            // Otherwise, save to slot 2
+            } else {
+
+                SaveStates.savePosition(2, transform.position);
+
+            }
+
+        // Select slot 3 
+        } else if(Input.getKeyboardButtonPressed(KeyCode.THREE)) {
+
+            // Load slot 3 if L is pressed
+            if(Input.getKeyboardButtonPressed(KeyCode.L)) {
+
+                transform.position = SaveStates.loadPosition(3);
+
+            // Otherwise, save to slot 3
+            } else {
+
+                SaveStates.savePosition(3, transform.position);
+
+            }
+
+        }
+
+
         // If the right mouse button is pressed
         if(Input.getMouseButtonPressed(KeyCode.MOUSE_BUTTON_1)){
             isGrappled = true;
@@ -89,7 +141,7 @@ public class Player extends Component{
     
             }
         }
-        else{
+        else{   
             moveFromWASD(80, deltaTime);
         }
           

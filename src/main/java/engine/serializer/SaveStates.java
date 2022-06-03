@@ -50,6 +50,8 @@ public class SaveStates {
         // Variables that will be useful later
         int count = 0;
         int border = 0;
+
+        // 
         float x = 0;
         float y = 0;
         float z = 0;
@@ -207,7 +209,7 @@ public class SaveStates {
 
     public static void main(String[] args) {
 
-        savePosition(1, new Vector3f(4, 5, 6));
+        savePosition(3, new Vector3f(0, 0, 0));
         System.out.println(loadPosition(1));
     }
     
