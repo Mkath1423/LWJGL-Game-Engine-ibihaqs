@@ -62,9 +62,12 @@ public class RenderBatch {
         // return false if there is not enough space for the renderable
         if(quadsUsed + renderable.numberQuads > Renderer.MAX_BATCH_SIZE) return false;
 
+        
         // return true if you don't need to allocate any more textures
-        for (Texture tex : textures) {
-            if(tex.getTexId() == renderable.getTexture().getTexId()) return true;            
+        if(renderable.getTexture() != null){
+            for (Texture tex : textures) {
+                if(tex.getTexId() == renderable.getTexture().getTexId()) return true;            
+            }
         }
         
         // return true if there is enough space for another texture
