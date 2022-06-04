@@ -59,55 +59,27 @@ public class Player extends Component{
         transform.rotation = (float)Math.atan2(mouseWorldCoordinates.y - transform.position.y, mouseWorldCoordinates.x - transform.position.x);
 
 
-        // Saving and loading hotkeys
-        
-        // Select slot 1
-        if(Input.getKeyboardButtonPressed(KeyCode.ONE)) {
-            
-            // Load slot 1 if L is pressed
-            if(Input.getKeyboardButtonPressed(KeyCode.L)) {
-
-                transform.position = SaveStates.loadPosition(1);
-            
-            // Otherwise, save to slot 1
-            } else {
-
-                SaveStates.savePosition(1, transform.position);
-
-            }
-
-        // Select slot 2
-        } else if(Input.getKeyboardButtonPressed(KeyCode.TWO)) {
-
-            // Load slot 2 if L is pressed
-            if(Input.getKeyboardButtonPressed(KeyCode.L)) {
-
-                transform.position = SaveStates.loadPosition(2);
-
-            // Otherwise, save to slot 2
-            } else {
-
-                SaveStates.savePosition(2, transform.position);
-
-            }
-
-        // Select slot 3 
-        } else if(Input.getKeyboardButtonPressed(KeyCode.THREE)) {
-
-            // Load slot 3 if L is pressed
-            if(Input.getKeyboardButtonPressed(KeyCode.L)) {
-
-                transform.position = SaveStates.loadPosition(3);
-
-            // Otherwise, save to slot 3
-            } else {
-
-                SaveStates.savePosition(3, transform.position);
-
-            }
-
+        // If either one, two or three are pressed and the load button (L) is not held, save the current position.
+        if(!Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.ONE)) {
+            SaveStates.savePosition(1, transform.getPosition());
+        }
+        else if(!Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.TWO)) {
+            SaveStates.savePosition(2, transform.getPosition());
+        }
+        else if(!Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.THREE)) {
+            SaveStates.savePosition(3, transform.getPosition());
         }
 
+        // If L is held (load) and either one, two or three are pressed load the coorelated position.
+        if(Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.ONE)){
+            transform.position = SaveStates.loadPosition(1);
+        }
+        else if(Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.TWO)){
+            transform.position = SaveStates.loadPosition(2);
+        }
+        else if(Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.THREE)){
+            transform.position = SaveStates.loadPosition(3);
+        }
 
         // If the right mouse button is pressed
         if(Input.getMouseButtonPressed(KeyCode.MOUSE_BUTTON_1)){
