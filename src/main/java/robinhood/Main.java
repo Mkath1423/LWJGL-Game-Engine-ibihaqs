@@ -1,5 +1,5 @@
 package robinhood;
 
-public class Bow {
+public class Main {
     
 }

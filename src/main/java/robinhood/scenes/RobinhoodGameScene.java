@@ -1,21 +1,17 @@
-package robinhood;
+package robinhood.scenes;
 
 import java.util.ArrayList;
 
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 
 import engine.AssetManager;
 import engine.Inputs.Input;
-import engine.Inputs.InputAxis;
 import engine.Inputs.Input.KeyCode;
-import engine.components.SpriteRenderer;
+import engine.Inputs.InputAxis;
 import engine.components.Transform;
-import engine.components.Transform.PositionMode;
 import engine.gameobjects.GameObject;
 import engine.renderer.Camera;
-import engine.renderer.Color;
 import engine.renderer.SpriteMap;
 import engine.renderer.Texture;
 import engine.renderer.Texture.Format;

@@ -1,4 +1,4 @@
-package pong;
+package demo.scenes;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,8 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+import demo.components.Ball;
+import demo.components.Paddle;
 import engine.AssetManager;
 import engine.Inputs.Input;
 import engine.Inputs.InputAxis;
@@ -22,16 +24,15 @@ import engine.renderer.Texture.Format;
 import engine.scenes.Scene;
 import engine.scenes.SceneManager;
 
-public class PongGameScene extends Scene{
+public class PongGameScene extends Scene {
 
-    public PongGameScene(){
+    public PongGameScene() {
         mainCamera = new GameObject(); // camera will be changed soon
-            mainCamera.addComponent(new Transform(
+        mainCamera.addComponent(new Transform(
                 new Vector3f(0, 0, 0),
                 new Vector2f(1920, 1080),
-                0f
-            ));
-            mainCamera.addComponent(new Camera());
+                0f));
+        mainCamera.addComponent(new Camera());
         gameObjects = new ArrayList<>();
 
         // setup inputs
@@ -45,52 +46,49 @@ public class PongGameScene extends Scene{
 
         Texture ballTexture = AssetManager.getTexture("assets/textures/pongBall.png", Format.RGB);
 
-        // // create gameobject 
-        SpriteMap paddleSprite = new SpriteMap(paddleTexture, 1, 1);        
+        // // create gameobject
+        SpriteMap paddleSprite = new SpriteMap(paddleTexture, 1, 1);
 
         GameObject paddleOneObject = new GameObject();
-            Transform paddleOneTransform = new Transform(
+        Transform paddleOneTransform = new Transform(
                 new Vector3f(100, 540, -20),
                 new Vector2f(20, 200),
-                0
-                );
+                0);
 
-            paddleOneTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
-            paddleOneObject.addComponent(paddleOneTransform);
+        paddleOneTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
+        paddleOneObject.addComponent(paddleOneTransform);
 
-            paddleOneObject.addComponent(new SpriteRenderer(paddleSprite, new Color(new Vector4f(0, 0, 0, 255)), 0));
+        paddleOneObject.addComponent(new SpriteRenderer(paddleSprite, new Color(new Vector4f(0, 0, 0, 255)), 0));
 
-            paddleOneObject.addComponent(new Paddle(1));
+        paddleOneObject.addComponent(new Paddle(1));
 
         GameObject paddleTwoObject = new GameObject();
-            Transform paddleTwoTransform = new Transform(
+        Transform paddleTwoTransform = new Transform(
                 new Vector3f(1820, 540, -20),
                 new Vector2f(20, 200),
-                0
-                );
+                0);
 
-            paddleTwoTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
-            paddleTwoObject.addComponent(paddleTwoTransform);
+        paddleTwoTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
+        paddleTwoObject.addComponent(paddleTwoTransform);
 
-            paddleTwoObject.addComponent(new SpriteRenderer(paddleSprite, new Color(new Vector4f(0, 0, 0, 255)), 0));
+        paddleTwoObject.addComponent(new SpriteRenderer(paddleSprite, new Color(new Vector4f(0, 0, 0, 255)), 0));
 
-            paddleTwoObject.addComponent(new Paddle(2));
-        
-        SpriteMap ballSprite = new SpriteMap(ballTexture, 1, 1);        
+        paddleTwoObject.addComponent(new Paddle(2));
+
+        SpriteMap ballSprite = new SpriteMap(ballTexture, 1, 1);
 
         GameObject ballObject = new GameObject();
-            Transform ballTransform = new Transform(
+        Transform ballTransform = new Transform(
                 new Vector3f(920, 540, 0),
                 new Vector2f(25, 28),
-                0
-            );
+                0);
 
-            ballTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
-            ballObject.addComponent(ballTransform);
+        ballTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
+        ballObject.addComponent(ballTransform);
 
-            ballObject.addComponent(new SpriteRenderer(ballSprite, new Color(new Vector4f(0, 0, 0, 255)), 0));
+        ballObject.addComponent(new SpriteRenderer(ballSprite, new Color(new Vector4f(0, 0, 0, 255)), 0));
 
-            ballObject.addComponent(new Ball(paddleOneTransform, paddleTwoTransform));
+        ballObject.addComponent(new Ball(paddleOneTransform, paddleTwoTransform));
 
         gameObjects.add(paddleOneObject);
         gameObjects.add(paddleTwoObject);
@@ -98,30 +96,30 @@ public class PongGameScene extends Scene{
     }
 
     @Override
-    public void Awake(){
+    public void Awake() {
         System.out.println("Awake");
         super.Awake();
     }
 
     @Override
-    public void Start(){
+    public void Start() {
         System.out.println("Start");
         super.Start();
     }
 
     @Override
-    public void Update(double deltaTime){
+    public void Update(double deltaTime) {
         super.Update(deltaTime);
-        if(Input.getKeyboardButtonPressed(KeyCode.M)){
+        if (Input.getKeyboardButtonPressed(KeyCode.M)) {
             SceneManager.swapScene("MultipleBatches");
         }
-        if(Input.getKeyboardButtonPressed(KeyCode.N)){
+        if (Input.getKeyboardButtonPressed(KeyCode.N)) {
             SceneManager.swapScene("GrappleGameScene");
-        }   
+        }
     }
 
     @Override
-    public void End(){
+    public void End() {
         super.End();
         System.out.println("End");
     }

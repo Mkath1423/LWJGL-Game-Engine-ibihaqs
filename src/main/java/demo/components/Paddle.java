@@ -1,15 +1,15 @@
-package pong;
+package demo.components;
 
 import engine.Inputs.Input;
 import engine.components.Component;
 import engine.components.Transform;
 
-public class Paddle extends Component{
+public class Paddle extends Component {
 
     public Transform transform;
     private int playerNumber;
 
-    public Paddle(int playerSlot){
+    public Paddle(int playerSlot) {
         playerNumber = playerSlot;
     }
 
@@ -25,12 +25,12 @@ public class Paddle extends Component{
 
     @Override
     public void Update(double deltaTime) {
-        if(transform == null) return;
+        if (transform == null)
+            return;
         moveSpriteKeyboard(deltaTime);
-        if(transform.position.y < 0){
+        if (transform.position.y < 0) {
             transform.position.y = 1080;
-        }
-        else if(transform.position.y > 1080){
+        } else if (transform.position.y > 1080) {
             transform.position.y = 0;
         }
 
@@ -41,11 +41,10 @@ public class Paddle extends Component{
 
     };
 
-    private void moveSpriteKeyboard(double deltaTime){
-        if(playerNumber == 1){
+    private void moveSpriteKeyboard(double deltaTime) {
+        if (playerNumber == 1) {
             transform.position.y += deltaTime * Input.getAxis("playerOneVertical") * 200;
-        }
-        else{
+        } else {
             transform.position.y += deltaTime * Input.getAxis("playerTwoVertical") * 200;
         }
     }
