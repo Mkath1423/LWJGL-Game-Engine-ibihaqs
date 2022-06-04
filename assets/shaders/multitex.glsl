@@ -48,12 +48,21 @@ out vec4 color;
 void main()
 {
     bool useColor = mod(fSettings, 2) == 1;
+    bool doMasking = mod(fSettings, 8) >= 4;
+
+    if(!useColor && doMasking){
+        int id = int(fTexID);
+        color.w = texture(uTextures[id], fTexCoords).w;
+        color.xyz = fColor.xyz;
+        return;
+    } 
 
     if(useColor){
         color = fColor;
+        return;
     }
-    else{
-        int id = int(fTexID);
-        color = texture(uTextures[id], fTexCoords);
-    }
+    
+    int id = int(fTexID);
+    color = texture(uTextures[id], fTexCoords);
+    
 }

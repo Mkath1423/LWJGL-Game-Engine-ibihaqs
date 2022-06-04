@@ -106,11 +106,10 @@ public class Color {
         hue        = Math.max(0, Math.min(hue, 360));
         saturation = Math.max(0, Math.min(saturation, 1));
         value      = Math.max(0, Math.min(value, 1));
-
         // calculate the new vector from the formula
         float C = value * saturation;
 
-        float X = C * (1 - Math.abs((hue/60) % 2) - 1);
+        float X = C * (1 - Math.abs(((hue/60) % 2) - 1));
 
         float m = value - C;
 

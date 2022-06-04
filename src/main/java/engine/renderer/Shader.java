@@ -21,9 +21,9 @@ import org.lwjgl.opengl.GL20;
  * @author GamesWithGabe
  */
 public enum Shader {
-    SPRITE_RGB("assets/shaders/default.glsl"),
-    SPRITE("assets/shaders/multitex.glsl"),
-    PANEL("assets/shaders/panel.glsl");
+    // SPRITE_RGB("assets/shaders/default.glsl"),
+    SPRITE("assets/shaders/multitex.glsl");
+    // PANEL("assets/shaders/panel.glsl");
     // SPRITE_RGBA("xxx.glsl"),
     // COLOR("xxx.glsl"),
     // SPRITE_TINT("xxx.glsl");

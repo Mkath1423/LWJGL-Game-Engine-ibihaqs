@@ -204,7 +204,7 @@ public class LineRenderer extends Renderable {
             
             buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 9] = 0;
 
-            buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 10] = (true ? 1 : 0) + (true ? 2 : 0);
+            buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 10] = (true ? 1 : 0) + (true ? 2 : 0) + (false ? 4 : 0);
         }
     }
 

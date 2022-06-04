@@ -41,6 +41,12 @@ public class SpriteRenderer extends Renderable{
     private boolean isUI;
     public void setUseColor(boolean useColor){ this.useColor = useColor;}
 
+    /**
+     * if true the renderable will be rendered as a solid color mask of the sprite
+     */
+    private boolean doMasking;
+    public void setMasking(boolean doMasking){ this.doMasking = doMasking;}
+
     public SpriteRenderer(SpriteMap spriteMap, Color color, int layerID){
         super(Shader.SPRITE, VAOFormat.SPRITE, EBOFormat.QUAD, 1, layerID);
 
@@ -59,7 +65,11 @@ public class SpriteRenderer extends Renderable{
     public void loadVertexData(float[] buffer, int start) {
         // get the verticies and tex coordinates
         Vector3f[] vertices = transform.getQuad().getVertices();
-        Vector3f[] uvVertices = spriteMap.getSprite(currentSprite).uvCoordinates.getVertices();
+
+        Vector3f[] uvVertices = null;
+        if(spriteMap != null){
+            uvVertices = spriteMap.getSprite(currentSprite).uvCoordinates.getVertices();
+        }
         
         // write vertex attributes to the buffer
         for(int i = 0; i < 4; i ++){
@@ -68,26 +78,32 @@ public class SpriteRenderer extends Renderable{
             buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 1] = vertices[i].y;
             buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 2] = vertices[i].z;
 
-            // write color data
-            buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 3] = color.getRed();
-            buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 4] = color.getGreen();
-            buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 5] = color.getBlue();
-            buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 6] = color.getAlpha();
+            if(color != null){
+                // write color data
+                buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 3] = color.getRed();
+                buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 4] = color.getGreen();
+                buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 5] = color.getBlue();
+                buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 6] = color.getAlpha();
+            }
 
-            // write texture data
-            buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 7] = uvVertices[i].x; 
-            buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 8] = uvVertices[i].y;
-            
-            buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 9] = texSlot;
+            if(uvVertices != null){
+                // write texture data
+                buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 7] = uvVertices[i].x; 
+                buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 8] = uvVertices[i].y;
+
+                buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 9] = texSlot;
+            }
 
             // write extra params encoded as a float
-            buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 10] = (useColor ? 1 : 0) + (isUI ? 2 : 0);
+            buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 10] = (useColor ? 1 : 0) + (!isUI ? 2 : 0) + (doMasking ? 4 : 0);
         }
     }
 
     @Override
     public Texture getTexture() {
         if(useColor) return null;
+        if(spriteMap == null) return null;
+
         return spriteMap.texture;
     }
 }

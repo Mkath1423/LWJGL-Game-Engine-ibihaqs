@@ -13,6 +13,7 @@ import engine.Inputs.Input;
 import engine.Inputs.Input.KeyCode;
 import engine.components.SpriteRenderer;
 import engine.components.Transform;
+import engine.components.Transform.Parameters;
 import engine.components.Transform.PositionMode;
 import engine.gameobjects.GameObject;
 import engine.renderer.Camera;
@@ -31,13 +32,17 @@ public class OrbitalScene extends Scene{
                 0f
             ));
             mainCamera.addComponent(new Camera());
+            mainCamera.addComponent(new KeyMover(500, 1));
 
         gameObjects = new ArrayList<>();
 
-        Texture texture = AssetManager.getTexture("assets/textures/whitePlanet.png", Format.RGBA);
-        SpriteMap spriteMap = new SpriteMap(texture, 1, 1);
+        Texture tex_planet = AssetManager.getTexture("assets/textures/whitePlanet.png", Format.RGBA);
+        Texture tex_sun = AssetManager.getTexture("assets/textures/smiley.png", Format.RGBA);
+        
+        SpriteMap spr_planet = new SpriteMap(tex_planet, 1, 1);
+        SpriteMap spr_sun = new SpriteMap(tex_sun, 1, 1);
 
-        Color sunColor = Color.HSV(56f, 1f, 1f);
+        Color sunColor = Color.HSV(59, 1f, 1f);
         Color planetColor = Color.HSV(158f, 1f, 1f);
 
         Vector2f windowSize = Window.getSize();
@@ -49,8 +54,10 @@ public class OrbitalScene extends Scene{
                 0
             ));
                 sun.getComponent(Transform.class).positionOrigin = PositionMode.CENTER_MIDDLE;
-            sun.addComponent(new SpriteRenderer(spriteMap, sunColor, 1));
-                sun.getComponent(SpriteRenderer.class).setUseColor(true);
+            sun.addComponent(new SpriteRenderer(spr_sun, sunColor, 1));
+                sun.getComponent(SpriteRenderer.class).setUseColor(false);
+                sun.getComponent(SpriteRenderer.class).setIsUI(false);
+                sun.getComponent(SpriteRenderer.class).setMasking(true);
             sun.addComponent(new ConstantSpin(0.1f));
 
         GameObject planet = new GameObject();
@@ -60,8 +67,10 @@ public class OrbitalScene extends Scene{
                 0
             ));
                 planet.getComponent(Transform.class).positionOrigin = PositionMode.CENTER_MIDDLE;
-            planet.addComponent(new SpriteRenderer(spriteMap, planetColor, 0));
-                planet.getComponent(SpriteRenderer.class).setUseColor(true);
+            planet.addComponent(new SpriteRenderer(spr_planet, planetColor, 1));
+                planet.getComponent(SpriteRenderer.class).setUseColor(false);
+                planet.getComponent(SpriteRenderer.class).setIsUI(false);
+                planet.getComponent(SpriteRenderer.class).setMasking(true);
             planet.addComponent(new ConstantSpin(0.2f));
             planet.setParent(sun);
         
@@ -72,13 +81,15 @@ public class OrbitalScene extends Scene{
                 0
             ));
                 moon.getComponent(Transform.class).positionOrigin = PositionMode.CENTER_MIDDLE;
-            moon.addComponent(new SpriteRenderer(spriteMap, planetColor, 0));
+            moon.addComponent(new SpriteRenderer(spr_planet, new Color(), 1));
                 moon.getComponent(SpriteRenderer.class).setUseColor(false);
+                moon.getComponent(SpriteRenderer.class).setIsUI(false);
+                moon.getComponent(SpriteRenderer.class).setMasking(false);
             moon.addComponent(new ConstantSpin(1));
             moon.setParent(planet);
 
+            gameObjects.add(planet);
+            gameObjects.add(moon);
         gameObjects.add(sun);
-        gameObjects.add(planet);
-        gameObjects.add(moon);
     }
 }
