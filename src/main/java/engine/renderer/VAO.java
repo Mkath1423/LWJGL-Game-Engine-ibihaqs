@@ -1,12 +1,10 @@
 package engine.renderer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.lwjgl.opengl.ARBVertexArrayObject;
 import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL33;
 
 import engine.renderer.VAO.VAOFormat.Attribute;
 
@@ -54,7 +52,7 @@ public class VAO {
             attributes = new ArrayList<>();
             vaoSize = 0;
 
-            // add each attribute while caounting the total size
+            // add each attribute while counting the total size
             for (int i = 0; i < names.length; i++) {
                 attributes.add(new Attribute(names[i], sizes[i], vaoSize, 0));
                 vaoSize += sizes[i];

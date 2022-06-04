@@ -46,7 +46,7 @@ public final class ButtonState {
 
         this.value = startValue;
 
-        changed = false; // TODO: ask about this
+        changed = false;
         rising  = false;
         falling = false;
     }

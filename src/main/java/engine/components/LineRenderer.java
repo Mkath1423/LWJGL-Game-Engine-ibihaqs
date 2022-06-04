@@ -1,17 +1,10 @@
 package engine.components;
 
-import java.util.Arrays;
-
-import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
-
-import engine.geometry.Quad;
 import engine.renderer.Color;
 import engine.renderer.EBOFormat;
 import engine.renderer.Shader;
 import engine.renderer.Texture;
-import engine.renderer.VAO;
 import engine.renderer.VAO.VAOFormat;
 
 public class LineRenderer extends Renderable {

@@ -1,6 +1,7 @@
 package demo.scenes;
 
 import engine.scenes.Scene;
+import engine.scenes.SceneManager;
 import engine.util.Time;
 
 import java.util.ArrayList;
@@ -8,30 +9,28 @@ import java.util.ArrayList;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-import demo.components.ConstantSpin;
 import demo.components.KeyMover;
-import engine.AssetManager;
-import engine.Window;
 import engine.Inputs.Input;
 import engine.Inputs.Input.KeyCode;
 import engine.components.SpriteRenderer;
 import engine.components.Transform;
-import engine.components.Transform.Parameters;
-import engine.components.Transform.PositionMode;
 import engine.gameobjects.GameObject;
 import engine.renderer.Camera;
 import engine.renderer.Color;
-import engine.renderer.SpriteMap;
-import engine.renderer.Texture;
-import engine.renderer.Texture.Format;
-import engine.scenes.Scene;
 
+/**
+ * A scene for demonstrating the colors and performance 
+ */
 public class ColorScene extends Scene{
     
+    /**
+     * The renderables for the colored objects
+     */
     private SpriteRenderer[][] swatches = new SpriteRenderer[100][360];
 
     public ColorScene(){
-        mainCamera = new GameObject(); // camera will be changed soon
+        // add the camera
+        mainCamera = new GameObject();
             mainCamera.addComponent(new Transform(
                 new Vector3f(0, 0, 0),
                 new Vector2f(1920, 1080),
@@ -42,6 +41,7 @@ public class ColorScene extends Scene{
 
         gameObjects = new ArrayList<>();
 
+        // add the colored rectangle game objects
         for (int y = 0; y < 100; y++) {
             for (int x = 0; x < 360; x++) {
                 GameObject swatch = new GameObject();
@@ -63,13 +63,21 @@ public class ColorScene extends Scene{
 
     @Override
     public void Update(double deltaTime){
+        // swap scenes when buttons are pressed
+        if (Input.getKeyboardButtonPressed(KeyCode.M)) {
+            SceneManager.nextScene();
+        }
+        if (Input.getKeyboardButtonPressed(KeyCode.N)) {
+            SceneManager.previousScene();
+        }
+
+        // update the color of the sprite renderers
         for (int y = 0; y < 100; y++) {
             for (int x = 0; x < 360; x++) {
                 swatches[y][x].setColor(Color.HSV((x + (float)Time.getTime() * 50) % 360, (float)(Math.cos(Time.getTime())+1)/2, 1 - (float)y/100f));
             } 
         }
 
-        System.out.println(1/deltaTime);
         super.Update(deltaTime);
     }
 }

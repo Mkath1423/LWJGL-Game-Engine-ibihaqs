@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-import demo.components.KeyMover;
 import demo.components.RandomMovement;
 import engine.AssetManager;
 import engine.Inputs.Input;
@@ -21,9 +20,13 @@ import engine.renderer.Texture.Format;
 import engine.scenes.Scene;
 import engine.scenes.SceneManager;
 
+/**
+ * Scene for demonstrating multiple batches
+ */
 public class MultipleBatches extends Scene {
     public MultipleBatches() {
-        mainCamera = new GameObject(); // camera will be changed soon
+        // add the cameras
+        mainCamera = new GameObject();
         mainCamera.addComponent(new Transform(
                 new Vector3f(0, 0, 0),
                 new Vector2f(1920, 1080),
@@ -32,14 +35,18 @@ public class MultipleBatches extends Scene {
 
         gameObjects = new ArrayList<>();
 
+        // get the textures
         Texture tex_smile = AssetManager.getTexture("assets/textures/smiley.png", Format.RGBA);
         Texture tex_planet = AssetManager.getTexture("assets/textures/whitePlanet.png", Format.RGBA);
 
+        // gen the sprite maps
         SpriteMap sprmap_smile = new SpriteMap(tex_smile, 1, 1);
         SpriteMap sprmap_planet = new SpriteMap(tex_planet, 1, 1);
 
+        // generate a bunch of sprite (12000?)
         for (int x = 0; x < 60; x++) {
             for (int y = 0; y < 100; y++) {
+                // add the smile
                 GameObject go = new GameObject();
                 go.addComponent(new Transform(
                         new Vector3f(x * 10, y * 10, -10),
@@ -48,6 +55,8 @@ public class MultipleBatches extends Scene {
                 go.addComponent(new SpriteRenderer(sprmap_smile, new Color(), 0));
                 go.addComponent(new RandomMovement());
                 gameObjects.add(go);
+                
+                // add the planet
                 GameObject go2 = new GameObject();
                 go2.addComponent(new Transform(
                         new Vector3f(1920 / 2 + x * 10, y * 10, -10),
@@ -63,12 +72,14 @@ public class MultipleBatches extends Scene {
     }
 
     @Override
-    public void Update(double deltaTime) {
+    public void Update(double deltaTime){
         if (Input.getKeyboardButtonPressed(KeyCode.M)) {
-            SceneManager.swapScene("Single");
+            SceneManager.nextScene();
         }
         if (Input.getKeyboardButtonPressed(KeyCode.N)) {
-            SceneManager.swapScene("PongGameScene");
+            SceneManager.previousScene();
         }
+
+        super.Update(deltaTime);
     }
 }

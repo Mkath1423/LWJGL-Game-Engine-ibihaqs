@@ -128,14 +128,15 @@ public class PongGameScene extends Scene {
     }
 
     @Override
-    public void Update(double deltaTime) {
-        super.Update(deltaTime);
+    public void Update(double deltaTime){
         if (Input.getKeyboardButtonPressed(KeyCode.M)) {
-            SceneManager.swapScene("MultipleBatches");
+            SceneManager.nextScene();
         }
         if (Input.getKeyboardButtonPressed(KeyCode.N)) {
-            SceneManager.swapScene("GrappleGameScene");
+            SceneManager.previousScene();
         }
+
+        super.Update(deltaTime);
     }
 
     @Override

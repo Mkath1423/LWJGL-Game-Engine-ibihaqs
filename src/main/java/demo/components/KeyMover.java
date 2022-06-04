@@ -4,6 +4,12 @@ import engine.Inputs.Input;
 import engine.components.Component;
 import engine.components.Transform;
 
+/**
+ * Component to add keyboard controls 
+ * 
+ * translate with horizontal and vertical axis
+ * rotate with rotation axis
+ */
 public class KeyMover extends Component {
 
     private float moveSpeed;
@@ -18,6 +24,7 @@ public class KeyMover extends Component {
     }
 
     // get the other components you are affecting
+    @Override
     public void Awake() {
         t = gameObject.getComponent(Transform.class);
         // m = gameObject.getComponent(Move.class);
@@ -25,6 +32,7 @@ public class KeyMover extends Component {
 
     // re initialize every time the scene restarts
     // say if you move to a menu scene and then back to this
+    @Override
     public void Start() {
         if (t != null) {
             t.rotation = 0;
@@ -34,9 +42,11 @@ public class KeyMover extends Component {
     }
 
     // handle inputs and update things in update
+    @Override
     public void Update(double deltaTime) {
-        if (t == null)
-            return;
+        if (t == null) return;
+
+        // move the transform
         t.rotation += deltaTime * Input.getAxis("rotation") * turnSpeed;
         t.position.x += deltaTime * Input.getAxis("horizontal") * moveSpeed;
         t.position.y += deltaTime * Input.getAxis("vertical") * moveSpeed;
