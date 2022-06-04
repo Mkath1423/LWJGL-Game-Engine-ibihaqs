@@ -35,61 +35,81 @@ public class PongGameScene extends Scene {
         mainCamera.addComponent(new Camera());
         gameObjects = new ArrayList<>();
 
-        // setup inputs
-        Input.addAxis("playerOneHorizontal", new InputAxis(-1, 1, 20, 20, Input.KeyCode.D, Input.KeyCode.A));
-        Input.addAxis("playerTwoHorizontal", new InputAxis(-1, 1, 20, 20, Input.KeyCode.RIGHT, Input.KeyCode.LEFT));
+        // Set up vertical inputs for paddles
         Input.addAxis("playerOneVertical", new InputAxis(-1, 1, 20, 20, Input.KeyCode.W, Input.KeyCode.S));
         Input.addAxis("playerTwoVertical", new InputAxis(-1, 1, 20, 20, Input.KeyCode.UP, Input.KeyCode.DOWN));
 
-        // get textures (and other assets later)
+        // Get gameObject textures
         Texture paddleTexture = AssetManager.getTexture("assets/textures/pongPaddle.png");
 
         Texture ballTexture = AssetManager.getTexture("assets/textures/pongBall.png", Format.RGB);
 
-        // // create gameobject
+        // Create paddle SpriteMap
         SpriteMap paddleSprite = new SpriteMap(paddleTexture, 1, 1);
 
+        // Create paddle one gameObject
         GameObject paddleOneObject = new GameObject();
+
+        // Create paddle one transform for coordinates, movement + rotation
         Transform paddleOneTransform = new Transform(
                 new Vector3f(100, 540, -20),
                 new Vector2f(20, 200),
                 0);
 
+        // Set middle of sprite to be origin
         paddleOneTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
         paddleOneObject.addComponent(paddleOneTransform);
 
+        // Add sprite to the object
         paddleOneObject.addComponent(new SpriteRenderer(paddleSprite, new Color(new Vector4f(0, 0, 0, 255)), 0));
 
-        paddleOneObject.addComponent(new Paddle(1));
+        // Add paddle object
+        paddleOneObject.addComponent(new Paddle("playerOneVertical"));
 
+        // Create paddle two game object 
         GameObject paddleTwoObject = new GameObject();
+
+        // Create paddle two transform for coordinates, movement + rotation
         Transform paddleTwoTransform = new Transform(
                 new Vector3f(1820, 540, -20),
                 new Vector2f(20, 200),
                 0);
 
+        // Set centre of sprite to be origin
         paddleTwoTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
         paddleTwoObject.addComponent(paddleTwoTransform);
 
+        // Add sprite to the object
         paddleTwoObject.addComponent(new SpriteRenderer(paddleSprite, new Color(new Vector4f(0, 0, 0, 255)), 0));
 
-        paddleTwoObject.addComponent(new Paddle(2));
+        // Add paddle object
+        paddleTwoObject.addComponent(new Paddle("playerTwoVertical"));
 
+
+        // Create SpriteMap for ball 
         SpriteMap ballSprite = new SpriteMap(ballTexture, 1, 1);
 
+        // Create ball gameObject
         GameObject ballObject = new GameObject();
+
+        // Create ball transform (coordinates, movement + rotation)
         Transform ballTransform = new Transform(
                 new Vector3f(920, 540, 0),
                 new Vector2f(25, 28),
                 0);
 
+        // Set center of sprite to be origin
         ballTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
         ballObject.addComponent(ballTransform);
 
+        // Add sprite to object
         ballObject.addComponent(new SpriteRenderer(ballSprite, new Color(new Vector4f(0, 0, 0, 255)), 0));
 
+        // Add ball object
         ballObject.addComponent(new Ball(paddleOneTransform, paddleTwoTransform));
 
+
+        // Add all objects to gameObjects list
         gameObjects.add(paddleOneObject);
         gameObjects.add(paddleTwoObject);
         gameObjects.add(ballObject);

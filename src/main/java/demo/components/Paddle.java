@@ -6,28 +6,35 @@ import engine.components.Transform;
 
 public class Paddle extends Component {
 
+    // Storing transform
     public Transform transform;
-    private int playerNumber;
 
-    public Paddle(int playerSlot) {
-        playerNumber = playerSlot;
+    // Defining which paddle the player will control
+    private String playerAxis;
+
+    public Paddle(String playerControlledAxis) {
+        playerAxis = playerControlledAxis;
     }
 
+    /**
+     * Get transform component
+     */
     @Override
     public void Awake() {
         transform = gameObject.getComponent(Transform.class);
     };
 
-    @Override
-    public void Start() {
-
-    };
-
+    /**
+     * Shifts paddle via keyboard inputs up or down and passes it through top/bottom
+     * of screen once crossing edge
+     */
     @Override
     public void Update(double deltaTime) {
-        if (transform == null)
-            return;
-        moveSpriteKeyboard(deltaTime);
+        if (transform == null) return;
+
+        // Depending on player axis definition will respond to either arrow keys or WASD for input in y axis
+        transform.position.y += deltaTime * Input.getAxis(playerAxis) * 200;
+       
         if (transform.position.y < 0) {
             transform.position.y = 1080;
         } else if (transform.position.y > 1080) {
@@ -36,16 +43,4 @@ public class Paddle extends Component {
 
     };
 
-    @Override
-    public void End() {
-
-    };
-
-    private void moveSpriteKeyboard(double deltaTime) {
-        if (playerNumber == 1) {
-            transform.position.y += deltaTime * Input.getAxis("playerOneVertical") * 200;
-        } else {
-            transform.position.y += deltaTime * Input.getAxis("playerTwoVertical") * 200;
-        }
-    }
 }

@@ -2,7 +2,6 @@ package demo.components;
 
 import java.util.Random;
 
-import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import engine.components.Component;
@@ -15,14 +14,17 @@ public class Ball extends Component {
     private Transform paddleOneTransform;
     private Transform paddleTwoTransform;
 
+    // Used for Random() method
     private Random randomNum;
+
+    // Control magnitude + direction of ball in motion
     private int xDirection;
     private int yDirection;
     private float ySpeed;
 
+    // Vector between ball and both paddles
     private Vector3f ballToPaddleOne;
     private Vector3f ballToPaddleTwo;
-    private Vector3f ballForce;
 
     public Ball(Transform paddleOne, Transform paddleTwo) {
         // Passing transforms in through constructor
@@ -40,7 +42,6 @@ public class Ball extends Component {
         randomNum = new Random();
         ballToPaddleOne = new Vector3f(0, 0, 0);
         ballToPaddleTwo = new Vector3f(0, 0, 0);
-        ballForce = new Vector3f(0, 0, 0);
     };
 
     @Override
@@ -61,9 +62,6 @@ public class Ball extends Component {
         } else {
             yDirection = -1;
         }
-
-        ySpeed = 1;
-
         resetBall();
 
     };
@@ -99,7 +97,6 @@ public class Ball extends Component {
                 transform.position.y <= paddleOneTransform.position.y + 120
                 && transform.position.y >= paddleOneTransform.position.y - 120)) {
             xDirection = -xDirection;
-            yDirection = -yDirection;
             ySpeed = ballToPaddleOne.length();
 
         }
@@ -108,17 +105,16 @@ public class Ball extends Component {
                 transform.position.y <= paddleTwoTransform.position.y + 120
                 && transform.position.y >= paddleTwoTransform.position.y - 120)) {
             xDirection = -xDirection;
-            yDirection = -yDirection;
             ySpeed = ballToPaddleTwo.length();
         }
 
+        // Move x position of ball at a speed of 250 with reference to current time and
+        // direction
         transform.position.x += xDirection * 250 * deltaTime;
+
+        // Move y position of ball at a magnitude relative to height when it made
+        // contact with paddle
         transform.position.y += yDirection * ySpeed * 5 * deltaTime;
-
-    };
-
-    @Override
-    public void End() {
 
     };
 
@@ -131,5 +127,6 @@ public class Ball extends Component {
         transform.position.y = 540;
         xDirection = -xDirection;
         yDirection = -yDirection;
+        ySpeed = 1;
     }
 }

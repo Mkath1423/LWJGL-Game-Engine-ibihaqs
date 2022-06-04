@@ -10,8 +10,8 @@ import demo.components.Player;
 import demo.components.Weapon;
 import engine.AssetManager;
 import engine.Inputs.Input;
-import engine.Inputs.InputAxis;
 import engine.Inputs.Input.KeyCode;
+import engine.Inputs.InputAxis;
 import engine.components.FollowMouse;
 import engine.components.LineRenderer;
 import engine.components.SpriteRenderer;
@@ -89,22 +89,7 @@ public class GrapplingGameScene extends Scene {
                 new Color(255, 0, 0, 255),
                 0));
 
-        // Define spriteMap for player
-        SpriteMap playerSprite = new SpriteMap(playerTexture, 1, 1);
-
-        // Player game object
-        GameObject playerObject = new GameObject();
-        // Construct transform for player for coordinate system and positioning/rotation
-        Transform playerTransform = new Transform(
-                new Vector3f(300, 100, 0),
-                new Vector2f(100, 100),
-                0);
-
-        playerTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
-        playerObject.addComponent(playerTransform);
-        playerObject.addComponent(new SpriteRenderer(playerSprite, new Color(new Vector4f(255, 0, 0, 1)), 0));
-        playerObject.addComponent(new Player(grapplingLine));
-        playerObject.addComponent(new Move());
+        
 
         // Reticle SpriteMap construction
         SpriteMap reticleSprite = new SpriteMap(reticleTexture, 1, 1);
@@ -127,32 +112,68 @@ public class GrapplingGameScene extends Scene {
 
         SpriteMap planetSprite = new SpriteMap(planetTexture, 1, 1);
 
-        GameObject planetObject = new GameObject();
-        Transform planetTransform = new Transform(
-                new Vector3f(600, 400, -10),
+        GameObject planetOneObject = new GameObject();
+        Transform planetOneTransform = new Transform(
+                new Vector3f(450, 400, -10),
                 new Vector2f(200, 200),
                 0);
 
-        planetTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
-        planetObject.addComponent(planetTransform);
+        planetOneTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
+        planetOneObject.addComponent(planetOneTransform);
 
-        planetObject.addComponent(new SpriteRenderer(planetSprite, new Color(new Vector4f(255, 0, 0, 1)), 0));
-        Collision planetCollision = new Collision(new Circle(planetTransform.getPosition(), 100));
-        planetObject.addComponent(planetCollision);
+        planetOneObject.addComponent(new SpriteRenderer(planetSprite, new Color(new Vector4f(255, 0, 0, 1)), 0));
+        Circle planetOneCircle = new Circle(planetOneTransform.getPosition(), 100);
+        planetOneObject.addComponent(new Collision(planetOneCircle));
 
+        GameObject planetTwoObject = new GameObject();
+        Transform planetTwoTransform = new Transform(
+                new Vector3f(1400, 800, -10),
+                new Vector2f(200, 200),
+                20);
+
+        planetTwoTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
+        planetTwoObject.addComponent(planetTwoTransform);
+
+        planetTwoObject.addComponent(new SpriteRenderer(planetSprite, new Color(new Vector4f(255, 0, 0, 1)), 0));
+        Circle planetTwoCircle = new Circle(planetTwoTransform.getPosition(), 100);
+        planetTwoObject.addComponent(new Collision(planetTwoCircle));
+
+        // Define spriteMap for player
+        SpriteMap playerSprite = new SpriteMap(playerTexture, 1, 1);
+
+        // Player game object
+        GameObject playerObject = new GameObject();
+        // Construct transform for player for coordinate system and positioning/rotation
+        Transform playerTransform = new Transform(
+                new Vector3f(300, 100, 0),
+                new Vector2f(100, 100),
+                0);
+
+        // Set origin of player to be center
+        playerTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
+        playerObject.addComponent(playerTransform);
+        playerObject.addComponent(new SpriteRenderer(playerSprite, new Color(new Vector4f(255, 0, 0, 1)), 0));
+        playerObject.addComponent(new Player(grapplingLine, planetOneCircle, planetTwoCircle));
+        playerObject.addComponent(new Move());
+
+        // Set up SpriteMap for sword 
         SpriteMap swordSprite = new SpriteMap(swordTexture, 1, 1);
 
+        // Create gameObject for sword
         GameObject swordObject = new GameObject();
+
+        // Create sword transform
         Transform swordTransform = new Transform(
                 new Vector3f(200, 375, -11),
                 new Vector2f(300, 100),
                 0);
 
+        // Set sprite origin to be center
         swordTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
         swordObject.addComponent(swordTransform);
 
         swordObject.addComponent(new SpriteRenderer(swordSprite, new Color(new Vector4f(255, 0, 0, 1)), 0));
-        swordObject.addComponent(new Weapon(playerTransform, planetCollision));
+        swordObject.addComponent(new Weapon(playerTransform));
         Collision swordCollision = new Collision(Quad.Rect(
                 new Vector3f(swordTransform.position.x - swordTransform.scale.x / 2,
                         swordTransform.position.y - swordTransform.scale.y / 2, 0),
@@ -160,9 +181,11 @@ public class GrapplingGameScene extends Scene {
                 100));
         swordObject.addComponent(swordCollision);
 
-        gameObjects.add(backgroundObject);
-        gameObjects.add(planetObject);
 
+        // Add all objects to gameObjects list
+        gameObjects.add(backgroundObject);
+        gameObjects.add(planetOneObject);
+        gameObjects.add(planetTwoObject);
         gameObjects.add(grapplingLine);
         gameObjects.add(playerObject);
         gameObjects.add(swordObject);

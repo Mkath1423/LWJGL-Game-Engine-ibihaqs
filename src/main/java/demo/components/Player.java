@@ -9,6 +9,8 @@ import engine.components.Component;
 import engine.components.LineRenderer;
 import engine.components.Transform;
 import engine.gameobjects.GameObject;
+import engine.geometry.Circle;
+import engine.physics.Collision;
 import engine.scenes.SceneManager;
 import engine.serializer.SaveStates;
 
@@ -17,18 +19,28 @@ public class Player extends Component {
     private GameObject grapplingLine;
     public Transform transform;
     public LineRenderer lineRenderer;
+    private Circle planetOneCircle;
+    private Circle planetTwoCircle;
 
+    // Detecting if player is currently in a grapple state
     private boolean isGrappled;
+
+    // Vectors influencing grapple movement
     private Vector3f grappleForce;
     private Vector2f grapplePosition;
     private Vector2f grappleVector;
 
     public int playerHealth = 3;
 
-    public Player(GameObject line) {
+    public Player(GameObject line, Circle planetOne, Circle planetTwo) {
         grapplingLine = line;
+        planetOneCircle = planetOne;
+        planetTwoCircle = planetTwo;
     }
 
+    /**
+     * Constructs all vectors and grabs transform and lineRenderer components
+     */
     @Override
     public void Awake() {
         grappleForce = new Vector3f();
@@ -40,11 +52,9 @@ public class Player extends Component {
 
     };
 
-    @Override
-    public void Start() {
-
-    };
-
+    /**
+     * Handles grappling logic, movement logic as well as turning to face mouse
+     */
     @Override
     public void Update(double deltaTime) {
         if (transform == null)
@@ -54,33 +64,36 @@ public class Player extends Component {
         Vector2f mouseWorldCoordinates = SceneManager.getActiveMainCamera()
                 .screenToWorldCoordinate(Input.getMousePosition());
 
-        // Gets vector angle between mouse and player and sets current sprite rotation to match
-        transform.rotation = (float) Math.atan2(mouseWorldCoordinates.y - transform.position.y, mouseWorldCoordinates.x - transform.position.x);
+        // Gets vector angle between mouse and player and sets current sprite rotation
+        // to match
+        transform.rotation = (float) Math.atan2(mouseWorldCoordinates.y - transform.position.y,
+                mouseWorldCoordinates.x - transform.position.x);
 
-        // If either one, two or three are pressed and the load button (L) is not held, save the current position.
-        if(!Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.ONE)) {
+        // If either one, two or three are pressed and the load button (L) is not held,
+        // save the current position.
+        if (!Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.ONE)) {
             SaveStates.savePosition(1, transform.getPosition());
-        }
-        else if(!Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.TWO)) {
+        } else if (!Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.TWO)) {
             SaveStates.savePosition(2, transform.getPosition());
-        }
-        else if(!Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.THREE)) {
+        } else if (!Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.THREE)) {
             SaveStates.savePosition(3, transform.getPosition());
         }
 
-        // If L is held (load) and either one, two or three are pressed load the coorelated position.
-        if(Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.ONE)){
+        // If L is held (load) and either one, two or three are pressed load the
+        // coorelated position.
+        if (Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.ONE)) {
             transform.position = SaveStates.loadPosition(1);
-        }
-        else if(Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.TWO)){
+        } else if (Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.TWO)) {
             transform.position = SaveStates.loadPosition(2);
-        }
-        else if(Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.THREE)){
+        } else if (Input.getKeyboardButtonHeld(KeyCode.L) && Input.getKeyboardButtonPressed(KeyCode.THREE)) {
             transform.position = SaveStates.loadPosition(3);
         }
 
-        // If the right mouse button is pressed
-        if (Input.getMouseButtonPressed(KeyCode.MOUSE_BUTTON_1)) {
+        // If the right mouse button is pressed and it is on a planet
+        if (Input.getMouseButtonPressed(KeyCode.MOUSE_BUTTON_1)
+                && Collision.circlePoint(planetOneCircle, new Vector3f(mouseWorldCoordinates, 0), 0) ||
+                Input.getMouseButtonPressed(KeyCode.MOUSE_BUTTON_1)
+                        && Collision.circlePoint(planetTwoCircle, new Vector3f(mouseWorldCoordinates, 0), 0)) {
             isGrappled = true;
             grapplePosition = mouseWorldCoordinates;
             lineRenderer.setEndPosition(new Vector3f(grapplePosition, 0));
@@ -113,11 +126,6 @@ public class Player extends Component {
         } else {
             moveFromWASD(80, deltaTime);
         }
-
-    };
-
-    @Override
-    public void End() {
 
     };
 
