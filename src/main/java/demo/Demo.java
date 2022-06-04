@@ -1,5 +1,6 @@
 package demo;
 
+import demo.scenes.ColorScene;
 import demo.scenes.GrapplingGameScene;
 import demo.scenes.MultipleBatches;
 import demo.scenes.MultipleRenderTypes;
@@ -10,6 +11,7 @@ import engine.Window;
 import engine.Inputs.Input;
 import engine.Inputs.InputAxis;
 import engine.renderer.Color;
+import engine.scenes.Scene;
 import engine.scenes.SceneManager;
 
 public class Demo {
@@ -32,6 +34,7 @@ public class Demo {
         SceneManager.addScene("PongGameScene", new PongGameScene());
         SceneManager.addScene("GrappleGameScene", new GrapplingGameScene());
         SceneManager.addScene("OrbitalScene", new OrbitalScene());
+        SceneManager.addScene("ColorScene", new ColorScene());
         // SceneManager.addScene("MultipleRenderTypes", new MultipleRenderTypes());
 
         SceneManager.swapScene("OrbitalScene");

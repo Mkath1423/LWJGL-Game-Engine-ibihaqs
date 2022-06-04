@@ -13,7 +13,7 @@ public class Renderer {
     /**
      * Maximum elements and texures per batch
      */
-    static final int MAX_BATCH_SIZE = 1000;
+    static final int MAX_BATCH_SIZE = 10000;
     static final int MAX_TEXTURES = 8;
 
     /**

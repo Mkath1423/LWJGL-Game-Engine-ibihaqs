@@ -20,9 +20,35 @@ public class SpriteRenderer extends Renderable{
     private int currentSprite;
 
     /**
+     * Sets the sprite map
+     * @param spriteMap the new sprite map
+     */
+    public void setSpriteMap(SpriteMap spriteMap){
+        this.spriteMap = spriteMap;
+    }
+
+    /**
+     * Sets the index of the current sprite
+     * 
+     * @param spriteIndex the index in the sprite map
+     */
+    public void setSprite(int spriteIndex){
+        this.currentSprite = spriteIndex;
+    }
+
+    /**
      * The color to be rendered
      */
     private Color color;
+
+    /**
+     * Sets the color to be rendered
+     * 
+     * @param color the color to be rendered
+     */
+    public void setColor(Color color){
+        this.color = color;
+    }
 
     /**
      * The bounding box of this GO
@@ -52,7 +78,10 @@ public class SpriteRenderer extends Renderable{
 
         this.spriteMap = spriteMap;
         this.color = color;
+        
         this.useColor = false;
+        this.isUI = false;
+        this.doMasking = false;
     }
 
     @Override
