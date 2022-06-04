@@ -1,4 +1,4 @@
-package pong;
+package demo.components;
 
 import java.util.Random;
 
@@ -6,48 +6,61 @@ import engine.components.Component;
 import engine.components.Transform;
 
 public class Ball extends Component{
-    public Transform transform;
+
+    // Storing transforms for this sprite and both paddles 
+    public Transform transform;                 
     private Transform paddleOneTransform;
     private Transform paddleTwoTransform;
+
+
     private Random randomNum;
-    private int xSpeed;
-    private int ySpeed;
+    private int xDirection;
+    private int yDirection;
     
     public Ball(Transform paddleOne, Transform paddleTwo){
+        // Passing transforms in through constructor 
         this.paddleOneTransform = paddleOne;
         this.paddleTwoTransform = paddleTwo;
     }
 
     @Override
+    /** 
+     * Grabs transform object for ball and constructs Random class for number generation
+     */
     public void Awake() {
         transform = gameObject.getComponent(Transform.class);
         randomNum = new Random();
     };
 
     @Override
+    /**
+     * Generate random directions for 
+     */
     public void Start() {
         // Generating starting direction for x velocity
         if(randomNum.nextInt(2) == 0){
-            xSpeed = 1;
+            xDirection = 1;
         }
         else{
-            xSpeed = -1;
+            xDirection = -1;
         }
 
         // Generating starting direction for y velocity
         if(randomNum.nextInt(2) == 0){
-            ySpeed = 1;
+            yDirection = 1;
         }
         else{
-            ySpeed = -1;
+            yDirection = -1;
         }
+
+        resetBall();
 
     };
 
     @Override
     public void Update(double deltaTime) {
-        transform.position.x += xSpeed*100*deltaTime;
-        transform.position.y += ySpeed*100*deltaTime;
+        transform.position.x += xDirection*250*deltaTime;
+        transform.position.y += yDirection*250*deltaTime;
 
         if(transform.position.x <= 0){
             System.out.println("Player 2 scored!");
@@ -59,10 +72,10 @@ public class Ball extends Component{
         }
 
         if(transform.position.y <= 0){
-            ySpeed = -ySpeed;
+            yDirection = -yDirection;
         }
         else if(transform.position.y >= 1080){
-            ySpeed = -ySpeed;
+            yDirection = -yDirection;
         }
 
         // Collision detection for paddles
@@ -70,8 +83,8 @@ public class Ball extends Component{
            transform.position.y <= paddleOneTransform.position.y + 120 && transform.position.y >= paddleOneTransform.position.y - 120) 
         || transform.position.x <= paddleTwoTransform.position.x+15 && transform.position.x >= paddleTwoTransform.position.x-15 && 
            transform.position.y <= paddleTwoTransform.position.y + 120 && transform.position.y >= paddleTwoTransform.position.y - 120){
-            ySpeed = -ySpeed;
-            xSpeed = -xSpeed;
+            yDirection = -yDirection;
+            xDirection = -xDirection;
         }
 
     };
@@ -84,7 +97,7 @@ public class Ball extends Component{
     private void resetBall(){
         transform.position.x = 920;
         transform.position.y = 540;
-        xSpeed = -xSpeed;
-        ySpeed = -ySpeed;
+        xDirection = -xDirection;
+        yDirection = -yDirection;
     }
 }

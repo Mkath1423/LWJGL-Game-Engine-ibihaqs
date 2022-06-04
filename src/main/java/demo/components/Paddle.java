@@ -1,4 +1,4 @@
-package pong;
+package demo.components;
 
 import engine.Inputs.Input;
 import engine.components.Component;

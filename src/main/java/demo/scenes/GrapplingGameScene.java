@@ -1,4 +1,4 @@
-package grappledemo;
+package demo.scenes;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,8 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
 
+import demo.components.Player;
+import demo.components.Weapon;
 import engine.AssetManager;
 import engine.Inputs.Input;
 import engine.Inputs.InputAxis;
@@ -31,7 +33,8 @@ import engine.scenes.SceneManager;
 public class GrapplingGameScene extends Scene{
 
     public GrapplingGameScene(){
-        mainCamera = new GameObject(); // camera will be changed soon
+        // Construct camera
+        mainCamera = new GameObject(); 
             mainCamera.addComponent(new Transform(
                 new Vector3f(0, 0, 0),
                 new Vector2f(1920, 1080),
@@ -40,14 +43,14 @@ public class GrapplingGameScene extends Scene{
             mainCamera.addComponent(new Camera());
         gameObjects = new ArrayList<>();
 
-        // setup inputs
+        // Setup input axis (each incremented/decremented by specified keys)
         Input.addAxis("rotation", new InputAxis(-1, 1, 20, 20, Input.KeyCode.Q, Input.KeyCode.E));
         Input.addAxis("horizontal", new InputAxis(-1, 1, 20, 20, Input.KeyCode.D, Input.KeyCode.A));
         Input.addAxis("vertical", new InputAxis(-1, 1, 20, 20, Input.KeyCode.W, Input.KeyCode.S));
 
         
 
-        // get textures (and other assets later)
+        // Get textures being used for game
         Texture playerTexture = AssetManager.getTexture("assets/textures/smiley.png");
         
         Texture reticleTexture = AssetManager.getTexture("assets/textures/reticle.png");
@@ -56,30 +59,31 @@ public class GrapplingGameScene extends Scene{
         
         Texture backgroundTexture = AssetManager.getTexture("assets/textures/background.png", Format.RGB);
 
-        // Player tool textures 
         Texture swordTexture = AssetManager.getTexture("assets/textures/sword.png");
 
-
-        // // create gameobject 
-        SpriteMap playerSprite = new SpriteMap(playerTexture, 1, 1);
-
+        // Define spritemap for background
         SpriteMap backgroundSprite = new SpriteMap(backgroundTexture, 1, 1);
         
+        // Construct background GameObject
         GameObject backgroundObject = new GameObject();
+            // Construct transform for background for coordinate system and positioning/rotation
             Transform backgroundTransform = new Transform(
                 new Vector3f(0, 0, -20),
                 new Vector2f(1920, 1080),
                 0
                 );
     
+            // Set origin point of sprite to be bottom left
             backgroundTransform.positionOrigin = PositionMode.BOTTOM_LEFT;
             backgroundObject.addComponent(backgroundTransform);
 
             backgroundObject.addComponent(new SpriteRenderer(backgroundSprite, new Color(new Vector4f(0, 0, 0, 1)), 0));
             backgroundObject.getComponent(SpriteRenderer.class).setIsUI(true);
 
+        // Construct grappling line object
         GameObject grapplingLine = new GameObject();
             
+            // Utilize the LineRenderer to define line's starting specifications 
             grapplingLine.addComponent(new LineRenderer(
                 new Vector3f(0,0,0), 
                 new Vector3f(0,0,0), 
@@ -89,8 +93,12 @@ public class GrapplingGameScene extends Scene{
                 0
                 ));
 
+        // Define spriteMap for player
+        SpriteMap playerSprite = new SpriteMap(playerTexture, 1, 1);
+
         // Player game object
         GameObject playerObject = new GameObject();
+        // Construct transform for player for coordinate system and positioning/rotation
             Transform playerTransform = new Transform(
                 new Vector3f(300, 100, 0),
                 new Vector2f(100, 100),
@@ -103,10 +111,12 @@ public class GrapplingGameScene extends Scene{
             playerObject.addComponent(new Player(grapplingLine));
             playerObject.addComponent(new Move());
             
-
+        // Reticle SpriteMap construction 
         SpriteMap reticleSprite = new SpriteMap(reticleTexture, 1, 1);
 
+        // Create reticle GameObject
         GameObject reticleObject = new GameObject();
+            // Construct transform for reticle positioning
             Transform reticleTransform = new Transform(
                 new Vector3f(100, 100, -1),
                 new Vector2f(140, 100),
@@ -116,6 +126,8 @@ public class GrapplingGameScene extends Scene{
             reticleTransform.positionOrigin = PositionMode.CENTER_MIDDLE;
             reticleObject.addComponent(reticleTransform);
             reticleObject.addComponent(new SpriteRenderer(reticleSprite, new Color(new Vector4f(255, 0, 0, 1)), 0));
+
+            // Add the FollowMouse component to execute code to set transform to mouse coordinates
             reticleObject.addComponent(new FollowMouse());
 
         SpriteMap planetSprite = new SpriteMap(planetTexture, 1, 1);

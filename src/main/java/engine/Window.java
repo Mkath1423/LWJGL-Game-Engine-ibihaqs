@@ -3,7 +3,6 @@ package engine;
 import java.nio.IntBuffer;
 
 import org.joml.Vector2f;
-import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.Version;
 import org.lwjgl.glfw.Callbacks;

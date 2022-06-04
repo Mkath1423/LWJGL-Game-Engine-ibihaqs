@@ -1,16 +1,16 @@
 package demo;
 
+import demo.scenes.GrapplingGameScene;
 import demo.scenes.MultipleBatches;
 import demo.scenes.MultipleRenderTypes;
 import demo.scenes.OrbitalScene;
+import demo.scenes.PongGameScene;
 import demo.scenes.SingleScene;
 import engine.Window;
 import engine.Inputs.Input;
 import engine.Inputs.InputAxis;
 import engine.renderer.Color;
 import engine.scenes.SceneManager;
-import grappledemo.GrapplingGameScene;
-import pong.PongGameScene;
 
 public class Demo {
     public static void main(String[] args){
