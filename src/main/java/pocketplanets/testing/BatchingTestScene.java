@@ -98,7 +98,8 @@ public class BatchingTestScene extends Scene{
                     new Vector3f(400, 400, 0), 
                     20, 
                     new Color(0f, 125, 0f, 255), 
-                    new Color(255f, 125, 255f, 255)
+                    new Color(255f, 125, 255f, 255),
+                    0
                 )
             );
 

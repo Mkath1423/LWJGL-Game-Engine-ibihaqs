@@ -131,8 +131,8 @@ public class LineRenderer extends Renderable {
 
     public LineRenderer(Vector3f startPosition, Vector3f endPosition,
                         float lineWidth,
-                        Color startColor,       Color endColor){
-        super(Shader.SPRITE, VAOFormat.SPRITE, EBOFormat.QUAD, 1, 0);
+                        Color startColor,       Color endColor, int layerID){
+        super(Shader.SPRITE, VAOFormat.SPRITE, EBOFormat.QUAD, 1, layerID);
                             
         this.startPosition = startPosition;
         this.endPosition   = endPosition;
@@ -204,7 +204,7 @@ public class LineRenderer extends Renderable {
             
             buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 9] = 0;
 
-            buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 10] = (true ? 1 : 0) + (true ? 2 : 0);
+            buffer[start + VAOFormat.SPRITE.getVaoSize() * i + 10] = (true ? 1 : 0) + (true ? 2 : 0) + (false ? 4 : 0);
         }
     }
 
