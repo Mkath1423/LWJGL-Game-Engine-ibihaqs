@@ -12,7 +12,7 @@ import engine.gameobjects.GameObject;
 import engine.scenes.SceneManager;
 import engine.serializer.SaveStates;
 
-public class Player extends Component{
+public class Player extends Component {
 
     private GameObject grapplingLine;
     public Transform transform;
@@ -23,11 +23,9 @@ public class Player extends Component{
     private Vector2f grapplePosition;
     private Vector2f grappleVector;
 
-
     public int playerHealth = 3;
 
-
-    public Player(GameObject line){
+    public Player(GameObject line) {
         grapplingLine = line;
     }
 
@@ -40,7 +38,6 @@ public class Player extends Component{
         transform = gameObject.getComponent(Transform.class);
         lineRenderer = grapplingLine.getComponent(LineRenderer.class);
 
-
     };
 
     @Override
@@ -50,56 +47,57 @@ public class Player extends Component{
 
     @Override
     public void Update(double deltaTime) {
-        if(transform == null) return;
-        
+        if (transform == null)
+            return;
+
         // Convert mouse coordinates to world coordinates
-        Vector2f mouseWorldCoordinates = SceneManager.getActiveMainCamera().screenToWorldCoordinate(Input.getMousePosition());        
+        Vector2f mouseWorldCoordinates = SceneManager.getActiveMainCamera()
+                .screenToWorldCoordinate(Input.getMousePosition());
 
         // Gets vector angle between mouse and player and sets current sprite rotation to match
-        transform.rotation = (float)Math.atan2(mouseWorldCoordinates.y - transform.position.y, mouseWorldCoordinates.x - transform.position.x);
-
+        transform.rotation = (float) Math.atan2(mouseWorldCoordinates.y - transform.position.y, mouseWorldCoordinates.x - transform.position.x);
 
         // Saving and loading hotkeys
-        
+
         // Select slot 1
-        if(Input.getKeyboardButtonPressed(KeyCode.ONE)) {
-            
+        if (Input.getKeyboardButtonPressed(KeyCode.ONE)) {
+
             // Load slot 1 if L is pressed
-            if(Input.getKeyboardButtonPressed(KeyCode.L)) {
+            if (Input.getKeyboardButtonPressed(KeyCode.L)) {
 
                 transform.position = SaveStates.loadPosition(1);
-            
-            // Otherwise, save to slot 1
+
+                // Otherwise, save to slot 1
             } else {
 
                 SaveStates.savePosition(1, transform.position);
 
             }
 
-        // Select slot 2
-        } else if(Input.getKeyboardButtonPressed(KeyCode.TWO)) {
+            // Select slot 2
+        } else if (Input.getKeyboardButtonPressed(KeyCode.TWO)) {
 
             // Load slot 2 if L is pressed
-            if(Input.getKeyboardButtonPressed(KeyCode.L)) {
+            if (Input.getKeyboardButtonPressed(KeyCode.L)) {
 
                 transform.position = SaveStates.loadPosition(2);
 
-            // Otherwise, save to slot 2
+                // Otherwise, save to slot 2
             } else {
 
                 SaveStates.savePosition(2, transform.position);
 
             }
 
-        // Select slot 3 
-        } else if(Input.getKeyboardButtonPressed(KeyCode.THREE)) {
+            // Select slot 3
+        } else if (Input.getKeyboardButtonPressed(KeyCode.THREE)) {
 
             // Load slot 3 if L is pressed
-            if(Input.getKeyboardButtonPressed(KeyCode.L)) {
+            if (Input.getKeyboardButtonPressed(KeyCode.L)) {
 
                 transform.position = SaveStates.loadPosition(3);
 
-            // Otherwise, save to slot 3
+                // Otherwise, save to slot 3
             } else {
 
                 SaveStates.savePosition(3, transform.position);
@@ -108,43 +106,41 @@ public class Player extends Component{
 
         }
 
-
         // If the right mouse button is pressed
-        if(Input.getMouseButtonPressed(KeyCode.MOUSE_BUTTON_1)){
+        if (Input.getMouseButtonPressed(KeyCode.MOUSE_BUTTON_1)) {
             isGrappled = true;
             grapplePosition = mouseWorldCoordinates;
             lineRenderer.setEndPosition(new Vector3f(grapplePosition, 0));
             lineRenderer.setLineWidth(10);
-            
+
         }
-        if(isGrappled){
+        if (isGrappled) {
             lineRenderer.setStartPosition(transform.getPosition());
             // Get vector between Player and Mouse
-            grappleVector = new Vector2f(grapplePosition.x - transform.position.x, grapplePosition.y - transform.position.y);
+            grappleVector = new Vector2f(grapplePosition.x - transform.position.x,
+                    grapplePosition.y - transform.position.y);
             // Find deltaX for use in hooke's law equation
-            Float deltaX = Math.max(grappleVector.length()-100, 0);
-            
+            Float deltaX = Math.max(grappleVector.length() - 100, 0);
+
             // Set the force vector components
-            grappleForce.set(new Vector3f(grappleVector.normalize().mul(deltaX * 0.8f ), 0));
-            grappleForce.mul((float)deltaTime);
-            
-                
+            grappleForce.set(new Vector3f(grappleVector.normalize().mul(deltaX * 0.8f), 0));
+            grappleForce.mul((float) deltaTime);
+
             transform.position.x += grappleForce.x;
             transform.position.y += grappleForce.y;
-            
+
             moveFromWASD(150, deltaTime);
 
-            // If right click is released 
-            if(Input.getMouseButtonReleased(KeyCode.MOUSE_BUTTON_1)){
+            // If right click is released
+            if (Input.getMouseButtonReleased(KeyCode.MOUSE_BUTTON_1)) {
                 isGrappled = false;
                 lineRenderer.setLineWidth(0);
-    
+
             }
-        }
-        else{   
+        } else {
             moveFromWASD(80, deltaTime);
         }
-          
+
     };
 
     @Override
@@ -152,9 +148,9 @@ public class Player extends Component{
 
     };
 
-    private void moveFromWASD(int speed, double deltaTime){
+    private void moveFromWASD(int speed, double deltaTime) {
         transform.position.x += deltaTime * Input.getAxis("horizontal") * speed;
         transform.position.y += deltaTime * Input.getAxis("vertical") * speed;
     }
-    
+
 }

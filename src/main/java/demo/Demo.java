@@ -15,16 +15,16 @@ import engine.scenes.Scene;
 import engine.scenes.SceneManager;
 
 public class Demo {
-    public static void main(String[] args){
-        Window window = Window.get(); 
-        
+    public static void main(String[] args) {
+        Window window = Window.get();
+
         Window.setColor(new Color(255, 255, 255, 255));
         Window.setTitle("Final Project Tech Demonstration");
         Window.setResizable(false);
         Window.setShowCursor(false);
 
         window.init();
-        
+
         Input.addAxis("rotation", new InputAxis(-1, 1, 20, 20, Input.KeyCode.Q, Input.KeyCode.E));
         Input.addAxis("horizontal", new InputAxis(-1, 1, 20, 20, Input.KeyCode.D, Input.KeyCode.A));
         Input.addAxis("vertical", new InputAxis(-1, 1, 20, 20, Input.KeyCode.W, Input.KeyCode.S));
@@ -37,8 +37,8 @@ public class Demo {
         SceneManager.addScene("ColorScene", new ColorScene());
         // SceneManager.addScene("MultipleRenderTypes", new MultipleRenderTypes());
 
-        SceneManager.swapScene("ColorScene");
-        
+        SceneManager.swapScene("PongGameScene");
+
         window.run();
     }
 }
