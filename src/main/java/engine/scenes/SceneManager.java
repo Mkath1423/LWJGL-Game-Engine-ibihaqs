@@ -37,6 +37,11 @@ public class SceneManager {
     private Map<String, Scene> scenes;
 
     /**
+     * Order of scenes by name
+     */
+    private List<String> sceneOrder;
+
+    /**
      * The scene that is currently active
      */
     private String activeSceneName = "";
@@ -62,6 +67,7 @@ public class SceneManager {
         if(!get().scenes.containsKey(id)){
             get().scenes.put(id, scene);
             get().scenes.get(id).Awake();
+            get().sceneOrder.add(id);
         }
 
         // raise assertion error if scene has already been added
@@ -92,6 +98,27 @@ public class SceneManager {
 
         assert false : "Scene Manager: no scene with id " + nextScene;
     }
+
+    /**
+     * Swaps to the next scene in the order
+     * 
+     * loops back if there are no more scenes
+     */
+    public static void nextScene(){
+        int nextScene = (get().sceneOrder.indexOf(get().activeSceneName) + 1) % get().sceneOrder.size();
+        swapScene(get().sceneOrder.get(nextScene));
+    }
+
+    /**
+     * Swaps to the previous scene
+     * 
+     * loops to the end if there are no earlier scenes
+     */
+    public static void previousScene(){
+        int nextScene = (get().sceneOrder.indexOf(get().activeSceneName) - 1) % get().sceneOrder.size();
+        swapScene(get().sceneOrder.get(nextScene));
+    }
+
     /**
      * Updates the active scene
      * 

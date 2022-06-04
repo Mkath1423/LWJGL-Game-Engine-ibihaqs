@@ -1,0 +1,131 @@
+Date : 2022-06-03 22:33:40
+Directory : d:\GitRepos\ics4-final-project-ibihaqs
+Total : 79 files,  3709 codes, 2020 comments, 1530 blanks, all 7259 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Java     |         75 |      3,518 |      2,020 |      1,489 |      7,027 |
+| GLSL     |          3 |        101 |          0 |         34 |        135 |
+| XML      |          1 |         90 |          0 |          7 |         97 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                  | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                     |         79 |      3,709 |      2,020 |      1,530 |      7,259 |
+| assets                                                                                                |          3 |        101 |          0 |         34 |        135 |
+| assets\shaders                                                                                        |          3 |        101 |          0 |         34 |        135 |
+| src                                                                                                   |         75 |      3,518 |      2,020 |      1,489 |      7,027 |
+| src\main                                                                                              |         75 |      3,518 |      2,020 |      1,489 |      7,027 |
+| src\main\java                                                                                         |         75 |      3,518 |      2,020 |      1,489 |      7,027 |
+| src\main\java\demo                                                                                    |         16 |        896 |         62 |        285 |      1,243 |
+| src\main\java\demo\components                                                                         |          7 |        341 |         42 |        140 |        523 |
+| src\main\java\demo\scenes                                                                             |          8 |        520 |         19 |        136 |        675 |
+| src\main\java\engine                                                                                  |         38 |      2,233 |      1,717 |        984 |      4,934 |
+| src\main\java\engine\Inputs                                                                           |          5 |        419 |        294 |         98 |        811 |
+| src\main\java\engine\components                                                                       |          8 |        424 |        363 |        195 |        982 |
+| src\main\java\engine\events                                                                           |          2 |          0 |         37 |         18 |         55 |
+| src\main\java\engine\gameobjects                                                                      |          1 |         80 |         88 |         22 |        190 |
+| src\main\java\engine\geometry                                                                         |          2 |         72 |         50 |         54 |        176 |
+| src\main\java\engine\physics                                                                          |          2 |        193 |        141 |        156 |        490 |
+| src\main\java\engine\renderer                                                                         |         12 |        688 |        508 |        249 |      1,445 |
+| src\main\java\engine\scenes                                                                           |          2 |        108 |        106 |         35 |        249 |
+| src\main\java\engine\serializer                                                                       |          1 |         88 |         48 |         83 |        219 |
+| src\main\java\engine\util                                                                             |          1 |          6 |         11 |          4 |         21 |
+| src\main\java\pocketplanets                                                                           |         16 |        319 |        238 |        193 |        750 |
+| src\main\java\pocketplanets\buildings                                                                 |          5 |         69 |         12 |         39 |        120 |
+| src\main\java\pocketplanets\ships                                                                     |          4 |         88 |         71 |         61 |        220 |
+| src\main\java\pocketplanets\testing                                                                   |          5 |        114 |        154 |         75 |        343 |
+| src\main\java\robinhood                                                                               |          5 |         70 |          3 |         27 |        100 |
+| src\main\java\robinhood\components                                                                    |          3 |          9 |          0 |          9 |         18 |
+| src\main\java\robinhood\scenes                                                                        |          1 |         58 |          3 |         15 |         76 |
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                              | language | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| d:\GitRepos\ics4-final-project-ibihaqs\assets\shaders\default.glsl                                    | GLSL     |         22 |          0 |         10 |         32 |
+| d:\GitRepos\ics4-final-project-ibihaqs\assets\shaders\multitex.glsl                                   | GLSL     |         53 |          0 |         15 |         68 |
+| d:\GitRepos\ics4-final-project-ibihaqs\assets\shaders\panel.glsl                                      | GLSL     |         26 |          0 |          9 |         35 |
+| d:\GitRepos\ics4-final-project-ibihaqs\pom.xml                                                        | XML      |         90 |          0 |          7 |         97 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\demo\Demo.java                                   | Java     |         35 |          1 |          9 |         45 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\demo\components\Ball.java                        | Java     |         72 |         11 |         21 |        104 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\demo\components\ConstantSpin.java                | Java     |         18 |          0 |          8 |         26 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\demo\components\KeyMover.java                    | Java     |         27 |          7 |         10 |         44 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\demo\components\Paddle.java                      | Java     |         40 |          0 |         13 |         53 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\demo\components\Player.java                      | Java     |         90 |         17 |         54 |        161 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\demo\components\RandomMovement.java              | Java     |         21 |          5 |         14 |         40 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\demo\components\Weapon.java                      | Java     |         73 |          2 |         20 |         95 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\demo\scenes\ColorScene.java                      | Java     |         63 |          0 |         13 |         76 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\demo\scenes\GrapplingGameScene.java              | Java     |        151 |         16 |         46 |        213 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\demo\scenes\MultipleBatches.java                 | Java     |         66 |          0 |         16 |         82 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\demo\scenes\MultipleRenderTypes.java             | Java     |          4 |          0 |          4 |          8 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\demo\scenes\MultipleTexturesScene.java           | Java     |          4 |          0 |          4 |          8 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\demo\scenes\OrbitalScene.java                    | Java     |         82 |          0 |         14 |         96 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\demo\scenes\PongGameScene.java                   | Java     |        100 |          3 |         28 |        131 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\demo\scenes\SingleScene.java                     | Java     |         50 |          0 |         11 |         61 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\AssetManager.java                         | Java     |         23 |         21 |         11 |         55 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\Inputs\ButtonState.java                   | Java     |         28 |         34 |         13 |         75 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\Inputs\Input.java                         | Java     |        228 |         74 |         33 |        335 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\Inputs\InputAxis.java                     | Java     |         79 |         86 |         17 |        182 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\Inputs\KeyListener.java                   | Java     |         27 |         45 |         10 |         82 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\Inputs\MouseListener.java                 | Java     |         57 |         55 |         25 |        137 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\Window.java                               | Java     |        132 |         50 |         59 |        241 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\components\Component.java                 | Java     |         11 |         39 |         12 |         62 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\components\FollowMouse.java               | Java     |         20 |          5 |          8 |         33 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\components\KeyboardControl.java           | Java     |         15 |          2 |          8 |         25 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\components\LineRenderer.java              | Java     |        109 |         68 |         45 |        222 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\components\PanelRenderer.java             | Java     |          0 |         65 |         24 |         89 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\components\Renderable.java                | Java     |         40 |         36 |         18 |         94 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\components\SpriteRenderer.java            | Java     |         74 |         38 |         27 |        139 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\components\Transform.java                 | Java     |        155 |        110 |         53 |        318 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\events\EventListener.java                 | Java     |          0 |          3 |          3 |          6 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\events\EventTrigger.java                  | Java     |          0 |         34 |         15 |         49 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\gameobjects\GameObject.java               | Java     |         80 |         88 |         22 |        190 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\geometry\Circle.java                      | Java     |         25 |         28 |         29 |         82 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\geometry\Quad.java                        | Java     |         47 |         22 |         25 |         94 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\physics\Collision.java                    | Java     |        133 |         99 |        100 |        332 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\physics\Move.java                         | Java     |         60 |         42 |         56 |        158 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\renderer\Camera.java                      | Java     |         47 |         20 |         18 |         85 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\renderer\Color.java                       | Java     |         51 |         64 |         19 |        134 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\renderer\EBOFormat.java                   | Java     |         46 |         37 |         15 |         98 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\renderer\Layer.java                       | Java     |         27 |         15 |          9 |         51 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\renderer\RenderBatch.java                 | Java     |         95 |         59 |         39 |        193 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\renderer\Renderer.java                    | Java     |         59 |         48 |         22 |        129 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\renderer\Shader.java                      | Java     |        148 |         72 |         42 |        262 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\renderer\Sprite.java                      | Java     |         10 |         17 |          5 |         32 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\renderer\SpriteMap.java                   | Java     |         27 |         29 |         11 |         67 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\renderer\Texture.java                     | Java     |         74 |         74 |         32 |        180 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\renderer\VAO.java                         | Java     |         75 |         47 |         22 |        144 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\renderer\VBO.java                         | Java     |         29 |         26 |         15 |         70 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\scenes\Scene.java                         | Java     |         44 |         45 |         13 |        102 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\scenes\SceneManager.java                  | Java     |         64 |         61 |         22 |        147 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\serializer\SaveStates.java                | Java     |         88 |         48 |         83 |        219 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\engine\util\Time.java                            | Java     |          6 |         11 |          4 |         21 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\pocketplanets\Planet.java                        | Java     |         18 |          1 |          9 |         28 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\pocketplanets\Resource.java                      | Java     |         30 |          0 |          9 |         39 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\pocketplanets\buildings\Building.java            | Java     |         12 |          0 |         11 |         23 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\pocketplanets\buildings\CityBuilding.java        | Java     |          5 |          3 |          4 |         12 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\pocketplanets\buildings\ExtractorBuilding.java   | Java     |         25 |          8 |         14 |         47 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\pocketplanets\buildings\FuelStationBuilding.java | Java     |         20 |          0 |          6 |         26 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\pocketplanets\buildings\ShipyardBuilding.java    | Java     |          7 |          1 |          4 |         12 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\pocketplanets\ships\BuilderShip.java             | Java     |          8 |          5 |          6 |         19 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\pocketplanets\ships\CargoShip.java               | Java     |         19 |         15 |         12 |         46 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\pocketplanets\ships\ScoutShip.java               | Java     |          9 |          5 |          7 |         21 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\pocketplanets\ships\Ship.java                    | Java     |         52 |         46 |         36 |        134 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\pocketplanets\testing\BatchingTestScene.java     | Java     |         66 |         23 |         27 |        116 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\pocketplanets\testing\SampleComponent.java       | Java     |         23 |          8 |          9 |         40 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\pocketplanets\testing\SampleScene.java           | Java     |          0 |         90 |         22 |        112 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\pocketplanets\testing\SampleSwinging.java        | Java     |         24 |          8 |         11 |         43 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\pocketplanets\testing\TestScene.java             | Java     |          1 |         25 |          6 |         32 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\robinhood\Main.java                              | Java     |          3 |          0 |          3 |          6 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\robinhood\components\Archer.java                 | Java     |          3 |          0 |          3 |          6 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\robinhood\components\Arrow.java                  | Java     |          3 |          0 |          3 |          6 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\robinhood\components\Bow.java                    | Java     |          3 |          0 |          3 |          6 |
+| d:\GitRepos\ics4-final-project-ibihaqs\src\main\java\robinhood\scenes\RobinhoodGameScene.java         | Java     |         58 |          3 |         15 |         76 |
+| Total                                                                                                 |          |      3,709 |      2,020 |      1,530 |      7,259 |
++-------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

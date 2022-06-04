@@ -37,7 +37,7 @@ public class Demo {
         SceneManager.addScene("ColorScene", new ColorScene());
         // SceneManager.addScene("MultipleRenderTypes", new MultipleRenderTypes());
 
-        SceneManager.swapScene("OrbitalScene");
+        SceneManager.swapScene("ColorScene");
         
         window.run();
     }
