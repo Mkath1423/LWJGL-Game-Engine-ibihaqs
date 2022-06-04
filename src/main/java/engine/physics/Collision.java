@@ -38,6 +38,7 @@ public class Collision extends Component {
         collisionType = CollisionType.RECTANGLE;
     }
 
+
     /**
      * Constructor for circle
      * 
@@ -305,9 +306,9 @@ public class Collision extends Component {
 
         // Return true if all of the following conditions are met
         return(
-            (rX1 + rWidth1) >= (bX) &&
+            (rX1) >= (bX) &&
             (rX1) <= (bX + bWidth) &&
-            (rY1 + rHeight1) >= (bY) &&
+            (rY1) >= (bY) &&
             (rY1) <= (bY + bHeight)
         );
     }
