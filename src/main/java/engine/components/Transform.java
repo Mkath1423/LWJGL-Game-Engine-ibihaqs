@@ -168,7 +168,7 @@ public class Transform extends Component{
      * @return the coordinates of the top left relative to the position origin
      */
     public Vector3f getTopLeft(){
-        Vector3f topLeft = new Vector3f(position.x, position.y, position.z);
+        Vector3f topLeft = getPosition();
             topLeft.x = topLeft.x - scale.x * positionOrigin.getXShift();
             topLeft.y = topLeft.y - scale.y * positionOrigin.getYShift();
 
@@ -195,7 +195,7 @@ public class Transform extends Component{
      * 
      * @return the transform's position in world coordinates
      */
-    public Vector3f getWorldPosition(){
+    public Vector3f transformToWorldPosition(Vector3f localPosition){
         if(gameObject.getParent() == null ||
           gameObject.getParent().getComponent(Transform.class) == null
         ){
@@ -208,12 +208,12 @@ public class Transform extends Component{
 
             Matrix3f rotationMatrix = new Matrix3f();
                 rotationMatrix.rotate(parentTransform.getRotation(), new Vector3f(0, 0, 1));
-
-            Vector3f out = getPosition();
+            
+            Vector3f out = localPosition;
                 out.mul(rotationMatrix);
                 out.add(new Vector3f(parentCoR.x, parentCoR.y, 0));
 
-            return out; 
+            return parentTransform.transformToWorldPosition(out); 
         } 
     }
 
@@ -286,30 +286,31 @@ public class Transform extends Component{
             v.sub(centerOfRotation);
             v.mul(rotationMatrix);
             v.add(centerOfRotation);
+            v = transformToWorldPosition(v);
         }
 
         // Transform into parent vector space
-        if(gameObject.getParent() != null){
+        // if(gameObject.getParent() != null){
 
-            Transform pt  = gameObject.getParent().getComponent(Transform.class);
-            if(pt != null){
-                // get the parent's CoR
-                Vector3f parentCenterOfRotation = pt.getCenterOfRotation();
+        //     Transform pt  = gameObject.getParent().getComponent(Transform.class);
+        //     if(pt != null){
+        //         // get the parent's CoR
+        //         Vector3f parentCenterOfRotation = pt.getCenterOfRotation();
 
-                // get the parent's rotation matrix
-                Matrix3f parentMatrix = new Matrix3f();
-                    parentMatrix.rotate((pt.getRotation()), new Vector3f(0, 0, 1));
+        //         // get the parent's rotation matrix
+        //         Matrix3f parentMatrix = new Matrix3f();
+        //             parentMatrix.rotate((pt.getRotation()), new Vector3f(0, 0, 1));
 
-                // transform the parent
-                for(Vector3f v : boundingBox.getVertices()){
-                    // rotate the bb about the parent's CoR
-                    v.mul(parentMatrix);
+        //         // transform the parent
+        //         for(Vector3f v : boundingBox.getVertices()){
+        //             // rotate the bb about the parent's CoR
+        //             v.mul(parentMatrix);
 
-                    // translate the bb by the parent's CoR
-                    v.add(new Vector3f(parentCenterOfRotation.x, parentCenterOfRotation.y, 0));
-                }
-            }
-        }
+        //             // translate the bb by the parent's CoR
+        //             v.add(new Vector3f(parentCenterOfRotation.x, parentCenterOfRotation.y, 0));
+        //         }
+        //     }
+        // }
 
         return boundingBox;
     }

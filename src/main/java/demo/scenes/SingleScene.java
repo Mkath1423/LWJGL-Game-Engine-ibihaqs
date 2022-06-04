@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
+import demo.components.ConstantSpin;
 import demo.components.KeyMover;
 import engine.AssetManager;
 import engine.Inputs.Input;
@@ -39,23 +40,25 @@ public class SingleScene extends Scene{
 
         GameObject doubleObject = new GameObject();
         doubleObject.addComponent(new Transform(
-            new Vector3f(500, 500, 0),
+            new Vector3f(100, 0, 0),
             new Vector2f(100, 100),
             0f
         ));
         doubleObject.addComponent(new SpriteRenderer(spriteMap2, new Color(), 1));
+        doubleObject.addComponent(new KeyMover(0, 20));
+
 
         gameObjects.add(doubleObject);
 
         GameObject singlGameObject = new GameObject();
             singlGameObject.addComponent(new Transform(
-                new Vector3f(500, 500, 0),
+                new Vector3f(100, 100, 0),
                 new Vector2f(100, 100),
                 0f
             ));
             singlGameObject.addComponent(new SpriteRenderer(spriteMap, new Color(), 2));
-            singlGameObject.addComponent(new KeyMover(100, 50));
-    
+            singlGameObject.addComponent(new KeyMover(100, 2));
+        doubleObject.setParent(singlGameObject);
         gameObjects.add(singlGameObject);
     }
 

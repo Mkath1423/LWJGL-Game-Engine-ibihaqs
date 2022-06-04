@@ -101,7 +101,7 @@ public class Color {
      * 
      * @return the RGBA color
      */
-    public Color CreateHSVColor(float hue, float saturation, float value){
+    public static Color HSV(float hue, float saturation, float value){
         // clamp all inputs
         hue        = Math.max(0, Math.min(hue, 360));
         saturation = Math.max(0, Math.min(saturation, 1));

@@ -2,6 +2,7 @@ package demo;
 
 import demo.scenes.MultipleBatches;
 import demo.scenes.MultipleRenderTypes;
+import demo.scenes.OrbitalScene;
 import demo.scenes.SingleScene;
 import engine.Window;
 import engine.Inputs.Input;
@@ -30,9 +31,10 @@ public class Demo {
         SceneManager.addScene("MultipleBatches", new MultipleBatches());
         SceneManager.addScene("PongGameScene", new PongGameScene());
         SceneManager.addScene("GrappleGameScene", new GrapplingGameScene());
+        SceneManager.addScene("OrbitalScene", new OrbitalScene());
         // SceneManager.addScene("MultipleRenderTypes", new MultipleRenderTypes());
 
-        SceneManager.swapScene("Single");
+        SceneManager.swapScene("OrbitalScene");
         
         window.run();
     }
