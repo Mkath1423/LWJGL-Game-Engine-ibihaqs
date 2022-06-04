@@ -1,11 +1,8 @@
 package engine.components;
 
-import org.joml.Matrix2f;
 import org.joml.Matrix3f;
 import org.joml.Vector2f;
-import org.joml.Vector2fc;
 import org.joml.Vector3f;
-import org.joml.Vector3fc;
 
 import engine.geometry.Quad;
 
@@ -50,7 +47,7 @@ public class Transform extends Component{
     }
 
     /** 
-     * Inforamtion about the object's transformation
+     * Information about the object's transformation
      *  - position relative to parent
      *  - scale in pixels
      *  - rotation relative to parent
@@ -265,7 +262,7 @@ public class Transform extends Component{
     /**
      * Gets the bounding bot of the transform
      * 
-     * @return A rectangle with top left position of this tranform and side lengths corosponding to the scale
+     * @return A rectangle with top left position of this transform and side lengths corresponding to the scale
      */
     public Quad getQuad(){
         // get top left vector in world space

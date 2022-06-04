@@ -52,7 +52,7 @@ public class SceneManager {
     /**
      * Gets the main camera from the active scene
      * 
-     * @return the camera from the acrive scene
+     * @return the camera from the active scene
      */
     public static Camera getActiveMainCamera(){
         return get().activeScene.mainCamera.getComponent(Camera.class);
@@ -117,14 +117,14 @@ public class SceneManager {
      * loops to the end if there are no earlier scenes
      */
     public static void previousScene(){
-        int nextScene = (get().sceneOrder.indexOf(get().activeSceneName) - 1) % get().sceneOrder.size();
+        int nextScene = Math.floorMod((get().sceneOrder.indexOf(get().activeSceneName) - 1), get().sceneOrder.size());
         swapScene(get().sceneOrder.get(nextScene));
     }
 
     /**
      * Updates the active scene
      * 
-     * calles EarlyUpadte Update and LateUpdate in that order
+     * calls EarlyUpdate Update and LateUpdate in that order
      * 
      * @param deltaTime the time between frames
      */
@@ -139,7 +139,7 @@ public class SceneManager {
     /**
      * Getter for game objects
      * 
-     * @return A list of all the gameobjects in the activve scene
+     * @return A list of all the gameobjects in the active scene
      */
     public static List<GameObject> getGameObjects() {
 

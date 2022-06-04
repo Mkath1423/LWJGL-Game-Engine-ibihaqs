@@ -183,14 +183,15 @@ public class GrapplingGameScene extends Scene {
     }
 
     @Override
-    public void Update(double deltaTime) {
-        super.Update(deltaTime);
-        if (Input.getKeyboardButtonPressed(KeyCode.N)) {
-            SceneManager.swapScene("Single");
-        }
+    public void Update(double deltaTime){
         if (Input.getKeyboardButtonPressed(KeyCode.M)) {
-            SceneManager.swapScene("PongGameScene");
+            SceneManager.nextScene();
         }
+        if (Input.getKeyboardButtonPressed(KeyCode.N)) {
+            SceneManager.previousScene();
+        }
+
+        super.Update(deltaTime);
     }
 
     @Override

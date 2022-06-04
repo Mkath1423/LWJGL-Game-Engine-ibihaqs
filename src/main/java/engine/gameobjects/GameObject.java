@@ -39,7 +39,7 @@ public final class GameObject {
     }
 
     /**
-     * Sets the gameobjec'st parent
+     * Sets the gameobject's parent
      * 
      * @param parent the new parent 
      */

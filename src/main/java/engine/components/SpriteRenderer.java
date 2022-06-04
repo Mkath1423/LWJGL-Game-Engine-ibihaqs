@@ -1,7 +1,5 @@
 package engine.components;
 
-import java.util.Arrays;
-
 import org.joml.Vector3f;
 
 import engine.renderer.Color;
@@ -92,7 +90,7 @@ public class SpriteRenderer extends Renderable{
 
     @Override
     public void loadVertexData(float[] buffer, int start) {
-        // get the verticies and tex coordinates
+        // get the vertices and tex coordinates
         Vector3f[] vertices = transform.getQuad().getVertices();
 
         Vector3f[] uvVertices = null;

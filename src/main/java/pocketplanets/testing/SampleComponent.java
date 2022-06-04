@@ -1,9 +1,6 @@
 package pocketplanets.testing;
 
-import org.joml.Vector3f;
-
 import engine.Inputs.Input;
-import engine.Inputs.Input.KeyCode;
 import engine.components.Component;
 import engine.components.Transform;
 
