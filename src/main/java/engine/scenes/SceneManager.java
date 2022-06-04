@@ -1,5 +1,6 @@
 package engine.scenes;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ public class SceneManager {
 
     private SceneManager(){
         scenes = new HashMap<String,Scene>();
+        sceneOrder = new ArrayList<>();
         activeScene = null;
     }
 
