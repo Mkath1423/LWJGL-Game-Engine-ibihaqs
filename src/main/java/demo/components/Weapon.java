@@ -1,6 +1,5 @@
-package grappledemo;
+package demo.components;
 
-import org.joml.Vector2f;
 import org.joml.Vector3f;
 
 import engine.Inputs.Input;
@@ -9,7 +8,6 @@ import engine.components.Component;
 import engine.components.Transform;
 import engine.physics.Collision;
 import engine.physics.Move;
-import engine.scenes.SceneManager;
 
 public class Weapon extends Component{
     public Transform transform;
